@@ -1,0 +1,11 @@
+dependency_injector==4.37.0
+gunicorn==20.1.0
+psycopg2-binary==2.9.2
+SQLAlchemy==1.4.27
+SQLAlchemy-Utils==0.37.9
+requests==2.26.0
+pyjwt==2.3.0
+Authlib==0.15.5
+python-dateutil==2.8.2
+pydantic==1.8.2
+aiohttp==3.8.1
