@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+
+  migrator:
+    build:
+      dockerfile: ./etc/migrator/Dockerfile
+      context: .
+    env_file: ./etc/migrator/env/.dev.env
+    environment:
+      - MASTER_CHANGELOG=./migrations/master.yaml
+    restart: 'no'
+    external_links:
+      - $postgres:postgres
+    networks:
+      - procyon-network
+    volumes:
+      - ./etc/migrator/migrations:/app/migrations
+
+networks:
+  procyon-network:
+    external:
+      name: procyon-network
