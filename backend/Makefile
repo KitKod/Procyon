@@ -29,6 +29,12 @@ down:
 build:
 	docker-compose build
 
+migrate: | prereq
+	docker-compose run --rm migrator update
+
+load-fixtures: | prereq
+	docker-compose run --rm fixtures update
+
 clean:
 	@#@ Clean junk files
 	find . -name \*.pyc -delete

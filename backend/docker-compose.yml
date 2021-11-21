@@ -2,11 +2,32 @@ version: '3.2'
 
 services:
 
+  postgres:
+    image: postgres:12.5-alpine
+    restart: always
+    env_file:
+      - ./etc/postgres/env/.dev.env
+    networks:
+      - procyon-network
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - procyon-network
+
   migrator:
     build:
       dockerfile: ./etc/migrator/Dockerfile
       context: .
-    env_file: ./etc/migrator/env/.dev.env
+    env_file:
+      - ./etc/postgres/env/.dev.env
     environment:
       - MASTER_CHANGELOG=./migrations/master.yaml
     restart: 'no'
@@ -16,6 +37,9 @@ services:
       - procyon-network
     volumes:
       - ./etc/migrator/migrations:/app/migrations
+
+volumes:
+  postgres-data:
 
 networks:
   procyon-network:

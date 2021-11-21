@@ -18,5 +18,23 @@
 #
 
 databaseChangeLog:
-  - include:
-      file: ./migrations/01-initial.yaml
+- changeSet:
+    id: 1
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: comment_pkey
+            name: id
+            type: SERIAL
+        - column:
+            name: document_index
+            type: INTEGER
+        - column:
+            name: text
+            type: VARCHAR
+        tableName: test_database_and_migration
