@@ -23,18 +23,112 @@ databaseChangeLog:
     author: Mykyta Kamak
     changes:
     - createTable:
+        tableName: test
         columns:
         - column:
             autoIncrement: true
             constraints:
               primaryKey: true
-              primaryKeyName: comment_pkey
+              primaryKeyName: test_pkey
             name: id
             type: SERIAL
         - column:
-            name: document_index
+            name: name
+            type: VARCHAR
+        - column:
+            name: ame_id
             type: INTEGER
         - column:
-            name: text
+            name: test_type_id
+            type: INTEGER
+        - column:
+            name: test_status_id
+            type: INTEGER
+        - column:
+            name: document_id
+            type: INTEGER
+        - column:
+            name: program_id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: location
             type: VARCHAR
-        tableName: test_database_and_migration
+- changeSet:
+    id: 2
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: armament_and_military_equipment
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: ame_pkey
+            name: id
+            type: SERIAL
+        - column:
+            name: name
+            type: VARCHAR
+        - column:
+            name: ame_family_id
+            type: INTEGER
+        - column:
+            name: ame_type_id
+            type: INTEGER
+        - column:
+            name: manufacturer_id
+            type: INTEGER
+        - column:
+            name: ttc_id
+            type: INTEGER
+- changeSet:
+    id: 3
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: tactical_technical_characteristics
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: ttc_pkey
+            name: id
+            type: SERIAL
+        - column:
+            name: file_index
+            type: VARCHAR
+- changeSet:
+    id: 4
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: ame_id
+        baseTableName: test
+        constraintName: fk_ame
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE  # TODO: should be clarified !
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: armament_and_military_equipment
+- changeSet:
+    id: 5
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: ttc_id
+        baseTableName: armament_and_military_equipment
+        constraintName: fk_ttc
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: tactical_technical_characteristics
