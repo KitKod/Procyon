@@ -39,11 +39,11 @@ databaseChangeLog:
             name: ame_id
             type: INTEGER
         - column:
-            name: test_type_id
-            type: INTEGER
+            name: type
+            type: VARCHAR
         - column:
-            name: test_status_id
-            type: INTEGER
+            name: status
+            type: VARCHAR
         - column:
             name: document_id
             type: INTEGER
@@ -108,6 +108,276 @@ databaseChangeLog:
     id: 4
     author: Mykyta Kamak
     changes:
+    - createTable:
+        tableName: manufacturer
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: manufacturer_pkey
+            name: id
+            type: SERIAL
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: address
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: chief
+            type: VARCHAR
+        - column:
+            name: contact
+            type: VARCHAR
+- changeSet:
+    id: 5
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: document
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: document_pkey
+            name: id
+            type: SERIAL
+        - column:
+            constraints:
+              nullable: false
+            name: title
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: type
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: government
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: file_index
+            type: VARCHAR
+- changeSet:
+    id: 6
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: program
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: program_pkey
+            name: id
+            type: SERIAL
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+        - column:
+            name: ame_id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: status
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: date_of_approval
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: executive
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: material_and_technical_means
+            type: VARCHAR
+        - column:
+            name: file_index
+            type: VARCHAR
+- changeSet:
+    id: 7
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: methodology
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: methodology_pkey
+            name: id
+            type: SERIAL
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+        - column:
+            name: ame_id
+            type: INTEGER
+        - column:
+            name: program_id
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: status
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: date_of_approval
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: executive
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: material_and_technical_means
+            type: VARCHAR
+        - column:
+            name: file_index
+            type: VARCHAR
+- changeSet:
+    id: 8
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: test_type
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: test_type_pkey
+            name: code
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+- changeSet:
+    id: 9
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: document_type
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: document_type_pkey
+            name: code
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+- changeSet:
+    id: 10
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: test_status
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: test_status_pkey
+            name: code
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+- changeSet:
+    id: 11
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: government
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: government_pkey
+            name: code
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+- changeSet:
+    id: 12
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: document_status
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: document_status_pkey
+            name: code
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+- changeSet:
+    id: 13
+    author: Mykyta Kamak
+    changes:
+    - createTable:
+        tableName: executive
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: executive_pkey
+            name: code
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR
+- changeSet:
+    id: 14
+    author: Mykyta Kamak
+    changes:
     - addForeignKeyConstraint:
         baseColumnNames: ame_id
         baseTableName: test
@@ -119,7 +389,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: armament_and_military_equipment
 - changeSet:
-    id: 5
+    id: 15
     author: Mykyta Kamak
     changes:
     - addForeignKeyConstraint:
@@ -132,3 +402,199 @@ databaseChangeLog:
         onUpdate: NO ACTION
         referencedColumnNames: id
         referencedTableName: tactical_technical_characteristics
+- changeSet:
+    id: 16
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: manufacturer_id
+        baseTableName: armament_and_military_equipment
+        constraintName: fk_manufacturer
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: manufacturer
+- changeSet:
+    id: 17
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: document_id
+        baseTableName: test
+        constraintName: fk_document_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: document
+- changeSet:
+    id: 18
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: program_id
+        baseTableName: test
+        constraintName: fk_program_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: program
+- changeSet:
+    id: 19
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: ame_id
+        baseTableName: program
+        constraintName: fk_program_ame_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: armament_and_military_equipment
+- changeSet:
+    id: 20
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: ame_id
+        baseTableName: methodology
+        constraintName: fk_methodology_ame_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: armament_and_military_equipment
+- changeSet:
+    id: 21
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: program_id
+        baseTableName: methodology
+        constraintName: fk_methodology_program_id
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: program
+- changeSet:
+    id: 22
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: type
+        baseTableName: test
+        constraintName: test_type_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: test_type
+- changeSet:
+    id: 23
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: type
+        baseTableName: document
+        constraintName: document_type_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: document_type
+- changeSet:
+    id: 24
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: status
+        baseTableName: test
+        constraintName: test_status_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: test_status
+- changeSet:
+    id: 25
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: government
+        baseTableName: document
+        constraintName: document_government_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: government
+- changeSet:
+    id: 26
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: status
+        baseTableName: methodology
+        constraintName: document_methodology_status_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: document_status
+- changeSet:
+    id: 27
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: status
+        baseTableName: program
+        constraintName: document_program_status_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: document_status
+- changeSet:
+    id: 28
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: executive
+        baseTableName: program
+        constraintName: executive_program_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: executive
+- changeSet:
+    id: 29
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: executive
+        baseTableName: methodology
+        constraintName: executive_methodology_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: executive
