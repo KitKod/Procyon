@@ -21,19 +21,19 @@ prereq:
 	docker network create procyon-network || true
 
 run: | prereq
-	docker-compose up -d
+	docker-compose --env-file "./etc/.dev.env" up -d
 
 stop:
-	docker-compose stop
+	docker-compose --env-file "./etc/.dev.env" stop
 
 build:
-	docker-compose build
+	docker-compose --env-file "./etc/.dev.env" build
 
-migrate: | prereq
-	docker-compose run --rm migrator update
+show-status:
+	docker-compose --env-file "./etc/.dev.env" ps
 
-load-fixtures: | prereq
-	docker-compose run --rm fixtures update
+show-config:
+	docker-compose --env-file "./etc/.dev.env" config
 
 clean:
 	@#@ Clean junk files

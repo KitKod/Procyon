@@ -20,9 +20,11 @@
 .PHONY: run-services
 run-services:
 	cd backend && make run
+	cd file_engine && make run
 	#cd frontend && make run
 
-.PHONY: down-services
-down-services:
-	cd backend && make down
-	#cd frontend && make down
+.PHONY: stop-services
+stop-services:
+	cd backend && make stop
+	cd file_engine && make stop
+	#cd frontend && make stop
