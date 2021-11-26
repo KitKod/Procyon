@@ -38,6 +38,22 @@ services:
     volumes:
       - ./etc/migrator/migrations:/app/migrations
 
+  fixtures:
+    build:
+      dockerfile: ./etc/migrator/Dockerfile
+      context: .
+    env_file:
+      - ./etc/postgres/env/.dev.env
+    environment:
+      - MASTER_CHANGELOG=./fixtures/master.yaml
+    restart: 'no'
+    links:
+      - procyondb
+    networks:
+      - procyon-network
+    volumes:
+      - ./etc/migrator/fixtures:/app/fixtures
+
 volumes:
   postgres-data:
 

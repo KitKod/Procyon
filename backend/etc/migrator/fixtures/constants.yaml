@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      context: "constants"
+      author: Mykyta Kamak
+      runOnChange: true
+      validCheckSum: any
+      changes:
+        - loadUpdateData:
+            file: ./fixtures/data/constants/test_status.csv
+            separator: ","
+            encoding: UTF-8
+            tableName: test_status
+            primaryKey: "code"
+        - loadUpdateData:
+            file: ./fixtures/data/constants/test_type.csv
+            separator: ","
+            encoding: UTF-8
+            tableName: test_type
+            primaryKey: "code"
+        - loadUpdateData:
+            file: ./fixtures/data/constants/government.csv
+            separator: ","
+            encoding: UTF-8
+            tableName: government
+            primaryKey: "code"
+        - loadUpdateData:
+            file: ./fixtures/data/constants/document_status.csv
+            separator: ","
+            encoding: UTF-8
+            tableName: document_status
+            primaryKey: "code"
+        - loadUpdateData:
+            file: ./fixtures/data/constants/document_type.csv
+            separator: ","
+            encoding: UTF-8
+            tableName: document_type
+            primaryKey: "code"

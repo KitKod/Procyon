@@ -30,7 +30,7 @@ RUN apt-get update && apt-get upgrade -y \
 COPY ./etc/migrator/wait-for.sh ./
 COPY ./etc/migrator/entrypoint.sh ./entrypoint.sh
 COPY ./etc/migrator/migrations ./migrations
-#COPY ./etc/migrator/fixtures ./fixtures
+COPY ./etc/migrator/fixtures ./fixtures
 
 RUN chmod +x ./wait-for.sh
 

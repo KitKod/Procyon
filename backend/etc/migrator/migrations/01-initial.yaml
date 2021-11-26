@@ -163,6 +163,11 @@ databaseChangeLog:
         - column:
             constraints:
               nullable: false
+            name: status
+            type: VARCHAR
+        - column:
+            constraints:
+              nullable: false
             name: government
             type: VARCHAR
         - column:
@@ -598,3 +603,17 @@ databaseChangeLog:
         onUpdate: NO ACTION
         referencedColumnNames: code
         referencedTableName: executive
+- changeSet:
+    id: 30
+    author: Mykyta Kamak
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: status
+        baseTableName: document
+        constraintName: document_status_fkey
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: code
+        referencedTableName: document_status
