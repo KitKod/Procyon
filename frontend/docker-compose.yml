@@ -17,14 +17,19 @@
 # under the License.
 #
 
-.PHONY: run-services
-run-services:
-	cd backend && make run
-	cd file_engine && make run
-	cd frontend && make run
+version: "3"
 
-.PHONY: stop-services
-stop-services:
-	cd backend && make stop
-	cd file_engine && make stop
-	cd frontend && make stop
+services:
+  web:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    ports:
+      - "80:80"
+    networks:
+      - procyon-network
+
+networks:
+  procyon-network:
+    external:
+      name: procyon-network
