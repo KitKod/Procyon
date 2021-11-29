@@ -16,20 +16,23 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-ENV=development
 
-POSTGRES_HOST=procyondb
-POSTGRES_PORT=5432
-POSTGRES_DB=procyon
-POSTGRES_USER=procyon-postgres
-POSTGRES_PASSWORD=procyon-postgres-password
+from pydantic import BaseSettings, Field
 
-# Auth
-AUTH_ENABLED=false
-AUTH_VERIFY_SSL=false
-AUTH_CERTS_ENDPOINT=https://keycloak.com/auth/realms/Test/protocol/openid-connect/certs
 
-#FILE_STORAGE_URL=http://
+class PostgresConfigs(BaseSettings):
+    user: str = Field(None)
+    password: str = Field(None)
+    host: str = Field(None)
+    port: int = 5432
+    db: str = Field(None)
 
-WDB_SOCKET_SERVER=wdb
-WDB_NO_BROWSER_AUTO_OPEN=true
+    class Config:
+        env_prefix = "POSTGRES_"
+
+
+class Configs(BaseSettings):
+    env: str = "development"
+    version: str = "1.0.0"
+
+    postgres: PostgresConfigs = PostgresConfigs()
