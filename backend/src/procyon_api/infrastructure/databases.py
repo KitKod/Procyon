@@ -41,8 +41,8 @@ class Database:
         host: str,
         port: int,
         database: str,
-        dialect: DatabaseDriver = DatabaseDriver.POSTGRES,
-        driver: SQLDialect = SQLDialect.PSYCOPG2,
+        dialect: DatabaseDriver = SQLDialect.POSTGRES,
+        driver: SQLDialect = DatabaseDriver.PSYCOPG2,
         metaflags: dict = None,
     ) -> None:
         self.username = username
