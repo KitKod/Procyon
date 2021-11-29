@@ -16,20 +16,5 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-ENV=development
 
-POSTGRES_HOST=procyondb
-POSTGRES_PORT=5432
-POSTGRES_DB=procyon
-POSTGRES_USER=procyon-postgres
-POSTGRES_PASSWORD=procyon-postgres-password
-
-# Auth
-AUTH_ENABLED=false
-AUTH_VERIFY_SSL=false
-AUTH_CERTS_ENDPOINT=https://keycloak.com/auth/realms/Test/protocol/openid-connect/certs
-
-#FILE_STORAGE_URL=http://
-
-WDB_SOCKET_SERVER=wdb
-WDB_NO_BROWSER_AUTO_OPEN=true
+from .debug import debug_router

@@ -16,20 +16,22 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-ENV=development
 
-POSTGRES_HOST=procyondb
-POSTGRES_PORT=5432
-POSTGRES_DB=procyon
-POSTGRES_USER=procyon-postgres
-POSTGRES_PASSWORD=procyon-postgres-password
+import click
 
-# Auth
-AUTH_ENABLED=false
-AUTH_VERIFY_SSL=false
-AUTH_CERTS_ENDPOINT=https://keycloak.com/auth/realms/Test/protocol/openid-connect/certs
+from procyon_api.app import run_application
 
-#FILE_STORAGE_URL=http://
 
-WDB_SOCKET_SERVER=wdb
-WDB_NO_BROWSER_AUTO_OPEN=true
+@click.group()
+def cli() -> None:
+    pass
+
+
+@click.command()
+def serve() -> None:
+    run_application()
+
+
+if __name__ == "__main__":
+    cli.add_command(serve)
+    cli()
