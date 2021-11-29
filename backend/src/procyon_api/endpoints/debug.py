@@ -18,10 +18,27 @@
 #
 
 from fastapi import APIRouter, status
+from fastapi.responses import JSONResponse
 
 debug_router = APIRouter(prefix="/debug", tags=["Debug"])
+
+
+from pydantic import BaseModel, Field
+
+
+class DebugResponseModel(BaseModel):
+    msg: str = Field(default="")
+
+    class Config:
+        allow_population_by_field_name = True
 
 
 @debug_router.get("/500", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 def raise_internal_server_error():
     raise ValueError()
+
+
+@debug_router.get("/hello-world")
+def send_hello_world_msg():
+    data = {"msg": "Hello World!"}
+    return JSONResponse(content=DebugResponseModel(**data).dict(), status_code=status.HTTP_200_OK)
