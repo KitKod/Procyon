@@ -17,26 +17,20 @@
 # under the License.
 #
 
-prereq:
-	docker network create procyon-network || true
+root = true
 
-run: | prereq
-	docker-compose up -d
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
 
-stop:
-	docker-compose stop
+[*.py]
+indent_style = space
+indent_size = 4
 
-build:
-	docker-compose build
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
 
-show-status:
-	docker-compose ps
-
-show-config:
-	docker-compose config
-
-clean:
-	@#@ Clean junk files
-	find . -name \*.pyc -delete
-	find . -name __pycache__ -exec rm -rf {} \;
-	rm -rf *.egg-info
+[Makefile]
+indent_style = tab

@@ -20,10 +20,25 @@
 version: "3"
 
 services:
+  file-engine:
+    build:
+      dockerfile: ./etc/api/Dockerfile
+      context: .
+    container_name: file-engine
+    env_file:
+      - ./etc/api/env/.dev.env
+    depends_on:
+      - owncloud
+    ports:
+      - 8020:8000
+    networks:
+      - procyon-network
+    volumes:
+      - ./src:/app
 
   owncloud:
     image: owncloud/server:${OWNCLOUD_VERSION}
-    container_name: owncloud_server
+    container_name: owncloud-server
     restart: always
     ports:
       - ${HTTP_PORT}:8080
@@ -54,7 +69,7 @@ services:
 
   mariadb:
     image: mariadb:10.5
-    container_name: owncloud_mariadb
+    container_name: owncloud-mariadb
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=owncloud
@@ -74,7 +89,7 @@ services:
 
   redis:
     image: redis:6
-    container_name: owncloud_redis
+    container_name: owncloud-redis
     restart: always
     command: ["--databases", "1"]
     healthcheck:
