@@ -36,3 +36,9 @@ databaseChangeLog:
             encoding: UTF-8
             tableName: document_type
             primaryKey: "code"
+        - loadUpdateData:
+            file: ./fixtures/data/constants/armament_family.csv
+            separator: ","
+            encoding: UTF-8
+            tableName: armament_family
+            primaryKey: "code"
