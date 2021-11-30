@@ -1,0 +1,40 @@
+<mat-toolbar class="table-control-panel">
+    <mat-toolbar-row>
+        <button color="primary" mat-raised-button>Add</button>
+        <span flex></span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<table *ngIf="dataSource$ | async as dataSource" mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Test name</th>
+        <td *matCellDef="let data" mat-cell>{{ data.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ame">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>AME</th>
+        <td *matCellDef="let data" mat-cell>{{ data.ame }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+        <td *matCellDef="let data" mat-cell>{{ data.type }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Location</th>
+        <td *matCellDef="let data" mat-cell>{{ data.location }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+        <td *matCellDef="let data" mat-cell>{{ data.date | date: 'medium' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
+        <td *matCellDef="let data" mat-cell>{{ data.status }}</td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="['name', 'ame', 'type', 'location', 'date', 'status']" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: ['name', 'ame', 'type', 'location', 'date', 'status']" mat-row></tr>
+</table>
