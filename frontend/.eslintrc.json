@@ -52,14 +52,23 @@
                 "@typescript-eslint/no-shadow": "error",
                 "@typescript-eslint/no-unused-expressions": "error",
                 "@typescript-eslint/prefer-for-of": "error",
+                "no-useless-constructor": "off",
+                "@typescript-eslint/no-useless-constructor": "error",
+                "@typescript-eslint/no-namespace": "off",
+                "@typescript-eslint/no-unsafe-argument": "off",
+                "@typescript-eslint/no-unsafe-assignment": "off",
+                "@typescript-eslint/no-unsafe-call": "off",
+                "@typescript-eslint/no-unsafe-member-access": "off",
+                "@typescript-eslint/restrict-template-expressions": "off",
+                "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }],
                 "import/no-extraneous-dependencies": "error",
                 "import/order": "error",
                 "import/prefer-default-export": "off",
                 "rxjs/finnish": [
                     "error",
                     {
-                        "functions": true,
-                        "methods": true,
+                        "functions": false,
+                        "methods": false,
                         "names": {
                             "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
                         },
@@ -94,7 +103,7 @@
                 "no-else-return": ["error", { "allowElseIf": false }],
                 "no-eval": "error",
                 "no-new-wrappers": "error",
-                "no-plusplus": "error",
+                "no-plusplus": "off",
                 "no-restricted-imports": [
                     "error",
                     {
@@ -112,7 +121,6 @@
                         ]
                     }
                 ],
-                "no-useless-constructor": "error",
                 "radix": "error",
                 "spaced-comment": ["error", "always", { "markers": ["/"] }]
             }
