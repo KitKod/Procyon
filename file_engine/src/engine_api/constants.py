@@ -17,26 +17,11 @@
 # under the License.
 #
 
-prereq:
-	docker network create procyon-network || true
+PROJECT_NAME = "file-engine"
+DESCRIPTION = "File management system."
 
-run: | prereq
-	docker-compose up -d
+BASE_API_PREFIX = f"/api/{PROJECT_NAME}"
+API_VERSION_1 = "/v1"
 
-stop:
-	docker-compose stop
-
-build:
-	docker-compose build
-
-show-status:
-	docker-compose ps
-
-show-config:
-	docker-compose config
-
-clean:
-	@#@ Clean junk files
-	find . -name \*.pyc -delete
-	find . -name __pycache__ -exec rm -rf {} \;
-	rm -rf *.egg-info
+API_PREFIX = BASE_API_PREFIX + API_VERSION_1
+SWAGGER_DOC_ENDPOINT = "/docs"

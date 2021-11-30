@@ -17,26 +17,21 @@
 # under the License.
 #
 
-prereq:
-	docker network create procyon-network || true
+import click
 
-run: | prereq
-	docker-compose up -d
+from engine_api.app import run_application
 
-stop:
-	docker-compose stop
 
-build:
-	docker-compose build
+@click.group()
+def cli() -> None:
+    pass
 
-show-status:
-	docker-compose ps
 
-show-config:
-	docker-compose config
+@click.command()
+def serve() -> None:
+    run_application()
 
-clean:
-	@#@ Clean junk files
-	find . -name \*.pyc -delete
-	find . -name __pycache__ -exec rm -rf {} \;
-	rm -rf *.egg-info
+
+if __name__ == "__main__":
+    cli.add_command(serve)
+    cli()

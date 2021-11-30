@@ -17,26 +17,4 @@
 # under the License.
 #
 
-prereq:
-	docker network create procyon-network || true
-
-run: | prereq
-	docker-compose up -d
-
-stop:
-	docker-compose stop
-
-build:
-	docker-compose build
-
-show-status:
-	docker-compose ps
-
-show-config:
-	docker-compose config
-
-clean:
-	@#@ Clean junk files
-	find . -name \*.pyc -delete
-	find . -name __pycache__ -exec rm -rf {} \;
-	rm -rf *.egg-info
+from .debug import debug_router

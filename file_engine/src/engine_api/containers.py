@@ -17,26 +17,16 @@
 # under the License.
 #
 
-prereq:
-	docker network create procyon-network || true
+from dependency_injector import containers, providers
 
-run: | prereq
-	docker-compose up -d
 
-stop:
-	docker-compose stop
+class Services(containers.DeclarativeContainer):
+    repositories = providers.DependenciesContainer()
+    config = providers.Configuration()
 
-build:
-	docker-compose build
 
-show-status:
-	docker-compose ps
-
-show-config:
-	docker-compose config
-
-clean:
-	@#@ Clean junk files
-	find . -name \*.pyc -delete
-	find . -name __pycache__ -exec rm -rf {} \;
-	rm -rf *.egg-info
+class Application(containers.DeclarativeContainer):
+    config = providers.Configuration()
+    services: providers.Container[Services] = providers.Container(
+        Services, config=config
+    )

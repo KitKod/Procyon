@@ -17,26 +17,28 @@
 # under the License.
 #
 
-prereq:
-	docker network create procyon-network || true
+from fastapi import APIRouter, status
+from fastapi.responses import JSONResponse
 
-run: | prereq
-	docker-compose up -d
+debug_router = APIRouter(prefix="/debug", tags=["Debug"])
 
-stop:
-	docker-compose stop
 
-build:
-	docker-compose build
+from pydantic import BaseModel, Field
 
-show-status:
-	docker-compose ps
 
-show-config:
-	docker-compose config
+class DebugResponseModel(BaseModel):
+    msg: str = Field(default="")
 
-clean:
-	@#@ Clean junk files
-	find . -name \*.pyc -delete
-	find . -name __pycache__ -exec rm -rf {} \;
-	rm -rf *.egg-info
+    class Config:
+        allow_population_by_field_name = True
+
+
+@debug_router.get("/500", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+def raise_internal_server_error():
+    raise ValueError()
+
+
+@debug_router.get("/hello-world")
+def send_hello_world_msg():
+    data = {"msg": "Hello World!"}
+    return JSONResponse(content=DebugResponseModel(**data).dict(), status_code=status.HTTP_200_OK)
