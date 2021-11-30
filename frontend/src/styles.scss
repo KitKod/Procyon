@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '~@angular/material' as mat;
+@use 'sass:map';
 // Plus imports for other components in your app.
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
@@ -17,10 +18,13 @@ $procyon-theme: mat.define-light-theme(
         color: (
             primary: $procyon-primary,
             accent: $procyon-accent,
-            warn: $procyon-warn
-        )
+            warn: $procyon-warn,
+        ),
     )
 );
+$procyon-foreground: map.get($procyon-theme, foreground);
+$procyon-background: map.get($procyon-theme, background);
+
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
@@ -40,4 +44,12 @@ body {
 body {
     font-family: Roboto, 'Helvetica Neue', sans-serif;
     margin: 0;
+}
+
+.table-control-panel {
+    background: mat.get-color-from-palette($procyon-background, card);
+
+    button {
+        margin: 16px 8px;
+    }
 }
