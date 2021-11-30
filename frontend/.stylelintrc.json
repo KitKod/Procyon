@@ -1,0 +1,64 @@
+{
+    "extends": ["stylelint-config-standard", "stylelint-config-recommended-scss", "stylelint-prettier/recommended"],
+    "plugins": ["stylelint-scss", "stylelint-order", "stylelint-prettier"],
+    "rules": {
+        "at-rule-no-vendor-prefix": true,
+        "color-named": "never",
+        "declaration-block-no-duplicate-properties": true,
+        "declaration-no-important": true,
+        "font-family-name-quotes": "always-where-recommended",
+        "function-url-quotes": "always",
+        "max-nesting-depth": 5,
+        "media-feature-name-no-vendor-prefix": true,
+        "property-no-vendor-prefix": true,
+        "selector-max-id": 0,
+        "selector-no-vendor-prefix": true,
+        "selector-pseudo-element-no-unknown": [true, { "ignorePseudoElements": ["ng-deep"] }],
+        "value-no-vendor-prefix": true,
+
+        "order/properties-alphabetical-order": true,
+
+        "scss/at-each-key-value-single-line": true,
+        "scss/at-else-closing-brace-newline-after": "always-last-in-chain",
+        "scss/at-else-empty-line-before": "never",
+        "scss/at-else-if-parentheses-space-before": "always",
+        "scss/at-extend-no-missing-placeholder": true,
+        "scss/at-function-parentheses-space-before": "never",
+        "scss/at-if-closing-brace-newline-after": "always-last-in-chain",
+        "scss/at-if-closing-brace-space-after": "always-intermediate",
+        "scss/at-if-no-null": true,
+        "scss/at-mixin-argumentless-call-parentheses": "never",
+        "scss/at-mixin-named-arguments": "never",
+        "scss/at-mixin-parentheses-space-before": "never",
+        "scss/comment-no-empty": true,
+        "scss/comment-no-loud": true,
+        "scss/declaration-nested-properties": "never",
+        "scss/dollar-variable-colon-space-after": "always",
+        "scss/dollar-variable-colon-space-before": "never",
+        "scss/dollar-variable-empty-line-after": [
+            "always",
+            { "except": ["last-nested", "before-comment", "before-dollar-variable"] }
+        ],
+        "scss/dollar-variable-empty-line-before": [
+            "always",
+            { "except": ["first-nested", "after-comment", "after-dollar-variable"] }
+        ],
+        "scss/dollar-variable-first-in-block": [true, { "except": ["function"], "ignore": ["comments", "imports"] }],
+        "scss/dollar-variable-no-missing-interpolation": true,
+        "scss/double-slash-comment-whitespace-inside": "always",
+        "scss/function-quote-no-quoted-strings-inside": true,
+        "scss/function-unquote-no-unquoted-strings-inside": true,
+        "scss/no-duplicate-dollar-variables": [
+            true,
+            { "ignoreInside": ["nested-at-rule"], "ignoreInsideAtRules": ["function"] }
+        ],
+        "scss/no-duplicate-mixins": true,
+        "scss/operator-no-newline-after": true,
+        "scss/operator-no-newline-before": true,
+        "scss/operator-no-unspaced": true,
+        "scss/selector-nest-combinators": "always",
+        "scss/selector-no-union-class-name": true,
+
+        "prettier/prettier": true
+    }
+}

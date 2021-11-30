@@ -1,0 +1,126 @@
+{
+    "root": true,
+    "ignorePatterns": ["**/*.js"],
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "parserOptions": {
+                "project": ["tsconfig.json"],
+                "createDefaultProgram": true
+            },
+            "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@typescript-eslint/recommended-requiring-type-checking",
+                "plugin:rxjs/recommended",
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/recommended--extra",
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "plugin:import/recommended",
+                "plugin:import/typescript",
+                "plugin:prettier/recommended"
+            ],
+            "settings": {
+                "import/resolver": {
+                    "typescript": {
+                        "alwaysTryTypes": true,
+                        "project": ["tsconfig.json"]
+                    }
+                }
+            },
+            "rules": {
+                "prettier/prettier": "error",
+                "@angular-eslint/component-selector": [
+                    "error",
+                    { "type": "element", "prefix": "procyon", "style": "kebab-case" }
+                ],
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    { "type": "attribute", "prefix": "procyon", "style": "camelCase" }
+                ],
+                "@angular-eslint/use-lifecycle-interface": "error", // override
+                "@typescript-eslint/dot-notation": "off",
+                "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
+                "@typescript-eslint/explicit-member-accessibility": ["error", { "accessibility": "no-public" }],
+                "@typescript-eslint/lines-between-class-members": [
+                    "error",
+                    "always",
+                    { "exceptAfterSingleLine": true }
+                ],
+                "@typescript-eslint/no-inferrable-types": "error", // override
+                "no-shadow": "off",
+                "@typescript-eslint/no-shadow": "error",
+                "@typescript-eslint/no-unused-expressions": "error",
+                "@typescript-eslint/prefer-for-of": "error",
+                "import/no-extraneous-dependencies": "error",
+                "import/order": "error",
+                "import/prefer-default-export": "off",
+                "rxjs/finnish": [
+                    "error",
+                    {
+                        "functions": true,
+                        "methods": true,
+                        "names": {
+                            "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
+                        },
+                        "parameters": true,
+                        "properties": true,
+                        "strict": false,
+                        "types": {
+                            "^EventEmitter$": false
+                        },
+                        "variables": true
+                    }
+                ],
+                "rxjs/no-topromise": "error",
+                "rxjs/suffix-subjects": [
+                    "error",
+                    {
+                        "parameters": true,
+                        "properties": true,
+                        "suffix": "$",
+                        "types": {
+                            "^EventEmitter$": false
+                        },
+                        "variables": true
+                    }
+                ],
+                "curly": "error",
+                "default-case": "error",
+                "eqeqeq": ["error", "smart"],
+                "guard-for-in": "error",
+                "no-caller": "error",
+                "no-duplicate-imports": "error",
+                "no-else-return": ["error", { "allowElseIf": false }],
+                "no-eval": "error",
+                "no-new-wrappers": "error",
+                "no-plusplus": "error",
+                "no-restricted-imports": [
+                    "error",
+                    {
+                        "paths": [
+                            {
+                                "name": "rxjs/Rx",
+                                "message": "Please import directly from 'rxjs' instead"
+                            }
+                        ],
+                        "patterns": [
+                            {
+                                "group": ["lodash/*", "lodash"],
+                                "message": "Please use lodash-es that uses es modules"
+                            }
+                        ]
+                    }
+                ],
+                "no-useless-constructor": "error",
+                "radix": "error",
+                "spaced-comment": ["error", "always", { "markers": ["/"] }]
+            }
+        },
+        {
+            "files": ["*.html"],
+            "extends": ["plugin:@angular-eslint/template/recommended"],
+            "rules": {}
+        }
+    ]
+}
