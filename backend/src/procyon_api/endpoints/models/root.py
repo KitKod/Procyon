@@ -17,5 +17,12 @@
 # under the License.
 #
 
-from .debug import debug_router
-from .test import test_router
+from typing import Optional, List
+
+from pydantic import BaseModel, Field
+
+
+class MetaResponseModel(BaseModel):
+    total: Optional[int]
+    size: Optional[int]
+    errors: Optional[List[str]] = Field(default_factory=list)

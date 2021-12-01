@@ -17,5 +17,16 @@
 # under the License.
 #
 
-from .debug import debug_router
-from .test import test_router
+from fastapi import APIRouter, status
+
+from procyon_api.endpoints.models.test import TestListResponseModel
+from procyon_api.domain.entities.utils import gen_test_entities
+
+test_router = APIRouter(prefix="/tests", tags=["Test"])
+
+
+@test_router.get(
+    "/", response_model=TestListResponseModel, status_code=status.HTTP_200_OK
+)
+def get_test_list():
+    return gen_test_entities(20)  # imitate service call
