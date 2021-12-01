@@ -16,6 +16,3 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-
-from .debug import debug_router
-from .test import test_router

@@ -17,5 +17,16 @@
 # under the License.
 #
 
-from .debug import debug_router
-from .test import test_router
+from datetime import datetime
+from dataclasses import dataclass
+
+
+@dataclass
+class TestEntity:
+    id: int
+    name: str
+    ame: str
+    type: str
+    status: str
+    date: datetime
+    location: str

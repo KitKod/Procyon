@@ -55,6 +55,7 @@ def create_application() -> FastAPI:
         openapi_url=f"{API_PREFIX}/openapi.json",
     )
     fastapi_app.include_router(endpoints.debug_router, prefix=API_PREFIX)
+    fastapi_app.include_router(endpoints.test_router, prefix=API_PREFIX)
     fastapi_app.app = app
 
     return fastapi_app

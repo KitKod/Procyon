@@ -17,5 +17,24 @@
 # under the License.
 #
 
-from .debug import debug_router
-from .test import test_router
+from datetime import datetime
+
+from .test import TestEntity
+from ..dataobjects import TestListDataObject, ResponseMetaDataObject
+
+# TODO: remove !
+def gen_test_entities(count) -> TestListDataObject:
+    tests = [
+        TestEntity(
+            id=i,
+            name=f"Test_{i}",
+            ame="placeholder",
+            type=f"Type_{i}",
+            status="In progress",
+            date=datetime.now(),
+            location="Kiev",
+        )
+        for i in range(count)
+    ]
+
+    return TestListDataObject(resource=tests, meta=ResponseMetaDataObject(count, count))

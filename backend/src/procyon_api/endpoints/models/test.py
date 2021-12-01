@@ -17,5 +17,32 @@
 # under the License.
 #
 
-from .debug import debug_router
-from .test import test_router
+from datetime import datetime
+from typing import Optional, List
+
+from pydantic import BaseModel
+
+from .root import MetaResponseModel
+
+
+class TestResponseModel(BaseModel):
+    id: int
+    name: str
+    ame: str
+    type: str
+    status: str
+    date: datetime
+    location: str
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
+class TestListResponseModel(BaseModel):
+    resource: List[TestResponseModel]
+    meta: Optional[MetaResponseModel] = None
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
