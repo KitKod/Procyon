@@ -6,9 +6,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestState } from '../../store/test';
-import { TestApiService } from '../../store/test/test-api.service';
 import { TestListComponent } from './test-list.component';
+import { TestState } from '@core/store/test';
+import { TestApiService } from '@core/store/test/test-api.service';
 
 describe('TestListComponent', () => {
     let component: TestListComponent;

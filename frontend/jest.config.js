@@ -9,11 +9,11 @@ module.exports = {
         ...Object.entries(tsconfigJson.compilerOptions.paths ?? {}).reduce(
             (acc, [alias, [path]]) => ({
                 ...acc,
-                [`^${alias.replace('/*', '')}(.*)$`]: `<rootDir>${path.replace('/*', '')}$1`
+                [`^${alias.replace('/*', '')}(.*)$`]: `<rootDir>${path.replace('/*', '')}$1`,
             }),
-            {}
+            {},
         ),
-        "^lodash-es$": "lodash"
+        '^lodash-es$': 'lodash',
     },
     globals: {
         'ts-jest': {
@@ -22,5 +22,5 @@ module.exports = {
         },
     },
     preset: 'jest-preset-angular',
-    setupFilesAfterEnv: ['<rootDir>/setup-jest.ts']
+    setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
 };
