@@ -1,10 +1,10 @@
 import { range } from 'lodash-es';
 import * as faker from 'faker';
-import { TestOvtModel } from '../store/test-ovt';
-import { TestStatus, TestType } from '../store/test-ovt/test-ovt.model';
+import { TestModel } from '../store/test';
+import { TestStatus, TestType } from '../store/test/test.model';
 
-export const testOvtsMock: TestOvtModel[] = range(0, 10).map(
-    (id): TestOvtModel => ({
+export const testsMock: TestModel[] = range(0, 10).map(
+    (id): TestModel => ({
         id,
         name: `#${id}. ${faker.lorem.word(10)}`,
         type: [

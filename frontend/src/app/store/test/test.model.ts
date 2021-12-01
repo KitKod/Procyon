@@ -16,7 +16,7 @@ export enum TestType {
     Special = 'special',
 }
 
-export interface TestOvtModel {
+export interface TestModel {
     id: number;
     name: string;
     ame: string;
