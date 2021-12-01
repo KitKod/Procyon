@@ -5,14 +5,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { TestOvtListComponent } from './test-ovt-list.component';
-import { TestOvtListRoutingModule } from './test-ovt-list-routing.module';
+import { TestListComponent } from './test-list.component';
+import { TestListRoutingModule } from './test-list-routing.module';
 
 @NgModule({
-    declarations: [TestOvtListComponent],
+    declarations: [TestListComponent],
     imports: [
         CommonModule,
-        TestOvtListRoutingModule,
+        TestListRoutingModule,
         MatTableModule,
         MatTooltipModule,
         MatIconModule,
@@ -20,4 +20,4 @@ import { TestOvtListRoutingModule } from './test-ovt-list-routing.module';
         MatButtonModule,
     ],
 })
-export class TestOvtListModule {}
+export class TestListModule {}

@@ -5,11 +5,11 @@ const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'test-ovt',
+        redirectTo: 'test',
     },
     {
-        path: 'test-ovt',
-        loadChildren: () => import('./test-ovt').then(m => m.TestOvtModule),
+        path: 'test',
+        loadChildren: () => import('./test').then(m => m.TestModule),
     },
 ];
 

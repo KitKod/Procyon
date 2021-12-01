@@ -5,11 +5,11 @@ const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        loadChildren: () => import('./test-ovt-list').then(m => m.TestOvtListModule),
+        loadChildren: () => import('./test-list').then(m => m.TestListModule),
     },
     {
         path: ':id',
-        loadChildren: () => import('./test-ovt-info').then(m => m.TestOvtInfoModule),
+        loadChildren: () => import('./test-info').then(m => m.TestInfoModule),
     },
     {
         path: '**',
@@ -20,4 +20,4 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forChild(routes)],
 })
-export class TestOvtRoutingModule {}
+export class TestRoutingModule {}

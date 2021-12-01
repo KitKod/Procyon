@@ -2,34 +2,34 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { TestOvtActions } from './test-ovt.actions';
-import { TestOvtModel } from './test-ovt.model';
-import { TestOvtApiService } from './test-ovt-api.service';
+import { TestActions } from './test.actions';
+import { TestModel } from './test.model';
+import { TestApiService } from './test-api.service';
 
-export interface TestOvtStateModel {
-    tests: TestOvtModel[];
+export interface TestStateModel {
+    tests: TestModel[];
 }
 
-@State<TestOvtStateModel>({
-    name: 'testOvt',
+@State<TestStateModel>({
+    name: 'test',
     defaults: {
         tests: [],
     },
 })
 @Injectable()
-export class TestOvtState {
+export class TestState {
     @Selector()
-    static tests(state: TestOvtStateModel): TestOvtModel[] {
+    static tests(state: TestStateModel): TestModel[] {
         return state.tests;
     }
 
-    constructor(private api: TestOvtApiService) {}
+    constructor(private api: TestApiService) {}
 
     /**
      * Simple Example
      */
-    @Action(TestOvtActions.Add)
-    add(ctx: StateContext<TestOvtStateModel>, action: TestOvtActions.Add): Observable<void> {
+    @Action(TestActions.Add)
+    add(ctx: StateContext<TestStateModel>, action: TestActions.Add): Observable<void> {
         return this.api.add(action.test).pipe(
             map(test => {
                 const state = ctx.getState();
@@ -40,8 +40,8 @@ export class TestOvtState {
         );
     }
 
-    @Action(TestOvtActions.Delete)
-    delete(ctx: StateContext<TestOvtStateModel>, action: TestOvtActions.Delete): Observable<void> {
+    @Action(TestActions.Delete)
+    delete(ctx: StateContext<TestStateModel>, action: TestActions.Delete): Observable<void> {
         return this.api.delete(action.id).pipe(
             map(() => {
                 const state = ctx.getState();
@@ -52,8 +52,8 @@ export class TestOvtState {
         );
     }
 
-    @Action(TestOvtActions.Update)
-    update(ctx: StateContext<TestOvtStateModel>, action: TestOvtActions.Update): Observable<void> {
+    @Action(TestActions.Update)
+    update(ctx: StateContext<TestStateModel>, action: TestActions.Update): Observable<void> {
         return this.api.update(action.test).pipe(
             map(updatedTest => {
                 const state = ctx.getState();
@@ -64,8 +64,8 @@ export class TestOvtState {
         );
     }
 
-    @Action(TestOvtActions.FetchAll)
-    fetchAll(ctx: StateContext<TestOvtStateModel>, action: TestOvtActions.FetchAll): Observable<void> {
+    @Action(TestActions.FetchAll)
+    fetchAll(ctx: StateContext<TestStateModel>, action: TestActions.FetchAll): Observable<void> {
         return this.api.fetchAll().pipe(
             map(tests => {
                 ctx.patchState({ tests });
