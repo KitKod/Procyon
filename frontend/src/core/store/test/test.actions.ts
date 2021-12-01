@@ -1,18 +1,18 @@
-import { TestModel } from './test.model';
+import { TestAddModel, TestUpdateModel, TestDeleteModel } from './test.model';
 
 export namespace TestActions {
     export class Add {
         static readonly type = '[Test] Add';
-        constructor(public test: Partial<TestModel>) {}
+        constructor(public test: TestAddModel) {}
     }
     export class Update {
         static readonly type = '[Test] Update';
-        constructor(public test: Pick<TestModel, 'id'> & Partial<TestModel>) {}
+        constructor(public test: TestUpdateModel) {}
     }
 
     export class Delete {
         static readonly type = '[Test] Delete';
-        constructor(public id: number) {}
+        constructor(public test: TestDeleteModel) {}
     }
 
     export class GetById {

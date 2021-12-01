@@ -7,12 +7,16 @@
 <table *ngIf="dataSource$ | async as dataSource" mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Test name</th>
-        <td *matCellDef="let data" mat-cell>{{ data.name }}</td>
+        <td *matCellDef="let data" mat-cell>
+            <a [routerLink]="data.id">{{ data.name }}</a>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="ame">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>AME</th>
-        <td *matCellDef="let data" mat-cell>{{ data.ame }}</td>
+        <td *matCellDef="let data" mat-cell>
+            <a [routerLink]="['/ame', data.ame.id]">{{ data.ame.name }}</a>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="type">

@@ -5,6 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 import { TestListComponent } from './test-list.component';
 import { TestListRoutingModule } from './test-list-routing.module';
 
@@ -18,6 +19,7 @@ import { TestListRoutingModule } from './test-list-routing.module';
         MatIconModule,
         MatToolbarModule,
         MatButtonModule,
+        RouterModule,
     ],
 })
 export class TestListModule {}

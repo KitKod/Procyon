@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { isEqual } from 'lodash-es';
 import { switchMap, distinctUntilChanged, mapTo, tap } from 'rxjs/operators';
-import { TestModel, TestState, TestActions } from '../../store/test';
+import { TestModel, TestState, TestActions } from '@core/store/test';
 
 @Component({
     selector: 'procyon-test-list',

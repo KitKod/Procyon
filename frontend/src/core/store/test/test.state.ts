@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { merge } from 'lodash-es';
 import { TestActions } from './test.actions';
-import { TestModel } from './test.model';
+import { TestModel, TestModelExtended } from './test.model';
 import { TestApiService } from './test-api.service';
 
 export interface TestStateModel {
     tests: TestModel[];
+    testToEdit?: TestModelExtended;
 }
 
 @State<TestStateModel>({
@@ -25,16 +27,13 @@ export class TestState {
 
     constructor(private api: TestApiService) {}
 
-    /**
-     * Simple Example
-     */
     @Action(TestActions.Add)
     add(ctx: StateContext<TestStateModel>, action: TestActions.Add): Observable<void> {
         return this.api.add(action.test).pipe(
-            map(test => {
+            map(response => {
                 const state = ctx.getState();
                 ctx.patchState({
-                    tests: [...state.tests, test],
+                    tests: [merge(action.test, response.resources[0]), ...state.tests],
                 });
             }),
         );
@@ -42,11 +41,11 @@ export class TestState {
 
     @Action(TestActions.Delete)
     delete(ctx: StateContext<TestStateModel>, action: TestActions.Delete): Observable<void> {
-        return this.api.delete(action.id).pipe(
+        return this.api.delete(action.test).pipe(
             map(() => {
                 const state = ctx.getState();
                 ctx.patchState({
-                    tests: state.tests.filter(({ id }) => id !== action.id),
+                    tests: state.tests.filter(({ id }) => id !== action.test.id),
                 });
             }),
         );
@@ -55,20 +54,33 @@ export class TestState {
     @Action(TestActions.Update)
     update(ctx: StateContext<TestStateModel>, action: TestActions.Update): Observable<void> {
         return this.api.update(action.test).pipe(
-            map(updatedTest => {
+            map(response => {
                 const state = ctx.getState();
                 ctx.patchState({
-                    tests: state.tests.map(test => (test.id === action.test.id ? updatedTest : test)),
+                    tests: state.tests.map(test =>
+                        test.id === action.test.id ? merge(test, action.test, response.resources[0]) : test,
+                    ),
+                });
+            }),
+        );
+    }
+
+    @Action(TestActions.GetById)
+    getById(ctx: StateContext<TestStateModel>, action: TestActions.GetById): Observable<void> {
+        return this.api.getById(action.id).pipe(
+            map(response => {
+                ctx.patchState({
+                    testToEdit: response.resources[0],
                 });
             }),
         );
     }
 
     @Action(TestActions.FetchAll)
-    fetchAll(ctx: StateContext<TestStateModel>, action: TestActions.FetchAll): Observable<void> {
+    fetchAll(ctx: StateContext<TestStateModel>): Observable<void> {
         return this.api.fetchAll().pipe(
-            map(tests => {
-                ctx.patchState({ tests });
+            map(response => {
+                ctx.patchState({ tests: response.resources });
             }),
         );
     }

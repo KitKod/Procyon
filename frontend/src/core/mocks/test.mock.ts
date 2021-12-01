@@ -3,7 +3,7 @@ import * as faker from 'faker';
 import { TestModel } from '../store/test';
 import { TestStatus, TestType } from '../store/test/test.model';
 
-export const testsMock: TestModel[] = range(0, 10).map(
+export const testsMock: TestModel[] = range(1, 11).map(
     (id): TestModel => ({
         id,
         name: `#${id}. ${faker.lorem.word(10)}`,
@@ -17,7 +17,10 @@ export const testsMock: TestModel[] = range(0, 10).map(
             TestType.Control,
             TestType.Special,
         ][faker.datatype.number(7)],
-        ame: `${faker.datatype.number(9999999)}`,
+        ame: {
+            id: faker.datatype.number(9999999),
+            name: faker.name.jobArea(),
+        },
         date: faker.date.soon().toString(),
         location: faker.address.city(),
         status: [
