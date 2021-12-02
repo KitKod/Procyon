@@ -17,7 +17,7 @@
 # under the License.
 #
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 from procyon_api.domain.entities import TestEntity
@@ -37,4 +37,4 @@ class TestListDataObject:
 
 @dataclass
 class TestEntityFilter:
-    ids: List[int]
+    ids: List[int] = field(default_factory=list)

@@ -18,16 +18,16 @@
 #
 
 from abc import ABC, abstractmethod
-
 from typing import List
 
-from procyon_api.domain.entities import TestEntity
 from procyon_api.domain.dataobjects import TestEntityFilter
+from procyon_api.domain.dataobjects import TestListDataObject
+from procyon_api.domain.entities import TestEntity
 
 
 class ITestService(ABC):
     @abstractmethod
-    def create_test(self, test_entity: TestEntity) -> TestEntity:
+    def create_test(self, test_entity: TestEntity) -> TestListDataObject:
         pass
 
     @abstractmethod
@@ -35,11 +35,11 @@ class ITestService(ABC):
         pass
 
     @abstractmethod
-    def get_tests_by_filter(self, test_filter: TestEntityFilter) -> List[TestEntity]:
+    def get_tests_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
         pass
 
     @abstractmethod
-    def get_test_by_id(self, test_id: int) -> List[TestEntity]:
+    def get_test_by_id(self, test_id: int) -> TestListDataObject:
         pass
 
     @abstractmethod

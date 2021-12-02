@@ -30,8 +30,9 @@ def make_test_entity(raw_obj: Dict) -> TestEntity:
         type=raw_obj["test_type"],
         status=raw_obj["test_status"],
         date=raw_obj["test_date_of_approval"],
-        location=raw_obj["test_location"]
+        location=raw_obj["test_location"],
     )
+
 
 def make_test_entities(rows: List[dict]) -> List[TestEntity]:
     return [make_test_entity(row) for row in rows]

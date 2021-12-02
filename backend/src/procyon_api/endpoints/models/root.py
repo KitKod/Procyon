@@ -27,6 +27,10 @@ class MetaResponseModel(BaseModel):
     size: Optional[int]
     errors: Optional[List[str]] = Field(default_factory=list)
 
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
 
 class ErrorModel(BaseModel):
     message: str

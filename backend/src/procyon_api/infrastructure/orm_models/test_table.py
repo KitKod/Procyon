@@ -18,9 +18,9 @@
 #
 
 
-from procyon_api.infrastructure import metadata
 from sqlalchemy import Column, String, Table, Integer, ForeignKey, DateTime
 
+from procyon_api.infrastructure import metadata
 
 test_table = Table(
     "test",
