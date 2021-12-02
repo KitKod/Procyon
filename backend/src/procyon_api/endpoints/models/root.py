@@ -26,3 +26,7 @@ class MetaResponseModel(BaseModel):
     total: Optional[int]
     size: Optional[int]
     errors: Optional[List[str]] = Field(default_factory=list)
+
+
+class ErrorModel(BaseModel):
+    message: str

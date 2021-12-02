@@ -17,24 +17,19 @@
 # under the License.
 #
 
-from dataclasses import dataclass
-from typing import List, Optional
 
-from procyon_api.domain.entities import TestEntity
-
-
-@dataclass
-class ResponseMetaDataObject:
-    total: int
-    size: int
+class ProcyonException(Exception):
+    code = "root_exception"
 
 
-@dataclass
-class TestListDataObject:
-    resource: List[TestEntity]
-    meta: Optional[ResponseMetaDataObject] = None
+class NotFoundError(ProcyonException):
+    code = "not_found_error"
 
 
-@dataclass
-class TestEntityFilter:
-    ids: List[int]
+class AlreadyExistsError(ProcyonException):
+    code = "already_exists_error"
+
+
+class ForbiddenError(ProcyonException):
+    code = "forbidden_error"
+
