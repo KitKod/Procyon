@@ -21,9 +21,11 @@ import logging
 import os
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
+from fastapi.responses import JSONResponse
 
 from procyon_api import endpoints
+from procyon_api.endpoints.models import ErrorModel
 from procyon_api.configs import Configs
 from procyon_api.constants import (
     PROJECT_NAME,
@@ -32,6 +34,12 @@ from procyon_api.constants import (
     DESCRIPTION,
 )
 from procyon_api.containers import Application
+from procyon_api.domain.exceptions import (
+    ProcyonException,
+    NotFoundError,
+    ForbiddenError,
+    AlreadyExistsError,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +66,39 @@ def create_application() -> FastAPI:
     fastapi_app.include_router(endpoints.test_router, prefix=API_PREFIX)
     fastapi_app.app = app
 
+    configure_error_handlers(fastapi_app)
+
     return fastapi_app
+
+
+def configure_error_handlers(app: FastAPI) -> None:
+    @app.exception_handler(ProcyonException)
+    def corleone_bad_request(req: Request, exc: ProcyonException):
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content=ErrorModel(message=str(exc)).dict(),
+        )
+
+    @app.exception_handler(NotFoundError)
+    def not_found(req: Request, exc: NotFoundError):
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content=ErrorModel(message=str(exc)).dict(),
+        )
+
+    @app.exception_handler(AlreadyExistsError)
+    def already_exists(req: Request, exc: AlreadyExistsError):
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT,
+            content=ErrorModel(message=str(exc)).dict(),
+        )
+
+    @app.exception_handler(ForbiddenError)
+    def forbidden(req: Request, exc: ForbiddenError):
+        return JSONResponse(
+            status_code=status.HTTP_403_FORBIDDEN,
+            content=ErrorModel(message=str(exc)).dict(),
+        )
 
 
 def run_application():

@@ -17,24 +17,21 @@
 # under the License.
 #
 
-from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Dict
 
 from procyon_api.domain.entities import TestEntity
 
 
-@dataclass
-class ResponseMetaDataObject:
-    total: int
-    size: int
+def make_test_entity(raw_obj: Dict) -> TestEntity:
+    return TestEntity(
+        id=raw_obj["test_id"],
+        name=raw_obj["test_name"],
+        ame=raw_obj["test_ame_id"],
+        type=raw_obj["test_type"],
+        status=raw_obj["test_status"],
+        date=raw_obj["test_date_of_approval"],
+        location=raw_obj["test_location"]
+    )
 
-
-@dataclass
-class TestListDataObject:
-    resource: List[TestEntity]
-    meta: Optional[ResponseMetaDataObject] = None
-
-
-@dataclass
-class TestEntityFilter:
-    ids: List[int]
+def make_test_entities(rows: List[dict]) -> List[TestEntity]:
+    return [make_test_entity(row) for row in rows]

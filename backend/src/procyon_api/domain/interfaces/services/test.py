@@ -17,24 +17,31 @@
 # under the License.
 #
 
-from dataclasses import dataclass
-from typing import List, Optional
+from abc import ABC, abstractmethod
+
+from typing import List
 
 from procyon_api.domain.entities import TestEntity
+from procyon_api.domain.dataobjects import TestEntityFilter
 
 
-@dataclass
-class ResponseMetaDataObject:
-    total: int
-    size: int
+class ITestService(ABC):
+    @abstractmethod
+    def create_test(self, test_entity: TestEntity) -> TestEntity:
+        pass
 
+    @abstractmethod
+    def delete_test(self, test_id: int) -> bool:
+        pass
 
-@dataclass
-class TestListDataObject:
-    resource: List[TestEntity]
-    meta: Optional[ResponseMetaDataObject] = None
+    @abstractmethod
+    def get_tests_by_filter(self, test_filter: TestEntityFilter) -> List[TestEntity]:
+        pass
 
+    @abstractmethod
+    def get_test_by_id(self, test_id: int) -> List[TestEntity]:
+        pass
 
-@dataclass
-class TestEntityFilter:
-    ids: List[int]
+    @abstractmethod
+    def get_all_files(self) -> List[str]:
+        pass
