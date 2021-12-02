@@ -1,5 +1,5 @@
 import { ManufacturerModel } from '../manufacturer/manufacturer.model';
-import { WithoutId } from '@core/utility-types';
+import { WithoutId, OnlyId } from '@core/utility-types';
 
 export enum AmeFamily {
     Aircraft = 'aircraft',
@@ -45,6 +45,6 @@ export interface AmeModel {
 }
 
 export interface AmeCreateModel extends Omit<WithoutId<AmeModel>, 'ttc_id'> {
-    manufacturer?: WithoutId<ManufacturerModel>;
+    manufacturer?: WithoutId<ManufacturerModel> | OnlyId<ManufacturerModel>;
     ttc_file: File;
 }

@@ -6,8 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
 import { TestListComponent } from './test-list.component';
 import { TestListRoutingModule } from './test-list-routing.module';
+import { AddTestDialogModule } from './add-test-wizard/add-test-dialog.module';
 
 @NgModule({
     declarations: [TestListComponent],
@@ -19,7 +21,9 @@ import { TestListRoutingModule } from './test-list-routing.module';
         MatIconModule,
         MatToolbarModule,
         MatButtonModule,
+        MatDialogModule,
         RouterModule,
+        AddTestDialogModule,
     ],
 })
 export class TestListModule {}
