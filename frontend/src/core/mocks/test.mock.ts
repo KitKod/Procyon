@@ -1,7 +1,7 @@
 import { range } from 'lodash-es';
 import * as faker from 'faker';
 import { TestModel } from '../store/test';
-import { TestStatus, TestType } from '../store/test/test.model';
+import { TestStatus, TestType } from '../store/test/test.constants';
 
 export const testsMock: TestModel[] = range(1, 11).map(
     (id): TestModel => ({

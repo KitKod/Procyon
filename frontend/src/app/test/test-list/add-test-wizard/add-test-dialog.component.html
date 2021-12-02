@@ -1,0 +1,181 @@
+<div mat-dialog-title>Add new test</div>
+
+<mat-dialog-content>
+    <mat-stepper
+        #stepper
+        [style.min-height.px]="355"
+        [orientation]="(stepperOrientation$ | async)!"
+        [selectedIndex]="3"
+    >
+        <mat-step [stepControl]="testInfoStepFormGroup">
+            <ng-template matStepLabel>Test info</ng-template>
+
+            <form class="row row-cols-1 row-cols-sm-1 row-cols-md-2" [formGroup]="testInfoStepFormGroup">
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Test name</mat-label>
+                    <input matInput formControlName="name" required />
+                </mat-form-field>
+
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Type</mat-label>
+                    <mat-select required formControlName="type">
+                        <mat-option *ngFor="let testType of testTypes" [value]="testType.value">
+                            {{ testType.label }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Location</mat-label>
+                    <input matInput formControlName="location" required />
+                </mat-form-field>
+
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Status</mat-label>
+                    <mat-select required formControlName="status">
+                        <mat-option *ngFor="let testStatus of testStatuses" [value]="testStatus.value">
+                            {{ testStatus.label }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="ameInfoStepFormGroup">
+            <ng-template matStepLabel>AME</ng-template>
+
+            <form class="row row-cols-1 row-cols-sm-1 row-cols-md-2" [formGroup]="ameInfoStepFormGroup">
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Ame name</mat-label>
+                    <input matInput formControlName="name" required />
+                </mat-form-field>
+
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Type</mat-label>
+                    <input matInput formControlName="type" required />
+                </mat-form-field>
+
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Family</mat-label>
+                    <mat-select required formControlName="family">
+                        <mat-option *ngFor="let ameFamily of ameFamilies" [value]="ameFamily.value">
+                            {{ ameFamily.label }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Manufacturer</mat-label>
+                    <mat-select required formControlName="manufacturer">
+                        <mat-option [value]="createNewManufacturerId">Create new</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col" appearance="standard">
+                    <mat-label>Upload TTC</mat-label>
+                    <input
+                        matInput
+                        required
+                        formControlName="ttc_file"
+                        readonly
+                        [value]="ameInfoStepFormGroup.get('ttc_file')?.value?.name"
+                    />
+                    <input
+                        #fileUpload
+                        class="visually-hidden"
+                        type="file"
+                        (change)="ameInfoStepFormGroup.get('ttc_file')?.setValue($any($event.target).files[0])"
+                    />
+
+                    <button mat-icon-button color="primary" matSuffix (click)="fileUpload.click()">
+                        <mat-icon>upload</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="manufacturerInfoStepFormGroup">
+            <ng-template matStepLabel>Manufacturer</ng-template>
+
+            <form class="row row-cols-1 row-cols-sm-1 row-cols-md-2" [formGroup]="manufacturerInfoStepFormGroup">
+                <mat-form-field appearance="standard">
+                    <mat-label>Manufacturer name</mat-label>
+                    <input matInput formControlName="name" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Address</mat-label>
+                    <input matInput formControlName="address" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Chief</mat-label>
+                    <input matInput formControlName="chief" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Contract</mat-label>
+                    <input matInput formControlName="contract" required />
+                </mat-form-field>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Summary</ng-template>
+
+            <div class="row row-cols-2 fs-6">
+                <div class="fw-bold text-end">Test name:</div>
+                <div class="text-start">{{ testInfoStepFormGroup.get('name')?.value }}</div>
+                <div class="fw-bold text-end">Type:</div>
+                <div class="text-start">{{ testInfoStepFormGroup.get('type')?.value }}</div>
+                <div class="fw-bold text-end">Location:</div>
+                <div class="text-start">{{ testInfoStepFormGroup.get('location')?.value }}</div>
+                <div class="fw-bold text-end">Status:</div>
+                <div class="text-start">{{ testInfoStepFormGroup.get('status')?.value }}</div>
+            </div>
+
+            <mat-divider class="mb-2"></mat-divider>
+
+            <div class="row row-cols-2 fs-6">
+                <div class="fw-bold text-end">Ame name:</div>
+                <div class="text-start">{{ ameInfoStepFormGroup.get('name')?.value }}</div>
+                <div class="fw-bold text-end">Type:</div>
+                <div class="text-start">{{ ameInfoStepFormGroup.get('family')?.value }}</div>
+                <div class="fw-bold text-end">Location:</div>
+                <div class="text-start">{{ ameInfoStepFormGroup.get('type')?.value }}</div>
+                <div class="fw-bold text-end">Status:</div>
+                <div class="text-start">{{ ameInfoStepFormGroup.get('ttc_file')?.value }}</div>
+            </div>
+
+            <mat-divider class="mb-2"></mat-divider>
+
+            <div class="row row-cols-2 fs-6">
+                <div class="fw-bold text-end">Manufacturer name:</div>
+                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('name')?.value }}</div>
+                <div class="fw-bold text-end">Type:</div>
+                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('address')?.value }}</div>
+                <div class="fw-bold text-end">Location:</div>
+                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('chief')?.value }}</div>
+                <div class="fw-bold text-end">Status:</div>
+                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('contract')?.value }}</div>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions class="d-flex">
+    <button mat-button color="primary" (click)="closeWithoutSave()">Cancel</button>
+    <span class="flex-fill"></span>
+    <button *ngIf="stepper.selectedIndex !== 0" mat-button color="primary" (click)="stepper.previous()">Back</button>
+
+    <button
+        *ngIf="stepper.selectedIndex + 1 !== stepper.steps?.length"
+        mat-raised-button
+        color="primary"
+        (click)="stepper.next()"
+    >
+        Next
+    </button>
+
+    <button *ngIf="stepper.selectedIndex + 1 === stepper.steps?.length" mat-raised-button color="primary">Save</button>
+</mat-dialog-actions>

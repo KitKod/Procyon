@@ -4,6 +4,9 @@ import { Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { isEqual } from 'lodash-es';
 import { switchMap, distinctUntilChanged, mapTo, tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTestDialogComponent } from './add-test-wizard/add-test-dialog.component';
+import { AddTestDialogResult } from './add-test-wizard/add-test-wizard.data';
 import { TestModel, TestState, TestActions } from '@core/store/test';
 
 @Component({
@@ -22,9 +25,19 @@ export class TestListComponent implements OnInit {
         distinctUntilChanged(isEqual),
     );
 
-    constructor(private store: Store) {}
+    constructor(private store: Store, private matDialog: MatDialog) {}
 
     ngOnInit(): void {
         this.store.dispatch(TestActions.FetchAll);
+        this.openAddTestDialog();
+    }
+
+    openAddTestDialog(): void {
+        this.matDialog
+            .open<AddTestDialogComponent, never, AddTestDialogResult>(AddTestDialogComponent)
+            .afterClosed()
+            .subscribe(result => {
+                console.log('openAddTestDialog', { result });
+            });
     }
 }
