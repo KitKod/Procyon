@@ -18,16 +18,15 @@
 #
 
 from abc import ABC, abstractmethod
-
 from typing import List
 
-from procyon_api.domain.entities import TestEntity
 from procyon_api.domain.dataobjects import TestEntityFilter
+from procyon_api.domain.entities import TestEntity
 
 
 class ITestEntityRepository(ABC):
     @abstractmethod
-    def get(self, id: int) -> TestEntity:
+    def get(self, id: int) -> List[TestEntity]:
         pass
 
     @abstractmethod
@@ -44,4 +43,8 @@ class ITestEntityRepository(ABC):
 
     @abstractmethod
     def update(self, entity: TestEntity) -> TestEntity:
+        pass
+
+    @abstractmethod
+    def get_total_count_by_filter(self, filter: TestEntityFilter) -> int:
         pass

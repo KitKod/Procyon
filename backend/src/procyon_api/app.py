@@ -25,7 +25,6 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 
 from procyon_api import endpoints
-from procyon_api.endpoints.models import ErrorModel
 from procyon_api.configs import Configs
 from procyon_api.constants import (
     PROJECT_NAME,
@@ -40,6 +39,7 @@ from procyon_api.domain.exceptions import (
     ForbiddenError,
     AlreadyExistsError,
 )
+from procyon_api.endpoints.models import ErrorModel
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +48,7 @@ def init_application() -> Application:
     app = Application()
     app.config.from_pydantic(Configs())
     app.init_resources()
+    app.services.wire(packages=(endpoints,))
 
     return app
 

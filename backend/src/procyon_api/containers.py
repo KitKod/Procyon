@@ -19,6 +19,7 @@
 
 from dependency_injector import containers, providers, resources
 
+from procyon_api.domain.services import TestService
 from procyon_api.infrastructure.databases import Database
 from procyon_api.infrastructure.repositories import TestEntityRepository
 
@@ -67,13 +68,19 @@ class Services(containers.DeclarativeContainer):
     repositories = providers.DependenciesContainer()
     config = providers.Configuration()
 
+    test: providers.Factory[TestService] = providers.Factory(
+        TestService, test_entity_repository=repositories.test
+    )
+
 
 class Application(containers.DeclarativeContainer):
     config = providers.Configuration()
     datasources: providers.Container[Datasources] = providers.Container(
         Datasources, postgres_config=config.postgres
     )
-    repositories: providers.Container[Repositories] = providers.Container(Repositories, datasources=datasources)
+    repositories: providers.Container[Repositories] = providers.Container(
+        Repositories, datasources=datasources
+    )
     services: providers.Container[Services] = providers.Container(
         Services, repositories=repositories, config=config
     )

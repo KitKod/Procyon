@@ -17,10 +17,13 @@
 # under the License.
 #
 
-from fastapi import APIRouter, status
+from dependency_injector.wiring import Provide, inject
+from fastapi import APIRouter, Depends, status
 
+from procyon_api.containers import Services
+from procyon_api.domain.dataobjects import TestEntityFilter
+from procyon_api.domain.interfaces.services import ITestService
 from procyon_api.endpoints.models.test import TestListResponseModel
-from procyon_api.domain.entities.utils import gen_test_entities
 
 test_router = APIRouter(prefix="/tests", tags=["Test"])
 
@@ -28,5 +31,16 @@ test_router = APIRouter(prefix="/tests", tags=["Test"])
 @test_router.get(
     "/", response_model=TestListResponseModel, status_code=status.HTTP_200_OK
 )
-def get_test_list():
-    return gen_test_entities(20)  # imitate service call
+@inject
+def get_test_list(test_service: ITestService = Depends(Provide[Services.test])):
+    return test_service.get_tests_by_filter(TestEntityFilter())
+
+
+@test_router.get(
+    "/{test_id}", response_model=TestListResponseModel, status_code=status.HTTP_200_OK
+)
+@inject
+def get_test(
+    test_id: int, test_service: ITestService = Depends(Provide[Services.test])
+):
+    return test_service.get_test_by_id(test_id)

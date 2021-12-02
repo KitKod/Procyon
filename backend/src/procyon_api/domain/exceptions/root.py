@@ -32,4 +32,3 @@ class AlreadyExistsError(ProcyonException):
 
 class ForbiddenError(ProcyonException):
     code = "forbidden_error"
-
