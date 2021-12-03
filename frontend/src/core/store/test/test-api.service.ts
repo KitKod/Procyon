@@ -44,7 +44,7 @@ export class TestApiService {
 
     update(test: TestUpdateModel): Observable<ApiSingleResponseModel<TestModel>> {
         return this.http
-            .put<ApiSingleResponseModel<TestModel>>(`${TEST_ENTITY_ENDPOINT}/${test.id}`, test, {
+            .patch<ApiSingleResponseModel<TestModel>>(`${TEST_ENTITY_ENDPOINT}/${test.id}`, test, {
                 responseType: 'json',
             })
             .pipe(
