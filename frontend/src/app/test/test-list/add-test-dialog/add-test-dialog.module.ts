@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { AddTestDialogComponent } from './add-test-dialog.component';
+import { ConfirmationDialogModule } from '@core/confirmation-dialog';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { AddTestDialogComponent } from './add-test-dialog.component';
         FormsModule,
         MatIconModule,
         MatDividerModule,
+        ConfirmationDialogModule,
     ],
     declarations: [AddTestDialogComponent],
     exports: [AddTestDialogComponent],

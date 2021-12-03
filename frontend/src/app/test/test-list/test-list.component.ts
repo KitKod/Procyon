@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { isEqual } from 'lodash-es';
 import { switchMap, distinctUntilChanged, mapTo, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { AddTestDialogComponent } from './add-test-wizard/add-test-dialog.component';
-import { AddTestDialogResult } from './add-test-wizard/add-test-wizard.data';
+import { AddTestDialogComponent } from './add-test-dialog/add-test-dialog.component';
+import { AddTestDialogResult } from './add-test-dialog/add-test-dialog.data';
 import { TestModel, TestState, TestActions } from '@core/store/test';
 
 @Component({
@@ -29,7 +29,6 @@ export class TestListComponent implements OnInit {
 
     ngOnInit(): void {
         this.store.dispatch(TestActions.FetchAll);
-        this.openAddTestDialog();
     }
 
     openAddTestDialog(): void {

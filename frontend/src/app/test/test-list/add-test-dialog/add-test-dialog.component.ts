@@ -1,38 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
 import { StepperOrientation } from '@angular/cdk/stepper';
-import { AddTestDialogResult } from './add-test-wizard.data';
+import { AddTestDialogResult } from './add-test-dialog.data';
 import { TestStatus, TestType } from '@core/store/test';
 import { AmeFamily } from '@core/store/ame/ame.model';
+import { ConfirmationDialogService } from '@core/confirmation-dialog';
 
 @Component({
     selector: 'procyon-add-test-dialog',
     templateUrl: './add-test-dialog.component.html',
     styleUrls: ['./add-test-dialog.component.scss'],
 })
-export class AddTestDialogComponent {
+export class AddTestDialogComponent implements OnInit, OnDestroy {
     readonly createNewManufacturerId = -1;
 
-    readonly testInfoStepFormGroup: FormGroup = this.fb.group({
+    readonly testInfoStepFormGroup = this.fb.group({
         name: ['', Validators.required],
-        type: [null, Validators.required],
+        type: ['', Validators.required],
         location: ['', Validators.required],
-        status: [null, Validators.required],
+        status: ['', Validators.required],
     });
 
-    readonly ameInfoStepFormGroup: FormGroup = this.fb.group({
+    readonly ameInfoStepFormGroup = this.fb.group({
         name: ['', Validators.required],
-        family: [null, Validators.required],
+        family: ['', Validators.required],
         type: ['', Validators.required],
         ttc_file: [null, Validators.required],
         manufacturer: [this.createNewManufacturerId],
     });
 
-    readonly manufacturerInfoStepFormGroup: FormGroup = this.fb.group({
+    readonly manufacturerInfoStepFormGroup = this.fb.group({
         name: ['', Validators.required],
         address: ['', Validators.required],
         chief: ['', Validators.required],
@@ -78,13 +79,54 @@ export class AddTestDialogComponent {
         { label: 'AntiAircraftMissileSystems', value: AmeFamily.AntiAircraftMissileSystems },
     ];
 
+    readonly destroy$: ReplaySubject<void> = new ReplaySubject<void>(1);
+
     constructor(
         private dialogRef: MatDialogRef<AddTestDialogComponent, AddTestDialogResult>,
         private fb: FormBuilder,
         private breakpointObserver: BreakpointObserver,
-    ) {}
+        private confirmSrv: ConfirmationDialogService,
+    ) {
+        dialogRef.disableClose = true;
+    }
+
+    ngOnInit(): void {
+        this.dialogRef
+            .backdropClick()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.closeWithoutSave());
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 
     closeWithoutSave(): void {
-        this.dialogRef.close();
+        this.confirmSrv.open({
+            message: 'All unsaved data will be lost, are you sure you want to leave the dialog?',
+            title: 'Confirm',
+            affirmative: {
+                label: 'Yes',
+                handler: () => this.dialogRef.close(),
+            },
+        });
+    }
+
+    onSave(): void {
+        const testInfo = this.testInfoStepFormGroup.value;
+        const ameInfo = this.ameInfoStepFormGroup.value;
+        const manufacturerInfo = this.manufacturerInfoStepFormGroup.value;
+
+        this.dialogRef.close({
+            ...testInfo,
+            ame: {
+                ...ameInfo,
+                manufacturer:
+                    ameInfo.manufacturer !== this.createNewManufacturerId
+                        ? { id: ameInfo.manufacturer }
+                        : manufacturerInfo,
+            },
+        });
     }
 }

@@ -1,0 +1,7 @@
+:host {
+    ::ng-deep {
+        .mat-divider {
+            margin: unset;
+        }
+    }
+}

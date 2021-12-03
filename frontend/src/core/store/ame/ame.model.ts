@@ -45,6 +45,6 @@ export interface AmeModel {
 }
 
 export interface AmeCreateModel extends Omit<WithoutId<AmeModel>, 'ttc_id'> {
-    manufacturer?: WithoutId<ManufacturerModel> | OnlyId<ManufacturerModel>;
+    manufacturer: WithoutId<ManufacturerModel> | OnlyId<ManufacturerModel>;
     ttc_file: File;
 }
