@@ -74,7 +74,7 @@ def create_application() -> FastAPI:
 
 def configure_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(ProcyonException)
-    def corleone_bad_request(req: Request, exc: ProcyonException):
+    def bad_request(req: Request, exc: ProcyonException):
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content=ErrorModel(code=exc.code, message=str(exc)).dict(),
