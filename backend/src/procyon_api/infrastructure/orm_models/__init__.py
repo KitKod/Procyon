@@ -17,4 +17,5 @@
 # under the License.
 #
 
+from .ame_table import ame_table
 from .test_table import test_table

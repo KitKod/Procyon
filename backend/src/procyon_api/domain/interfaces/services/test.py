@@ -21,7 +21,7 @@ from abc import ABC, abstractmethod
 from typing import List
 
 from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.dataobjects import TestListDataObject
+from procyon_api.domain.dataobjects import TestListDataObject, TestWithAmeListDataObject
 from procyon_api.domain.entities import TestEntity
 
 
@@ -36,6 +36,12 @@ class ITestService(ABC):
 
     @abstractmethod
     def get_tests_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
+        pass
+
+    @abstractmethod
+    def get_tests_with_ame_by_filter(
+        self, test_filter: TestEntityFilter
+    ) -> TestWithAmeListDataObject:
         pass
 
     @abstractmethod

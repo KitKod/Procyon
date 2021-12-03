@@ -77,28 +77,28 @@ def configure_error_handlers(app: FastAPI) -> None:
     def corleone_bad_request(req: Request, exc: ProcyonException):
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content=ErrorModel(message=str(exc)).dict(),
+            content=ErrorModel(code=exc.code, message=str(exc)).dict(),
         )
 
     @app.exception_handler(NotFoundError)
     def not_found(req: Request, exc: NotFoundError):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
-            content=ErrorModel(message=str(exc)).dict(),
+            content=ErrorModel(code=exc.code, message=str(exc)).dict(),
         )
 
     @app.exception_handler(AlreadyExistsError)
     def already_exists(req: Request, exc: AlreadyExistsError):
         return JSONResponse(
             status_code=status.HTTP_409_CONFLICT,
-            content=ErrorModel(message=str(exc)).dict(),
+            content=ErrorModel(code=exc.code, message=str(exc)).dict(),
         )
 
     @app.exception_handler(ForbiddenError)
     def forbidden(req: Request, exc: ForbiddenError):
         return JSONResponse(
             status_code=status.HTTP_403_FORBIDDEN,
-            content=ErrorModel(message=str(exc)).dict(),
+            content=ErrorModel(code=exc.code, message=str(exc)).dict(),
         )
 
 

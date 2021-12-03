@@ -17,5 +17,14 @@
 # under the License.
 #
 
-from .ame import AmeEntityRepository
-from .test import TestEntityRepository
+from dataclasses import dataclass
+
+
+@dataclass
+class AmeEntity:
+    id: int
+    name: str
+    family: str
+    type: str
+    manufacturer_id: int
+    ttc_id: int

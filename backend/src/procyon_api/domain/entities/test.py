@@ -20,12 +20,25 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from .ame import AmeEntity
+
 
 @dataclass
 class TestEntity:
     id: int
     name: str
-    ame: str
+    ame_id: int
+    type: str
+    status: str
+    date: datetime
+    location: str
+
+
+@dataclass
+class TestWithAmeEntity:
+    id: int
+    name: str
+    ame: AmeEntity
     type: str
     status: str
     date: datetime

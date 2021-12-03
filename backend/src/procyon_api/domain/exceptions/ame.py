@@ -17,5 +17,8 @@
 # under the License.
 #
 
-from .ame import AmeEntityRepository
-from .test import TestEntityRepository
+from .root import NotFoundError
+
+
+class AmeNotFoundError(NotFoundError):
+    code = "ame_not_found"

@@ -26,7 +26,7 @@ def make_test_entity(raw_obj: Dict) -> TestEntity:
     return TestEntity(
         id=raw_obj["test_id"],
         name=raw_obj["test_name"],
-        ame=raw_obj["test_ame_id"],
+        ame_id=raw_obj["test_ame_id"],
         type=raw_obj["test_type"],
         status=raw_obj["test_status"],
         date=raw_obj["test_date_of_approval"],
