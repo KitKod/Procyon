@@ -23,6 +23,7 @@ from typing import Optional, List
 from pydantic import BaseModel
 
 from .ame import AmeResponseModel
+from .document import DocumentResponseModel
 from .root import MetaResponseModel
 
 
@@ -54,6 +55,21 @@ class TestWithAmeResponseModel(BaseModel):
         allow_population_by_field_name = True
 
 
+class TestWithAmeAndDocResponseModel(BaseModel):
+    id: int
+    name: str
+    ame: AmeResponseModel
+    type: str
+    status: str
+    date: datetime
+    location: str
+    documents: List[DocumentResponseModel]
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
 class TestListResponseModel(BaseModel):
     resource: List[TestResponseModel]
     meta: Optional[MetaResponseModel] = None
@@ -65,6 +81,15 @@ class TestListResponseModel(BaseModel):
 
 class TestWithAmeListResponseModel(BaseModel):
     resource: List[TestWithAmeResponseModel]
+    meta: Optional[MetaResponseModel] = None
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
+class TestWithAmeAndDocListResponseModel(BaseModel):
+    resource: List[TestWithAmeAndDocResponseModel]
     meta: Optional[MetaResponseModel] = None
 
     class Config:

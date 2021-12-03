@@ -23,7 +23,10 @@ from fastapi import APIRouter, Depends, status
 from procyon_api.containers import Services
 from procyon_api.domain.dataobjects import TestEntityFilter
 from procyon_api.domain.interfaces.services import ITestService
-from procyon_api.endpoints.models.test import TestWithAmeListResponseModel
+from procyon_api.endpoints.models.test import (
+    TestWithAmeListResponseModel,
+    TestWithAmeAndDocListResponseModel,
+)
 
 test_router = APIRouter(prefix="/tests", tags=["Test"])
 
@@ -33,12 +36,12 @@ test_router = APIRouter(prefix="/tests", tags=["Test"])
 )
 @inject
 def get_test_list(test_service: ITestService = Depends(Provide[Services.test])):
-    return test_service.get_tests_with_ame_by_filter(TestEntityFilter())
+    return test_service.get_with_ame_by_filter(TestEntityFilter())
 
 
 @test_router.get(
     "/{test_id}",
-    response_model=TestWithAmeListResponseModel,
+    response_model=TestWithAmeAndDocListResponseModel,
     status_code=status.HTTP_200_OK,
 )
 @inject
@@ -46,4 +49,4 @@ def get_test(
     test_id: int,
     test_service: ITestService = Depends(Provide[Services.test]),
 ):
-    return test_service.get_tests_with_ame_by_filter(TestEntityFilter(ids=[test_id]))
+    return test_service.get_with_ame_and_doc_by_filter(TestEntityFilter(ids=[test_id]))

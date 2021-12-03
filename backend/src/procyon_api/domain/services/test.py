@@ -17,11 +17,11 @@
 # under the License.
 #
 
-from typing import List
-
 from procyon_api.domain.dataobjects import (
     TestEntityFilter,
     AmeEntityFilter,
+    DocumentEntityFilter,
+    TestWithAmeAndDocListDataObject,
     TestWithAmeListDataObject,
     TestListDataObject,
     ResponseMetaDataObject,
@@ -30,9 +30,10 @@ from procyon_api.domain.entities import TestEntity
 from procyon_api.domain.interfaces.repositories import (
     ITestEntityRepository,
     IAmeEntityRepository,
+    IDocumentEntityRepository,
 )
 from procyon_api.domain.interfaces.services import ITestService
-from procyon_api.domain.utils import join_tests_with_ames
+from procyon_api.domain.utils import join_tests_with_ames, join_tests_with_documents
 
 
 class TestService(ITestService):
@@ -40,17 +41,19 @@ class TestService(ITestService):
         self,
         test_entity_repository: ITestEntityRepository,
         ame_entity_repository: IAmeEntityRepository,
+        document_entity_repository: IDocumentEntityRepository,
     ):
         self._test_entity_repository = test_entity_repository
         self._ame_entity_repository = ame_entity_repository
+        self._document_entity_repository = document_entity_repository
 
-    def create_test(self, test_entity: TestEntity) -> TestEntity:
+    def create(self, test_entity: TestEntity) -> TestEntity:
         pass
 
-    def delete_test(self, test_id: int) -> bool:
+    def delete(self, test_id: int) -> bool:
         pass
 
-    def get_tests_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
+    def get_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
         test_list = self._test_entity_repository.get_list_by_filter(test_filter)
         total = self._test_entity_repository.get_total_count_by_filter(test_filter)
 
@@ -59,7 +62,7 @@ class TestService(ITestService):
             meta=ResponseMetaDataObject(total=total, size=len(test_list)),
         )
 
-    def get_tests_with_ame_by_filter(
+    def get_with_ame_by_filter(
         self, test_filter: TestEntityFilter
     ) -> TestWithAmeListDataObject:
         test_list = self._test_entity_repository.get_list_by_filter(test_filter)
@@ -77,7 +80,37 @@ class TestService(ITestService):
             meta=ResponseMetaDataObject(total=total, size=len(test_with_ame_list)),
         )
 
-    def get_test_by_id(self, test_id: int) -> TestListDataObject:
+    def get_with_ame_and_doc_by_filter(
+        self, test_filter: TestEntityFilter
+    ) -> TestWithAmeAndDocListDataObject:
+        test_list = self._test_entity_repository.get_list_by_filter(test_filter)
+        total = self._test_entity_repository.get_total_count_by_filter(test_filter)
+
+        ame_filter = AmeEntityFilter()
+        document_filter = DocumentEntityFilter()
+
+        for test in test_list:
+            ame_filter.ids.append(test.ame_id)
+            document_filter.test_ids.append(test.id)
+
+        ame_list = self._ame_entity_repository.get_list_by_filter(ame_filter)
+        document_list = self._document_entity_repository.get_list_by_filter(
+            document_filter
+        )
+
+        test_with_ame_list = join_tests_with_ames(test_list, ame_list)
+        test_with_ame_and_doc_list = join_tests_with_documents(
+            test_with_ame_list, document_list
+        )
+
+        return TestWithAmeAndDocListDataObject(
+            resource=test_with_ame_and_doc_list,
+            meta=ResponseMetaDataObject(
+                total=total, size=len(test_with_ame_and_doc_list)
+            ),
+        )
+
+    def get_by_id(self, test_id: int) -> TestListDataObject:
         test_list = self._test_entity_repository.get(test_id)
         total = self._test_entity_repository.get_total_count_by_filter(
             TestEntityFilter(ids=[test_id])
@@ -87,6 +120,3 @@ class TestService(ITestService):
             resource=test_list,
             meta=ResponseMetaDataObject(total=total, size=len(test_list)),
         )
-
-    def get_all_files(self) -> List[str]:
-        pass

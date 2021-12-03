@@ -18,5 +18,6 @@
 #
 
 from .ame import AmeNotFoundError
+from .document import DocumentNotFoundError
 from .root import NotFoundError, ForbiddenError, AlreadyExistsError, ProcyonException
 from .test import TestNotFoundError

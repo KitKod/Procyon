@@ -18,36 +18,41 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import List
 
 from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.dataobjects import TestListDataObject, TestWithAmeListDataObject
+from procyon_api.domain.dataobjects import (
+    TestListDataObject,
+    TestWithAmeListDataObject,
+    TestWithAmeAndDocListDataObject,
+)
 from procyon_api.domain.entities import TestEntity
 
 
 class ITestService(ABC):
     @abstractmethod
-    def create_test(self, test_entity: TestEntity) -> TestListDataObject:
+    def create(self, test_entity: TestEntity) -> TestListDataObject:
         pass
 
     @abstractmethod
-    def delete_test(self, test_id: int) -> bool:
+    def delete(self, test_id: int) -> bool:
         pass
 
     @abstractmethod
-    def get_tests_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
+    def get_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
         pass
 
     @abstractmethod
-    def get_tests_with_ame_by_filter(
+    def get_with_ame_by_filter(
         self, test_filter: TestEntityFilter
     ) -> TestWithAmeListDataObject:
         pass
 
     @abstractmethod
-    def get_test_by_id(self, test_id: int) -> TestListDataObject:
+    def get_with_ame_and_doc_by_filter(
+        self, test_filter: TestEntityFilter
+    ) -> TestWithAmeAndDocListDataObject:
         pass
 
     @abstractmethod
-    def get_all_files(self) -> List[str]:
+    def get_by_id(self, test_id: int) -> TestListDataObject:
         pass
