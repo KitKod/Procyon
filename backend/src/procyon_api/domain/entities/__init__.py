@@ -17,4 +17,5 @@
 # under the License.
 #
 
-from .test import TestEntity
+from .ame import AmeEntity
+from .test import TestEntity, TestWithAmeEntity

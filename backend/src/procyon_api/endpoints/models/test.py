@@ -22,13 +22,28 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
+from .ame import AmeResponseModel
 from .root import MetaResponseModel
 
 
 class TestResponseModel(BaseModel):
     id: int
     name: str
-    ame: str
+    ame_id: int
+    type: str
+    status: str
+    date: datetime
+    location: str
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
+class TestWithAmeResponseModel(BaseModel):
+    id: int
+    name: str
+    ame: AmeResponseModel
     type: str
     status: str
     date: datetime
@@ -41,6 +56,15 @@ class TestResponseModel(BaseModel):
 
 class TestListResponseModel(BaseModel):
     resource: List[TestResponseModel]
+    meta: Optional[MetaResponseModel] = None
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
+class TestWithAmeListResponseModel(BaseModel):
+    resource: List[TestWithAmeResponseModel]
     meta: Optional[MetaResponseModel] = None
 
     class Config:

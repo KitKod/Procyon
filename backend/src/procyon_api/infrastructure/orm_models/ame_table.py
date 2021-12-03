@@ -17,5 +17,28 @@
 # under the License.
 #
 
-from .ame import AmeEntityRepository
-from .test import TestEntityRepository
+from sqlalchemy import Column, String, Table, Integer, ForeignKey
+
+from procyon_api.infrastructure import metadata
+
+ame_table = Table(
+    "armament_and_military_equipment",
+    metadata,
+    Column("id", Integer, nullable=False, unique=True, primary_key=True),
+    Column("name", String, nullable=False),
+    Column(
+        "family",
+        String,
+        ForeignKey("armament_family_fkey", deferrable=False),
+        nullable=False,
+    ),
+    Column("type", String, nullable=False),
+    Column(
+        "manufacturer_id",
+        Integer,
+        ForeignKey("fk_manufacturer", deferrable=False),
+    ),
+    Column(
+        "ttc_id", Integer, ForeignKey("fk_ttc", deferrable=False, ondelete="cascade")
+    ),
+)

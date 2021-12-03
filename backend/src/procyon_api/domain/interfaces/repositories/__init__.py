@@ -17,4 +17,5 @@
 # under the License.
 #
 
+from .ame import IAmeEntityRepository
 from .test import ITestEntityRepository

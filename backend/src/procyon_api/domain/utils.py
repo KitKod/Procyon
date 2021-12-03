@@ -17,5 +17,31 @@
 # under the License.
 #
 
-from .ame import AmeEntityRepository
-from .test import TestEntityRepository
+from typing import List
+
+from .entities import TestEntity, AmeEntity, TestWithAmeEntity
+
+
+def join_tests_with_ames(
+    test_list: List[TestEntity], ame_list: List[AmeEntity]
+) -> List[TestWithAmeEntity]:
+    ame_id_entity_map = {}
+    for ame in ame_list:
+        ame_id_entity_map[ame.id] = ame
+
+    test_with_ame_list = []
+    for test in test_list:
+        ame_entity = ame_id_entity_map[test.ame_id]
+        test_with_ame_list.append(
+            TestWithAmeEntity(
+                id=test.id,
+                name=test.name,
+                ame=ame_entity,
+                type=test.type,
+                status=test.status,
+                date=test.date,
+                location=test.location,
+            )
+        )
+
+    return test_with_ame_list

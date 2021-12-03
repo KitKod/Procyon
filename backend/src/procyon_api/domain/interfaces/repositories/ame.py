@@ -17,5 +17,34 @@
 # under the License.
 #
 
-from .ame import AmeEntityRepository
-from .test import TestEntityRepository
+from abc import ABC, abstractmethod
+from typing import List, Optional
+
+from procyon_api.domain.dataobjects import AmeEntityFilter
+from procyon_api.domain.entities import AmeEntity
+
+
+class IAmeEntityRepository(ABC):
+    @abstractmethod
+    def get_list_by_filter(
+        self, filter: Optional[AmeEntityFilter] = None
+    ) -> List[AmeEntity]:
+        pass
+
+    @abstractmethod
+    def add(self, entity: AmeEntity) -> AmeEntity:
+        pass
+
+    @abstractmethod
+    def delete(self, id: int) -> bool:
+        pass
+
+    @abstractmethod
+    def update(self, entity: AmeEntity) -> AmeEntity:
+        pass
+
+    @abstractmethod
+    def get_total_count_by_filter(
+        self, filter: Optional[AmeEntityFilter] = None
+    ) -> int:
+        pass

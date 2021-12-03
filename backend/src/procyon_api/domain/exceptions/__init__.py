@@ -17,5 +17,6 @@
 # under the License.
 #
 
+from .ame import AmeNotFoundError
 from .root import NotFoundError, ForbiddenError, AlreadyExistsError, ProcyonException
 from .test import TestNotFoundError

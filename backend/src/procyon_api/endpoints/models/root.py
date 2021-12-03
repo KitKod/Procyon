@@ -33,4 +33,5 @@ class MetaResponseModel(BaseModel):
 
 
 class ErrorModel(BaseModel):
+    code: str
     message: str

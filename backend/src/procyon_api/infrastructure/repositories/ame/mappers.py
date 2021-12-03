@@ -17,5 +17,21 @@
 # under the License.
 #
 
-from .ame import AmeEntityRepository
-from .test import TestEntityRepository
+from typing import List, Dict
+
+from procyon_api.domain.entities import AmeEntity
+
+
+def make_ame_entity(raw_obj: Dict) -> AmeEntity:
+    return AmeEntity(
+        id=raw_obj["ame_id"],
+        name=raw_obj["ame_name"],
+        family=raw_obj["ame_family"],
+        type=raw_obj["ame_type"],
+        manufacturer_id=raw_obj["ame_manufacturer_id"],
+        ttc_id=raw_obj["ame_ttc_id"],
+    )
+
+
+def make_ame_entities(rows: List[dict]) -> List[AmeEntity]:
+    return [make_ame_entity(row) for row in rows]

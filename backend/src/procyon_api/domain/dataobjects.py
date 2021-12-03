@@ -20,7 +20,7 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from procyon_api.domain.entities import TestEntity
+from procyon_api.domain.entities import TestEntity, TestWithAmeEntity
 
 
 @dataclass
@@ -36,5 +36,16 @@ class TestListDataObject:
 
 
 @dataclass
+class TestWithAmeListDataObject:
+    resource: List[TestWithAmeEntity]
+    meta: Optional[ResponseMetaDataObject] = None
+
+
+@dataclass
 class TestEntityFilter:
+    ids: List[int] = field(default_factory=list)
+
+
+@dataclass
+class AmeEntityFilter:
     ids: List[int] = field(default_factory=list)

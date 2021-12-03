@@ -30,7 +30,7 @@ class ITestEntityRepository(ABC):
         pass
 
     @abstractmethod
-    def get_all_by_filter(self, filter: TestEntityFilter) -> List[TestEntity]:
+    def get_list_by_filter(self, filter: TestEntityFilter) -> List[TestEntity]:
         pass
 
     @abstractmethod

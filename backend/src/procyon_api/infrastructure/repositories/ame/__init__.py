@@ -17,5 +17,4 @@
 # under the License.
 #
 
-from .ame import AmeEntityRepository
-from .test import TestEntityRepository
+from .repository import AmeEntityRepository
