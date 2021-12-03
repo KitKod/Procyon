@@ -17,6 +17,4 @@
 # under the License.
 #
 
-from .ame_table import ame_table
-from .document_table import document_table
-from .test_table import test_table
+from .repository import DocumentEntityRepository

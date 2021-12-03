@@ -24,6 +24,7 @@ from procyon_api.infrastructure.databases import Database
 from procyon_api.infrastructure.repositories import (
     TestEntityRepository,
     AmeEntityRepository,
+    DocumentEntityRepository,
 )
 
 
@@ -71,6 +72,11 @@ class Repositories(containers.DeclarativeContainer):
         datasources.postgres_datasource,
     )
 
+    document: providers.Singleton[DocumentEntityRepository] = providers.Singleton(
+        DocumentEntityRepository,
+        datasources.postgres_datasource,
+    )
+
 
 class Services(containers.DeclarativeContainer):
     repositories = providers.DependenciesContainer()
@@ -80,6 +86,7 @@ class Services(containers.DeclarativeContainer):
         TestService,
         test_entity_repository=repositories.test,
         ame_entity_repository=repositories.ame,
+        document_entity_repository=repositories.document,
     )
 
 

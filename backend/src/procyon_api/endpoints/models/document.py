@@ -1,6 +1,3 @@
-#
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
 # regarding copyright ownership.  The ASF licenses this file
 # to you under the Apache License, Version 2.0 (the
@@ -17,6 +14,23 @@
 # under the License.
 #
 
-from .ame_table import ame_table
-from .document_table import document_table
-from .test_table import test_table
+from datetime import datetime
+
+from pydantic import BaseModel
+
+
+class DocumentResponseModel(BaseModel):
+    id: int
+    name: str
+    type: str
+    status: str
+    government: str
+    date_of_approval: datetime
+    material_and_technical_means: str
+    file_index: str
+    ame_id: int
+    test_id: int
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True

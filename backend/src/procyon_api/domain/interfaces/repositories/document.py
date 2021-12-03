@@ -17,6 +17,20 @@
 # under the License.
 #
 
-from .ame_table import ame_table
-from .document_table import document_table
-from .test_table import test_table
+from abc import ABC, abstractmethod
+from typing import List, Optional
+
+from procyon_api.domain.dataobjects import DocumentEntityFilter
+from procyon_api.domain.entities import DocumentEntity
+
+
+class IDocumentEntityRepository(ABC):
+    @abstractmethod
+    def get_list_by_test_id(self, test_id: int) -> List[DocumentEntity]:
+        pass
+
+    @abstractmethod
+    def get_list_by_filter(
+        self, filter: Optional[DocumentEntityFilter] = None
+    ) -> List[DocumentEntity]:
+        pass

@@ -17,6 +17,19 @@
 # under the License.
 #
 
-from .ame_table import ame_table
-from .document_table import document_table
-from .test_table import test_table
+from dataclasses import dataclass
+from datetime import datetime
+
+
+@dataclass
+class DocumentEntity:
+    id: int
+    name: str
+    type: str
+    status: str
+    government: str
+    date_of_approval: datetime
+    material_and_technical_means: str
+    file_index: str
+    ame_id: int
+    test_id: int

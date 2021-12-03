@@ -18,4 +18,5 @@
 #
 
 from .ame import IAmeEntityRepository
+from .document import IDocumentEntityRepository
 from .test import ITestEntityRepository

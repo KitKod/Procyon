@@ -18,4 +18,5 @@
 #
 
 from .ame import AmeEntity
-from .test import TestEntity, TestWithAmeEntity
+from .document import DocumentEntity
+from .test import TestEntity, TestWithAmeEntity, TestWithAmeAndDocEntity

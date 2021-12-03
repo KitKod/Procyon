@@ -19,8 +19,10 @@
 
 from dataclasses import dataclass
 from datetime import datetime
+from typing import List
 
 from .ame import AmeEntity
+from .document import DocumentEntity
 
 
 @dataclass
@@ -43,3 +45,15 @@ class TestWithAmeEntity:
     status: str
     date: datetime
     location: str
+
+
+@dataclass
+class TestWithAmeAndDocEntity:
+    id: int
+    name: str
+    ame: AmeEntity
+    type: str
+    status: str
+    date: datetime
+    location: str
+    documents: List[DocumentEntity]

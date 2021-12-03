@@ -17,9 +17,16 @@
 # under the License.
 #
 
+import copy
 from typing import List
 
-from .entities import TestEntity, AmeEntity, TestWithAmeEntity
+from .entities import (
+    TestEntity,
+    AmeEntity,
+    TestWithAmeEntity,
+    TestWithAmeAndDocEntity,
+    DocumentEntity,
+)
 
 
 def join_tests_with_ames(
@@ -45,3 +52,34 @@ def join_tests_with_ames(
         )
 
     return test_with_ame_list
+
+
+def join_tests_with_documents(
+    test_list: List[TestWithAmeEntity], document_list: List[DocumentEntity]
+) -> List[TestWithAmeAndDocEntity]:
+    test_id_doc_entity_list_map = {}
+    for doc in document_list:
+        doc_list = test_id_doc_entity_list_map.get(doc.test_id)
+
+        if doc_list is None:
+            test_id_doc_entity_list_map[doc.test_id] = [doc]
+        else:
+            doc_list.append(doc)
+    print(test_id_doc_entity_list_map)
+    test_with_ame_and_doc_list = []
+    for test in test_list:
+        doc_list = test_id_doc_entity_list_map.get(test.id, [])
+        test_with_ame_and_doc_list.append(
+            TestWithAmeAndDocEntity(
+                id=test.id,
+                name=test.name,
+                ame=copy.deepcopy(test.ame),
+                type=test.type,
+                status=test.status,
+                date=copy.deepcopy(test.date),
+                location=test.location,
+                documents=doc_list,
+            )
+        )
+
+    return test_with_ame_and_doc_list
