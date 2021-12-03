@@ -3,7 +3,7 @@
 <mat-dialog-content>
     <mat-stepper
         #stepper
-        [style.min-height.px]="355"
+        [style.min-height.px]="386"
         [orientation]="(stepperOrientation$ | async)!"
         [selectedIndex]="3"
     >
@@ -121,42 +121,47 @@
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>Summary</ng-template>
-            <div class="grid grid-cols-2">
-                <div class="font-bold text-right">Test name:</div>
-                <div class="text-left">{{ testInfoStepFormGroup.get('name')?.value }}</div>
-                <div class="font-bold text-right">Type:</div>
-                <div class="text-left">{{ testInfoStepFormGroup.get('type')?.value }}</div>
-                <div class="font-bold text-right">Location:</div>
-                <div class="text-left">{{ testInfoStepFormGroup.get('location')?.value }}</div>
-                <div class="font-bold text-right">Status:</div>
-                <div class="text-left">{{ testInfoStepFormGroup.get('status')?.value }}</div>
+            <div *ngIf="testInfoStepFormGroup.value as value" class="grid grid-cols-2 mb-3">
+                <ng-container
+                    *ngTemplateOutlet="info; context: { label: 'Test name', value: value.name }"
+                ></ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Type', value: value.type }"></ng-container>
+                <ng-container
+                    *ngTemplateOutlet="info; context: { label: 'Location', value: value.location }"
+                ></ng-container>
+                <ng-container
+                    *ngTemplateOutlet="info; context: { label: 'Status', value: value.status }"
+                ></ng-container>
             </div>
 
-            <mat-divider class="mb-2"></mat-divider>
+            <mat-divider></mat-divider>
 
-            <div class="grid grid-cols-2">
-                <div class="font-bold text-right">Ame name:</div>
-                <div class="text-left">{{ ameInfoStepFormGroup.get('name')?.value }}</div>
-                <div class="font-bold text-right">Type:</div>
-                <div class="text-left">{{ ameInfoStepFormGroup.get('family')?.value }}</div>
-                <div class="font-bold text-right">Location:</div>
-                <div class="text-left">{{ ameInfoStepFormGroup.get('type')?.value }}</div>
-                <div class="font-bold text-right">Status:</div>
-                <div class="text-left">{{ ameInfoStepFormGroup.get('ttc_file')?.value }}</div>
+            <div *ngIf="ameInfoStepFormGroup.value as value" class="grid grid-cols-2 mt-3 mb-3">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Ame name', value: value.name }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Family', value: value.family }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Type', value: value.type }"></ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'TTC file', value: value.ttc_file?.name }">
+                </ng-container>
             </div>
 
-            <mat-divider class="mb-2"></mat-divider>
+            <mat-divider></mat-divider>
 
-            <div class="grid grid-cols-2">
-                <div class="font-bold text-right">Manufacturer name:</div>
-                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('name')?.value }}</div>
-                <div class="font-bold text-right">Type:</div>
-                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('address')?.value }}</div>
-                <div class="font-bold text-right">Location:</div>
-                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('chief')?.value }}</div>
-                <div class="font-bold text-right">Status:</div>
-                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('contract')?.value }}</div>
+            <div *ngIf="manufacturerInfoStepFormGroup.value as value" class="grid grid-cols-2 mt-3">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Manufacturer name', value: value.name }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Address', value: value.address }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Chief', value: value.chief }"></ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Contract', value: value.contract }">
+                </ng-container>
             </div>
+
+            <ng-template #info let-label="label" let-value="value">
+                <div class="font-bold text-right">{{ label }}:</div>
+                <div class="text-left">{{ value }}</div>
+            </ng-template>
         </mat-step>
     </mat-stepper>
 </mat-dialog-content>
@@ -175,5 +180,12 @@
         Next
     </button>
 
-    <button *ngIf="stepper.selectedIndex + 1 === stepper.steps?.length" mat-raised-button color="primary">Save</button>
+    <button
+        *ngIf="stepper.selectedIndex + 1 === stepper.steps?.length"
+        mat-raised-button
+        color="primary"
+        (click)="onSave()"
+    >
+        Save
+    </button>
 </mat-dialog-actions>

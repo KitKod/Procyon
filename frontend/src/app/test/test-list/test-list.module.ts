@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TestListComponent } from './test-list.component';
 import { TestListRoutingModule } from './test-list-routing.module';
-import { AddTestDialogModule } from './add-test-wizard/add-test-dialog.module';
+import { AddTestDialogModule } from './add-test-dialog/add-test-dialog.module';
 
 @NgModule({
     declarations: [TestListComponent],

@@ -1,0 +1,12 @@
+<div *ngIf="data.title" mat-dialog-title>{{ data.title }}</div>
+<div mat-dialog-content>
+    <ng-container>{{ data.message }}</ng-container>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button [mat-dialog-close]="false" [color]="'primary'">
+        {{ data?.dismissive?.label || 'Cancel' }}
+    </button>
+    <button mat-button cdkFocusInitial [mat-dialog-close]="true" [color]="'primary'">
+        {{ data.affirmative.label }}
+    </button>
+</div>
