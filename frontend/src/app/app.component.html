@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container class="h-screen">
+    <mat-sidenav></mat-sidenav>
+
+    <mat-sidenav-content class="bg-white">
+        <div class="flex justify-center">
+            <div class="2xl:w-2/4 w-full shadow-md">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
