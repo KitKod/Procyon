@@ -10,13 +10,13 @@
         <mat-step [stepControl]="testInfoStepFormGroup">
             <ng-template matStepLabel>Test info</ng-template>
 
-            <form class="row row-cols-1 row-cols-sm-1 row-cols-md-2" [formGroup]="testInfoStepFormGroup">
-                <mat-form-field class="col" appearance="standard">
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="testInfoStepFormGroup">
+                <mat-form-field appearance="standard">
                     <mat-label>Test name</mat-label>
                     <input matInput formControlName="name" required />
                 </mat-form-field>
 
-                <mat-form-field class="col" appearance="standard">
+                <mat-form-field appearance="standard">
                     <mat-label>Type</mat-label>
                     <mat-select required formControlName="type">
                         <mat-option *ngFor="let testType of testTypes" [value]="testType.value">
@@ -25,12 +25,12 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="col" appearance="standard">
+                <mat-form-field appearance="standard">
                     <mat-label>Location</mat-label>
                     <input matInput formControlName="location" required />
                 </mat-form-field>
 
-                <mat-form-field class="col" appearance="standard">
+                <mat-form-field appearance="standard">
                     <mat-label>Status</mat-label>
                     <mat-select required formControlName="status">
                         <mat-option *ngFor="let testStatus of testStatuses" [value]="testStatus.value">
@@ -44,18 +44,18 @@
         <mat-step [stepControl]="ameInfoStepFormGroup">
             <ng-template matStepLabel>AME</ng-template>
 
-            <form class="row row-cols-1 row-cols-sm-1 row-cols-md-2" [formGroup]="ameInfoStepFormGroup">
-                <mat-form-field class="col" appearance="standard">
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="ameInfoStepFormGroup">
+                <mat-form-field appearance="standard">
                     <mat-label>Ame name</mat-label>
                     <input matInput formControlName="name" required />
                 </mat-form-field>
 
-                <mat-form-field class="col" appearance="standard">
+                <mat-form-field appearance="standard">
                     <mat-label>Type</mat-label>
                     <input matInput formControlName="type" required />
                 </mat-form-field>
 
-                <mat-form-field class="col" appearance="standard">
+                <mat-form-field appearance="standard">
                     <mat-label>Family</mat-label>
                     <mat-select required formControlName="family">
                         <mat-option *ngFor="let ameFamily of ameFamilies" [value]="ameFamily.value">
@@ -64,14 +64,14 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="col" appearance="standard">
+                <mat-form-field appearance="standard">
                     <mat-label>Manufacturer</mat-label>
                     <mat-select required formControlName="manufacturer">
                         <mat-option [value]="createNewManufacturerId">Create new</mat-option>
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field class="col" appearance="standard">
+                <mat-form-field appearance="standard">
                     <mat-label>Upload TTC</mat-label>
                     <input
                         matInput
@@ -82,7 +82,7 @@
                     />
                     <input
                         #fileUpload
-                        class="visually-hidden"
+                        class="hidden"
                         type="file"
                         (change)="ameInfoStepFormGroup.get('ttc_file')?.setValue($any($event.target).files[0])"
                     />
@@ -97,7 +97,7 @@
         <mat-step [stepControl]="manufacturerInfoStepFormGroup">
             <ng-template matStepLabel>Manufacturer</ng-template>
 
-            <form class="row row-cols-1 row-cols-sm-1 row-cols-md-2" [formGroup]="manufacturerInfoStepFormGroup">
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="manufacturerInfoStepFormGroup">
                 <mat-form-field appearance="standard">
                     <mat-label>Manufacturer name</mat-label>
                     <input matInput formControlName="name" required />
@@ -119,53 +119,51 @@
                 </mat-form-field>
             </form>
         </mat-step>
-
         <mat-step>
             <ng-template matStepLabel>Summary</ng-template>
-
-            <div class="row row-cols-2 fs-6">
-                <div class="fw-bold text-end">Test name:</div>
-                <div class="text-start">{{ testInfoStepFormGroup.get('name')?.value }}</div>
-                <div class="fw-bold text-end">Type:</div>
-                <div class="text-start">{{ testInfoStepFormGroup.get('type')?.value }}</div>
-                <div class="fw-bold text-end">Location:</div>
-                <div class="text-start">{{ testInfoStepFormGroup.get('location')?.value }}</div>
-                <div class="fw-bold text-end">Status:</div>
-                <div class="text-start">{{ testInfoStepFormGroup.get('status')?.value }}</div>
+            <div class="grid grid-cols-2">
+                <div class="font-bold text-right">Test name:</div>
+                <div class="text-left">{{ testInfoStepFormGroup.get('name')?.value }}</div>
+                <div class="font-bold text-right">Type:</div>
+                <div class="text-left">{{ testInfoStepFormGroup.get('type')?.value }}</div>
+                <div class="font-bold text-right">Location:</div>
+                <div class="text-left">{{ testInfoStepFormGroup.get('location')?.value }}</div>
+                <div class="font-bold text-right">Status:</div>
+                <div class="text-left">{{ testInfoStepFormGroup.get('status')?.value }}</div>
             </div>
 
             <mat-divider class="mb-2"></mat-divider>
 
-            <div class="row row-cols-2 fs-6">
-                <div class="fw-bold text-end">Ame name:</div>
-                <div class="text-start">{{ ameInfoStepFormGroup.get('name')?.value }}</div>
-                <div class="fw-bold text-end">Type:</div>
-                <div class="text-start">{{ ameInfoStepFormGroup.get('family')?.value }}</div>
-                <div class="fw-bold text-end">Location:</div>
-                <div class="text-start">{{ ameInfoStepFormGroup.get('type')?.value }}</div>
-                <div class="fw-bold text-end">Status:</div>
-                <div class="text-start">{{ ameInfoStepFormGroup.get('ttc_file')?.value }}</div>
+            <div class="grid grid-cols-2">
+                <div class="font-bold text-right">Ame name:</div>
+                <div class="text-left">{{ ameInfoStepFormGroup.get('name')?.value }}</div>
+                <div class="font-bold text-right">Type:</div>
+                <div class="text-left">{{ ameInfoStepFormGroup.get('family')?.value }}</div>
+                <div class="font-bold text-right">Location:</div>
+                <div class="text-left">{{ ameInfoStepFormGroup.get('type')?.value }}</div>
+                <div class="font-bold text-right">Status:</div>
+                <div class="text-left">{{ ameInfoStepFormGroup.get('ttc_file')?.value }}</div>
             </div>
 
             <mat-divider class="mb-2"></mat-divider>
 
-            <div class="row row-cols-2 fs-6">
-                <div class="fw-bold text-end">Manufacturer name:</div>
-                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('name')?.value }}</div>
-                <div class="fw-bold text-end">Type:</div>
-                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('address')?.value }}</div>
-                <div class="fw-bold text-end">Location:</div>
-                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('chief')?.value }}</div>
-                <div class="fw-bold text-end">Status:</div>
-                <div class="text-start">{{ manufacturerInfoStepFormGroup.get('contract')?.value }}</div>
+            <div class="grid grid-cols-2">
+                <div class="font-bold text-right">Manufacturer name:</div>
+                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('name')?.value }}</div>
+                <div class="font-bold text-right">Type:</div>
+                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('address')?.value }}</div>
+                <div class="font-bold text-right">Location:</div>
+                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('chief')?.value }}</div>
+                <div class="font-bold text-right">Status:</div>
+                <div class="text-left">{{ manufacturerInfoStepFormGroup.get('contract')?.value }}</div>
             </div>
         </mat-step>
     </mat-stepper>
 </mat-dialog-content>
 
-<mat-dialog-actions class="d-flex">
+<mat-dialog-actions class="flex">
     <button mat-button color="primary" (click)="closeWithoutSave()">Cancel</button>
-    <span class="flex-fill"></span>
+    <span class="flex-1"></span>
     <button *ngIf="stepper.selectedIndex !== 0" mat-button color="primary" (click)="stepper.previous()">Back</button>
 
     <button
