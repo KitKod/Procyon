@@ -1,1 +1,5 @@
-// empty
+::ng-deep {
+    .mat-drawer-container {
+        background-color: inherit;
+    }
+}
