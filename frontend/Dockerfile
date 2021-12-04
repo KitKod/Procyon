@@ -6,6 +6,8 @@ WORKDIR /app
 
 # install dependencies
 COPY package.json package-lock.json ./
+# install angular CLI that matches package one
+RUN npm install -g @angular/cli
 RUN npm ci
 COPY . .
 
