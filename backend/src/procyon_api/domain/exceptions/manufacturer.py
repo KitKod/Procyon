@@ -17,21 +17,12 @@
 # under the License.
 #
 
-from typing import List, Dict
-
-from procyon_api.domain.entities import AmeEntity
+from .root import NotFoundError, AlreadyExistsError
 
 
-def make_ame_entity(raw_obj: Dict) -> AmeEntity:
-    return AmeEntity(
-        id=raw_obj["id"],
-        name=raw_obj["name"],
-        family=raw_obj["family"],
-        type=raw_obj["type"],
-        manufacturer_id=raw_obj["manufacturer_id"],
-        ttc_id=raw_obj["ttc_id"],
-    )
+class ManufacturerNotFoundError(NotFoundError):
+    code = "manufacturer_not_found"
 
 
-def make_ame_entities(rows: List[dict]) -> List[AmeEntity]:
-    return [make_ame_entity(row) for row in rows]
+class ManufacturerAlreadyExistsError(AlreadyExistsError):
+    code = "manufacturer_already_exists_error"

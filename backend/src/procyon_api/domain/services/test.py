@@ -26,11 +26,13 @@ from procyon_api.domain.dataobjects import (
     TestListDataObject,
     ResponseMetaDataObject,
 )
-from procyon_api.domain.entities import TestEntity
+from procyon_api.domain.entities import TestCreateEntity
+from procyon_api.domain.exceptions import DocumentNotFoundError
 from procyon_api.domain.interfaces.repositories import (
     ITestEntityRepository,
     IAmeEntityRepository,
     IDocumentEntityRepository,
+    IManufacturerEntityRepository,
 )
 from procyon_api.domain.interfaces.services import ITestService
 from procyon_api.domain.utils import join_tests_with_ames, join_tests_with_documents
@@ -42,13 +44,30 @@ class TestService(ITestService):
         test_entity_repository: ITestEntityRepository,
         ame_entity_repository: IAmeEntityRepository,
         document_entity_repository: IDocumentEntityRepository,
+        manufacturer_entity_repository: IManufacturerEntityRepository,
     ):
         self._test_entity_repository = test_entity_repository
         self._ame_entity_repository = ame_entity_repository
         self._document_entity_repository = document_entity_repository
+        self._manufacturer_entity_repository = manufacturer_entity_repository
 
-    def create(self, test_entity: TestEntity) -> TestEntity:
-        pass
+    def create(self, test_entity: TestCreateEntity) -> TestListDataObject:
+        ame_entity = test_entity.get_ame_entity()
+        manufacturer_entity = ame_entity.get_manufacturer()
+
+        created_manufacturer = self._manufacturer_entity_repository.add(
+            manufacturer_entity
+        )[0]
+
+        created_ame = self._ame_entity_repository.add(
+            ame_entity, created_manufacturer.id
+        )[0]
+
+        created_test = self._test_entity_repository.add(
+            test_entity, {"ame_id": created_ame.id}
+        )
+
+        return TestListDataObject(resource=created_test)
 
     def delete(self, test_id: int) -> bool:
         pass
@@ -94,9 +113,13 @@ class TestService(ITestService):
             document_filter.test_ids.append(test.id)
 
         ame_list = self._ame_entity_repository.get_list_by_filter(ame_filter)
-        document_list = self._document_entity_repository.get_list_by_filter(
-            document_filter
-        )
+
+        try:
+            document_list = self._document_entity_repository.get_list_by_filter(
+                document_filter
+            )
+        except DocumentNotFoundError:
+            document_list = []
 
         test_with_ame_list = join_tests_with_ames(test_list, ame_list)
         test_with_ame_and_doc_list = join_tests_with_documents(

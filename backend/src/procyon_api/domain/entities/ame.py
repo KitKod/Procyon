@@ -17,7 +17,9 @@
 # under the License.
 #
 
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+
+from .manufacturer import ManufacturerCreateEntity
 
 
 @dataclass
@@ -28,3 +30,19 @@ class AmeEntity:
     type: str
     manufacturer_id: int
     ttc_id: int
+
+
+@dataclass
+class AmeCreateEntity:
+    name: str
+    family: str
+    type: str
+    manufacturer: ManufacturerCreateEntity
+
+    def to_dict(self):
+        ame_info = asdict(self)
+        ame_info.pop("manufacturer")
+        return ame_info
+
+    def get_manufacturer(self):
+        return self.manufacturer

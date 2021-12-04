@@ -65,7 +65,7 @@ def join_tests_with_documents(
             test_id_doc_entity_list_map[doc.test_id] = [doc]
         else:
             doc_list.append(doc)
-    print(test_id_doc_entity_list_map)
+
     test_with_ame_and_doc_list = []
     for test in test_list:
         doc_list = test_id_doc_entity_list_map.get(test.id, [])

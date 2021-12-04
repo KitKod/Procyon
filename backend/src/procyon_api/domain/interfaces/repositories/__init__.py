@@ -19,4 +19,5 @@
 
 from .ame import IAmeEntityRepository
 from .document import IDocumentEntityRepository
+from .manufacturer import IManufacturerEntityRepository
 from .test import ITestEntityRepository
