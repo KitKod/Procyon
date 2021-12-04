@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { EventPluginsModule } from '@tinkoff/ng-event-plugins';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -12,8 +13,9 @@ import { AppComponent } from './app.component';
     declarations: [AppComponent],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         BrowserAnimationsModule,
+        EventPluginsModule,
+        AppRoutingModule,
         NgxsModule.forRoot(),
         NgxsLoggerPluginModule.forRoot(),
         MatSidenavModule,

@@ -25,6 +25,11 @@ export class TestState {
         return state.tests;
     }
 
+    @Selector()
+    static testToEdit(state: TestStateModel): TestModelExtended | undefined {
+        return state.testToEdit;
+    }
+
     constructor(private api: TestApiService) {}
 
     @Action(TestActions.Add)
