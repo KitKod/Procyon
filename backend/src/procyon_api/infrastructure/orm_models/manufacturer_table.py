@@ -17,21 +17,16 @@
 # under the License.
 #
 
-from typing import List, Dict
+from sqlalchemy import Column, String, Table, Integer
 
-from procyon_api.domain.entities import AmeEntity
+from procyon_api.infrastructure import metadata
 
-
-def make_ame_entity(raw_obj: Dict) -> AmeEntity:
-    return AmeEntity(
-        id=raw_obj["id"],
-        name=raw_obj["name"],
-        family=raw_obj["family"],
-        type=raw_obj["type"],
-        manufacturer_id=raw_obj["manufacturer_id"],
-        ttc_id=raw_obj["ttc_id"],
-    )
-
-
-def make_ame_entities(rows: List[dict]) -> List[AmeEntity]:
-    return [make_ame_entity(row) for row in rows]
+manufacturer_table = Table(
+    "manufacturer",
+    metadata,
+    Column("id", Integer, nullable=False, unique=True, primary_key=True),
+    Column("name", String, nullable=False),
+    Column("address", String, nullable=False),
+    Column("chief", String, nullable=False),
+    Column("contact", String),
+)

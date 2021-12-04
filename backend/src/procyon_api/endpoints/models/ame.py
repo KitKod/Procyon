@@ -16,6 +16,25 @@
 
 from pydantic import BaseModel
 
+from .manufacturer import ManufacturerRequestModel
+
+
+# Request models section
+
+
+class AmeRequestModel(BaseModel):
+    name: str
+    family: str
+    type: str
+    manufacturer: ManufacturerRequestModel
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
+# Response models section
+
 
 class AmeResponseModel(BaseModel):
     id: int

@@ -18,7 +18,7 @@
 #
 
 
-from sqlalchemy import Column, String, Table, Integer, ForeignKey, DateTime
+from sqlalchemy import Column, String, Table, Integer, ForeignKey, Date
 
 from procyon_api.infrastructure import metadata
 
@@ -42,6 +42,6 @@ test_table = Table(
         ForeignKey("test_status_fkey", deferrable=False),
         nullable=False,
     ),
-    Column("date_of_approval", DateTime(timezone=True), nullable=False),
+    Column("date_of_approval", Date, nullable=False),
     Column("location", String, nullable=False),
 )

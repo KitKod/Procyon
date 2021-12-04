@@ -17,13 +17,16 @@
 # under the License.
 #
 
+import json
 from dependency_injector.wiring import Provide, inject
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, File, Form, UploadFile
 
 from procyon_api.containers import Services
 from procyon_api.domain.dataobjects import TestEntityFilter
 from procyon_api.domain.interfaces.services import ITestService
 from procyon_api.endpoints.models.test import (
+    TestListResponseModel,
+    TestWithAmeRequestModel,
     TestWithAmeListResponseModel,
     TestWithAmeAndDocListResponseModel,
 )
@@ -50,3 +53,16 @@ def get_test(
     test_service: ITestService = Depends(Provide[Services.test]),
 ):
     return test_service.get_with_ame_and_doc_by_filter(TestEntityFilter(ids=[test_id]))
+
+
+@test_router.post(
+    "/", response_model=TestListResponseModel, status_code=status.HTTP_200_OK
+)
+@inject
+def create_test(
+    test: str = Form(...),
+    ttc_file: UploadFile = File(...),
+    test_service: ITestService = Depends(Provide[Services.test]),
+):
+    test_to_create = TestWithAmeRequestModel(**json.loads(test)).to_domain()
+    return test_service.create(test_to_create)

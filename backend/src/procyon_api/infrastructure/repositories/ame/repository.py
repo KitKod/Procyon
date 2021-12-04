@@ -19,11 +19,12 @@
 
 from typing import List, Optional
 
-from sqlalchemy import select, func
+from sqlalchemy import select, func, literal_column, insert
+from sqlalchemy.exc import IntegrityError
 
 from procyon_api.domain.dataobjects import AmeEntityFilter
-from procyon_api.domain.entities import AmeEntity
-from procyon_api.domain.exceptions import AmeNotFoundError
+from procyon_api.domain.entities import AmeEntity, AmeCreateEntity
+from procyon_api.domain.exceptions import AmeNotFoundError, AmeAlreadyExistsError
 from procyon_api.domain.interfaces.repositories import IAmeEntityRepository
 from procyon_api.infrastructure import Database
 from procyon_api.infrastructure.orm_models import ame_table
@@ -38,12 +39,12 @@ class AmeEntityRepository(IAmeEntityRepository):
     def get_query(self):
         return select(
             [
-                ame_table.c.id.label("ame_id"),
-                ame_table.c.name.label("ame_name"),
-                ame_table.c.family.label("ame_family"),
-                ame_table.c.type.label("ame_type"),
-                ame_table.c.manufacturer_id.label("ame_manufacturer_id"),
-                ame_table.c.ttc_id.label("ame_ttc_id"),
+                ame_table.c.id.label("id"),
+                ame_table.c.name.label("name"),
+                ame_table.c.family.label("family"),
+                ame_table.c.type.label("type"),
+                ame_table.c.manufacturer_id.label("manufacturer_id"),
+                ame_table.c.ttc_id.label("ttc_id"),
             ],
         ).select_from(ame_table)
 
@@ -83,8 +84,21 @@ class AmeEntityRepository(IAmeEntityRepository):
 
         return result[0]
 
-    def add(self, entity: AmeEntity) -> AmeEntity:
-        pass
+    def add(self, entity: AmeCreateEntity, manufacturer_id: int) -> List[AmeEntity]:
+        ame_dict = entity.to_dict()
+        ame_dict["manufacturer_id"] = manufacturer_id
+
+        insert_query = (
+            insert(ame_table).values(**ame_dict).returning(literal_column("*"))
+        )
+
+        with self.db.connection() as connection:
+            try:
+                obj = connection.execute(insert_query).fetchone()
+            except IntegrityError:
+                raise AmeAlreadyExistsError(f"Error during inserting AME `{entity}`")
+
+        return make_ame_entities([obj])
 
     def delete(self, id: int) -> bool:
         pass

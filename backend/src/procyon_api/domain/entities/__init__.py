@@ -17,6 +17,12 @@
 # under the License.
 #
 
-from .ame import AmeEntity
+from .ame import AmeEntity, AmeCreateEntity
 from .document import DocumentEntity
-from .test import TestEntity, TestWithAmeEntity, TestWithAmeAndDocEntity
+from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
+from .test import (
+    TestEntity,
+    TestWithAmeEntity,
+    TestWithAmeAndDocEntity,
+    TestCreateEntity,
+)

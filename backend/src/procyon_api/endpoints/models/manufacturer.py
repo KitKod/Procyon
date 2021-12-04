@@ -1,6 +1,3 @@
-#
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
 # regarding copyright ownership.  The ASF licenses this file
 # to you under the Apache License, Version 2.0 (the
@@ -17,21 +14,21 @@
 # under the License.
 #
 
-from typing import List, Dict
-
-from procyon_api.domain.entities import AmeEntity
+from pydantic import BaseModel
 
 
-def make_ame_entity(raw_obj: Dict) -> AmeEntity:
-    return AmeEntity(
-        id=raw_obj["id"],
-        name=raw_obj["name"],
-        family=raw_obj["family"],
-        type=raw_obj["type"],
-        manufacturer_id=raw_obj["manufacturer_id"],
-        ttc_id=raw_obj["ttc_id"],
-    )
+# Request models section
 
 
-def make_ame_entities(rows: List[dict]) -> List[AmeEntity]:
-    return [make_ame_entity(row) for row in rows]
+class ManufacturerRequestModel(BaseModel):
+    name: str
+    address: str
+    chief: str
+    contact: str
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
+# Response models section

@@ -17,7 +17,8 @@
 # under the License.
 #
 
-from .ame import AmeNotFoundError
+from .ame import AmeNotFoundError, AmeAlreadyExistsError
 from .document import DocumentNotFoundError
+from .manufacturer import ManufacturerNotFoundError, ManufacturerAlreadyExistsError
 from .root import NotFoundError, ForbiddenError, AlreadyExistsError, ProcyonException
-from .test import TestNotFoundError
+from .test import TestNotFoundError, TestAlreadyExistsError

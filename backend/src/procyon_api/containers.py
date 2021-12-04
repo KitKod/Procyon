@@ -25,6 +25,7 @@ from procyon_api.infrastructure.repositories import (
     TestEntityRepository,
     AmeEntityRepository,
     DocumentEntityRepository,
+    ManufacturerEntityRepository,
 )
 
 
@@ -77,6 +78,13 @@ class Repositories(containers.DeclarativeContainer):
         datasources.postgres_datasource,
     )
 
+    manufacturer: providers.Singleton[
+        ManufacturerEntityRepository
+    ] = providers.Singleton(
+        ManufacturerEntityRepository,
+        datasources.postgres_datasource,
+    )
+
 
 class Services(containers.DeclarativeContainer):
     repositories = providers.DependenciesContainer()
@@ -87,6 +95,7 @@ class Services(containers.DeclarativeContainer):
         test_entity_repository=repositories.test,
         ame_entity_repository=repositories.ame,
         document_entity_repository=repositories.document,
+        manufacturer_entity_repository=repositories.manufacturer,
     )
 
 

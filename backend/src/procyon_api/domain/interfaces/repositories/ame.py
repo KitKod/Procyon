@@ -21,7 +21,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 
 from procyon_api.domain.dataobjects import AmeEntityFilter
-from procyon_api.domain.entities import AmeEntity
+from procyon_api.domain.entities import AmeEntity, AmeCreateEntity
 
 
 class IAmeEntityRepository(ABC):
@@ -32,7 +32,7 @@ class IAmeEntityRepository(ABC):
         pass
 
     @abstractmethod
-    def add(self, entity: AmeEntity) -> AmeEntity:
+    def add(self, entity: AmeCreateEntity, manufacturer_id: int) -> List[AmeEntity]:
         pass
 
     @abstractmethod

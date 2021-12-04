@@ -19,19 +19,18 @@
 
 from typing import List, Dict
 
-from procyon_api.domain.entities import AmeEntity
+from procyon_api.domain.entities import ManufacturerEntity
 
 
-def make_ame_entity(raw_obj: Dict) -> AmeEntity:
-    return AmeEntity(
+def make_manufacturer_entity(raw_obj: Dict) -> ManufacturerEntity:
+    return ManufacturerEntity(
         id=raw_obj["id"],
         name=raw_obj["name"],
-        family=raw_obj["family"],
-        type=raw_obj["type"],
-        manufacturer_id=raw_obj["manufacturer_id"],
-        ttc_id=raw_obj["ttc_id"],
+        address=raw_obj["address"],
+        chief=raw_obj["chief"],
+        contact=raw_obj["contact"],
     )
 
 
-def make_ame_entities(rows: List[dict]) -> List[AmeEntity]:
-    return [make_ame_entity(row) for row in rows]
+def make_manufacturer_entities(rows: List[dict]) -> List[ManufacturerEntity]:
+    return [make_manufacturer_entity(row) for row in rows]

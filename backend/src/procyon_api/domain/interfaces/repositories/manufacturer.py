@@ -18,41 +18,24 @@
 #
 
 from abc import ABC, abstractmethod
+from typing import List
 
-from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.dataobjects import (
-    TestListDataObject,
-    TestWithAmeListDataObject,
-    TestWithAmeAndDocListDataObject,
-)
-from procyon_api.domain.entities import TestEntity, TestCreateEntity
+from procyon_api.domain.entities import ManufacturerCreateEntity, ManufacturerEntity
 
 
-class ITestService(ABC):
+class IManufacturerEntityRepository(ABC):
     @abstractmethod
-    def create(self, test_entity: TestCreateEntity) -> TestListDataObject:
+    def get(self, id: int) -> List[ManufacturerEntity]:
         pass
 
     @abstractmethod
-    def delete(self, test_id: int) -> bool:
+    def add(self, entity: ManufacturerCreateEntity) -> List[ManufacturerEntity]:
         pass
 
     @abstractmethod
-    def get_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
+    def delete(self, id: int) -> bool:
         pass
 
     @abstractmethod
-    def get_with_ame_by_filter(
-        self, test_filter: TestEntityFilter
-    ) -> TestWithAmeListDataObject:
-        pass
-
-    @abstractmethod
-    def get_with_ame_and_doc_by_filter(
-        self, test_filter: TestEntityFilter
-    ) -> TestWithAmeAndDocListDataObject:
-        pass
-
-    @abstractmethod
-    def get_by_id(self, test_id: int) -> TestListDataObject:
+    def update(self, entity: ManufacturerEntity) -> List[ManufacturerEntity]:
         pass

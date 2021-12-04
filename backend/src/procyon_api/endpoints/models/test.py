@@ -17,14 +17,58 @@
 # under the License.
 #
 
-from datetime import datetime
+from datetime import date
 from typing import Optional, List
 
 from pydantic import BaseModel
 
-from .ame import AmeResponseModel
+from procyon_api.domain.entities import (
+    TestCreateEntity,
+    AmeCreateEntity,
+    ManufacturerCreateEntity,
+)
+from .ame import AmeResponseModel, AmeRequestModel
 from .document import DocumentResponseModel
 from .root import MetaResponseModel
+
+
+# Request models section
+
+
+class TestWithAmeRequestModel(BaseModel):
+    name: str
+    ame: AmeRequestModel
+    type: str
+    status: str
+    date_of_approval: date
+    location: str
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+    def to_domain(self):
+        return TestCreateEntity(
+            name=self.name,
+            ame=AmeCreateEntity(
+                name=self.ame.name,
+                family=self.ame.family,
+                type=self.ame.type,
+                manufacturer=ManufacturerCreateEntity(
+                    name=self.ame.manufacturer.name,
+                    address=self.ame.manufacturer.address,
+                    chief=self.ame.manufacturer.chief,
+                    contact=self.ame.manufacturer.contact,
+                ),
+            ),
+            type=self.type,
+            status=self.status,
+            date_of_approval=self.date_of_approval,
+            location=self.location,
+        )
+
+
+# Response models section
 
 
 class TestResponseModel(BaseModel):
@@ -33,7 +77,7 @@ class TestResponseModel(BaseModel):
     ame_id: int
     type: str
     status: str
-    date: datetime
+    date: date
     location: str
 
     class Config:
@@ -47,7 +91,7 @@ class TestWithAmeResponseModel(BaseModel):
     ame: AmeResponseModel
     type: str
     status: str
-    date: datetime
+    date: date
     location: str
 
     class Config:
@@ -61,13 +105,16 @@ class TestWithAmeAndDocResponseModel(BaseModel):
     ame: AmeResponseModel
     type: str
     status: str
-    date: datetime
+    date: date
     location: str
     documents: List[DocumentResponseModel]
 
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+
+
+# Response list models section
 
 
 class TestListResponseModel(BaseModel):

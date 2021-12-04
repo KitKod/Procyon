@@ -17,13 +17,14 @@
 # under the License.
 #
 
-from typing import List
+from typing import List, Dict, Any
 
-from sqlalchemy import select, func
+from sqlalchemy import select, func, literal_column, insert
+from sqlalchemy.exc import IntegrityError
 
 from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.entities import TestEntity
-from procyon_api.domain.exceptions import TestNotFoundError
+from procyon_api.domain.entities import TestEntity, TestCreateEntity
+from procyon_api.domain.exceptions import TestNotFoundError, TestAlreadyExistsError
 from procyon_api.domain.interfaces.repositories import ITestEntityRepository
 from procyon_api.infrastructure import Database
 from procyon_api.infrastructure.orm_models import test_table
@@ -38,13 +39,13 @@ class TestEntityRepository(ITestEntityRepository):
     def get_query(self):
         return select(
             [
-                test_table.c.id.label("test_id"),
-                test_table.c.name.label("test_name"),
-                test_table.c.ame_id.label("test_ame_id"),
-                test_table.c.type.label("test_type"),
-                test_table.c.status.label("test_status"),
-                test_table.c.date_of_approval.label("test_date_of_approval"),
-                test_table.c.location.label("test_location"),
+                test_table.c.id.label("id"),
+                test_table.c.name.label("name"),
+                test_table.c.ame_id.label("ame_id"),
+                test_table.c.type.label("type"),
+                test_table.c.status.label("status"),
+                test_table.c.date_of_approval.label("date_of_approval"),
+                test_table.c.location.label("location"),
             ],
         ).select_from(test_table)
 
@@ -89,8 +90,23 @@ class TestEntityRepository(ITestEntityRepository):
 
         return result[0]
 
-    def add(self, entity: TestEntity) -> TestEntity:
-        pass
+    def add(
+        self, entity: TestCreateEntity, additional_fields: Dict[str, Any]
+    ) -> List[TestEntity]:
+        test_dict = entity.to_dict()
+        test_dict.update(additional_fields)
+
+        insert_query = (
+            insert(test_table).values(**test_dict).returning(literal_column("*"))
+        )
+
+        with self.db.connection() as connection:
+            try:
+                obj = connection.execute(insert_query).fetchone()
+            except IntegrityError:
+                raise TestAlreadyExistsError(f"Error during inserting Test `{entity}`")
+
+        return make_test_entities([obj])
 
     def delete(self, id: int) -> bool:
         pass

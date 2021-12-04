@@ -24,13 +24,13 @@ from procyon_api.domain.entities import TestEntity
 
 def make_test_entity(raw_obj: Dict) -> TestEntity:
     return TestEntity(
-        id=raw_obj["test_id"],
-        name=raw_obj["test_name"],
-        ame_id=raw_obj["test_ame_id"],
-        type=raw_obj["test_type"],
-        status=raw_obj["test_status"],
-        date=raw_obj["test_date_of_approval"],
-        location=raw_obj["test_location"],
+        id=raw_obj["id"],
+        name=raw_obj["name"],
+        ame_id=raw_obj["ame_id"],
+        type=raw_obj["type"],
+        status=raw_obj["status"],
+        date=raw_obj["date_of_approval"],
+        location=raw_obj["location"],
     )
 
 

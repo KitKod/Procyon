@@ -17,8 +17,12 @@
 # under the License.
 #
 
-from .root import NotFoundError
+from .root import NotFoundError, AlreadyExistsError
 
 
 class TestNotFoundError(NotFoundError):
     code = "test_not_found"
+
+
+class TestAlreadyExistsError(AlreadyExistsError):
+    code = "test_already_exists_error"

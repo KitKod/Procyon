@@ -19,4 +19,5 @@
 
 from .ame_table import ame_table
 from .document_table import document_table
+from .manufacturer_table import manufacturer_table
 from .test_table import test_table

@@ -17,8 +17,12 @@
 # under the License.
 #
 
-from .root import NotFoundError
+from .root import NotFoundError, AlreadyExistsError
 
 
 class AmeNotFoundError(NotFoundError):
     code = "ame_not_found"
+
+
+class AmeAlreadyExistsError(AlreadyExistsError):
+    code = "ame_already_exists_error"

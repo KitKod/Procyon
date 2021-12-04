@@ -17,11 +17,11 @@
 # under the License.
 #
 
-from dataclasses import dataclass
-from datetime import datetime
+from dataclasses import dataclass, asdict
+from datetime import date
 from typing import List
 
-from .ame import AmeEntity
+from .ame import AmeEntity, AmeCreateEntity
 from .document import DocumentEntity
 
 
@@ -32,7 +32,7 @@ class TestEntity:
     ame_id: int
     type: str
     status: str
-    date: datetime
+    date: date
     location: str
 
 
@@ -43,7 +43,7 @@ class TestWithAmeEntity:
     ame: AmeEntity
     type: str
     status: str
-    date: datetime
+    date: date
     location: str
 
 
@@ -54,6 +54,24 @@ class TestWithAmeAndDocEntity:
     ame: AmeEntity
     type: str
     status: str
-    date: datetime
+    date: date
     location: str
     documents: List[DocumentEntity]
+
+
+@dataclass
+class TestCreateEntity:
+    name: str
+    ame: AmeCreateEntity
+    type: str
+    status: str
+    date_of_approval: date
+    location: str
+
+    def to_dict(self):
+        test_info = asdict(self)
+        test_info.pop("ame")
+        return test_info
+
+    def get_ame_entity(self):
+        return self.ame
