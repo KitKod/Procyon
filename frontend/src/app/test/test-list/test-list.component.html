@@ -1,21 +1,24 @@
 <mat-toolbar class="table-control-panel">
     <mat-toolbar-row>
         <button color="primary" mat-raised-button (click)="openAddTestDialog()">Add</button>
-        <span flex></span>
     </mat-toolbar-row>
 </mat-toolbar>
 <table *ngIf="dataSource$ | async as dataSource" mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Test name</th>
         <td *matCellDef="let data" mat-cell>
-            <a [routerLink]="data.id">{{ data.name }}</a>
+            <a class="text-blue-700 hover:text-blue-800 visited:text-blue-700" [routerLink]="data.id">{{
+                data.name
+            }}</a>
         </td>
     </ng-container>
 
     <ng-container matColumnDef="ame">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>AME</th>
         <td *matCellDef="let data" mat-cell>
-            <a [routerLink]="['/ame', data.ame.id]">{{ data.ame.name }}</a>
+            <a class="text-blue-700 hover:text-blue-800 visited:text-blue-700" [routerLink]="['/ame', data.ame.id]">{{
+                data.ame.name
+            }}</a>
         </td>
     </ng-container>
 

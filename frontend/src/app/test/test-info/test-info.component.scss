@@ -1,1 +1,23 @@
 // empty
+
+:host {
+    ::ng-deep {
+        .mat-accordion {
+            procyon-document-panel {
+                &:not(:last-of-type) {
+                    .mat-expansion-panel {
+                        border-bottom-left-radius: unset;
+                        border-bottom-right-radius: unset;
+                    }
+                }
+
+                &:not(:first-of-type) {
+                    .mat-expansion-panel {
+                        border-top-left-radius: unset;
+                        border-top-right-radius: unset;
+                    }
+                }
+            }
+        }
+    }
+}

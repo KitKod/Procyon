@@ -1,0 +1,13 @@
+<mat-card class="mat-elevation-z0 border my-3">
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content>
+        <mat-accordion multi displayMode="flat">
+            <procyon-document-item
+                *ngFor="let document of documents"
+                [title]="getDocumentTitleByName(document)"
+                [document]="document"
+            >
+            </procyon-document-item>
+        </mat-accordion>
+    </mat-card-content>
+</mat-card>

@@ -1,12 +1,7 @@
 <div mat-dialog-title>Add new test</div>
 
 <mat-dialog-content>
-    <mat-stepper
-        #stepper
-        [style.min-height.px]="386"
-        [orientation]="(stepperOrientation$ | async)!"
-        [selectedIndex]="3"
-    >
+    <mat-stepper #stepper linear [style.min-height.px]="386" [orientation]="(stepperOrientation$ | async)!">
         <mat-step [stepControl]="testInfoStepFormGroup">
             <ng-template matStepLabel>Test info</ng-template>
 

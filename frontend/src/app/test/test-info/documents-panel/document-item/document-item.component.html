@@ -1,0 +1,67 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title class="self-center">{{ title }}</mat-panel-title>
+        <mat-panel-description>
+            <span class="flex-1"></span>
+            <div
+                *ngIf="document.status || 'developing' as testStatus"
+                class="rounded-full my-1 py-1 px-2 font-medium"
+                [ngClass]="{
+                    'bg-gray-200': ['developing'].includes(testStatus),
+                    'bg-yellow-300': ['approving'].includes(testStatus),
+                    'bg-green-400': ['approved'].includes(testStatus),
+                    'text-white': ['approved'].includes(testStatus)
+                }"
+                (click.stop)="(null)"
+            >
+                {{ testStatus }}
+                <span *ngIf="document.date_of_approval">/ {{ document.date_of_approval }}</span>
+            </div>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="flex flex-col md:flex-row gap-4 md:items-baseline">
+        <mat-form-field *ngIf="!document.file_index; else docPreview" appearance="standard">
+            <mat-label>Upload document</mat-label>
+            <input matInput required readonly [value]="''" />
+            <input #fileUpload class="hidden" type="file" (change)="$any($event.target).files[0]" />
+
+            <button mat-icon-button color="primary" matSuffix (click)="fileUpload.click()">
+                <mat-icon>upload</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Government</mat-label>
+            <input matInput disabled required [value]="document.government" />
+        </mat-form-field>
+
+        <div class="flex-1"></div>
+
+        <div class="flex md:flex-row flex-col gap-4">
+            <button
+                *ngIf="document.status === 'developing'"
+                mat-raised-button
+                [disabled]="!document.file_index || !document.government"
+                [color]="'primary'"
+            >
+                Start approval process
+            </button>
+            <button
+                *ngIf="document.status === 'approving'"
+                mat-raised-button
+                [disabled]="!document.file_index || !document.government"
+                [color]="'primary'"
+            >
+                Approve
+            </button>
+        </div>
+    </div>
+
+    <ng-template #docPreview>
+        <div class="text-blue-700 flex cursor-pointer align-start 2xl:self-center">
+            <mat-icon>file_present</mat-icon>
+            <span class="font-bold self-end">{{ document.name }}</span>
+        </div>
+    </ng-template>
+</mat-expansion-panel>

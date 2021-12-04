@@ -1,6 +1,8 @@
 import { AmeModel, AmeCreateModel } from '../ame/ame.model';
 import { WithoutId, PartialWithId, OnlyId } from '@core/utility-types';
-import { TestStatus, TestType } from '@core/store/test/test.constants';
+import { TestType } from '@core/store/test/test.constants';
+
+export type TestStatus = 'preparation' | 'testing' | 'paused' | 'continued' | 'finished';
 
 export interface TestBaseModel {
     id: number;
@@ -8,25 +10,43 @@ export interface TestBaseModel {
     type: TestType;
     location: string;
     date: string;
-    status: TestStatus; // TODO Add status type
+    status: TestStatus;
 }
 
 export interface TestModel extends TestBaseModel {
     ame: Pick<AmeModel, 'id' | 'name'>;
 }
 
+// export enum DocumentType {
+//     JointDecision = 'joint_decision',
+//     SeparateOrder = 'separate_order',
+//     Order = 'order',
+//     Program = 'program',
+//     Method = 'method',
+// }
+
+export type TestDocumentType = 'joint_decision' | 'separate_order' | 'order' | 'program' | 'method';
+
+// export enum DocumentStatus {
+//     Developing = 'developing',
+//     Approving = 'approving',
+//     Approved = 'approved',
+// }
+export type TestDocumentStatus = 'developing' | 'approving' | 'approved';
+
+export interface TestDocumentModel {
+    id: number;
+    name: string;
+    type: TestDocumentType;
+    status: TestDocumentStatus;
+    government: string;
+    date_of_approval: string;
+    material_and_technical_means: string;
+    file_index: string;
+}
+
 export interface TestModelExtended extends TestModel {
-    // TODO move to documents model
-    documents: {
-        id: number;
-        name: string;
-        type: string; // enum for doc type: 'doc_1,doc_2,doc_3,program,metodicat',
-        status: string; // enum for status type
-        government: string; // enum for government type
-        date_of_approval: string;
-        material_and_technical_means: string;
-        file_index: string;
-    }[];
+    documents: TestDocumentModel[];
 }
 
 export interface TestAddModel extends WithoutId<TestBaseModel> {
