@@ -40,7 +40,7 @@ class ITestService(ABC):
         pass
 
     @abstractmethod
-    def delete(self, test_id: int) -> bool:
+    def delete(self, test_id: int) -> None:
         pass
 
     @abstractmethod

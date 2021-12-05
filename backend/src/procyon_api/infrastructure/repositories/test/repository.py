@@ -19,7 +19,7 @@
 
 from typing import List, Dict, Any
 
-from sqlalchemy import select, func, literal_column, insert, update
+from sqlalchemy import select, func, literal_column, insert, update, delete
 from sqlalchemy.exc import IntegrityError
 
 from procyon_api.domain.dataobjects import TestEntityFilter
@@ -108,8 +108,20 @@ class TestEntityRepository(ITestEntityRepository):
 
         return make_test_entities([obj])
 
-    def delete(self, id: int) -> bool:
-        pass
+    def delete(self, test_id: int) -> None:
+        delete_query = (
+            delete(test_table)
+            .where(test_table.c.id == test_id)
+            .returning(test_table.c.id)
+        )
+
+        with self.db.connection() as connection:
+            deleted_id = connection.execute(delete_query).fetchone()
+
+        if deleted_id is None:
+            raise TestNotFoundError(
+                f"Test with id `{test_id}` was not found. So it can not be deleted."
+            )
 
     def update(self, test_id: int, entity: TestUpdateEntity) -> TestEntity:
         fields_to_update = entity.to_dict()
@@ -126,7 +138,7 @@ class TestEntityRepository(ITestEntityRepository):
 
             if is_test_in_table is None:
                 raise TestNotFoundError(
-                    "Test with id `{id}` was not found. So it can not be updated."
+                    f"Test with id `{test_id}` was not found. So it can not be updated."
                 )
 
             connection.execute(update_query)

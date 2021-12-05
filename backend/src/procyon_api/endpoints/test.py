@@ -92,3 +92,15 @@ def update_test(
     test_service: ITestService = Depends(Provide[Services.test]),
 ):
     return test_service.update(test_id, field_to_update.to_domain())
+
+
+@test_router.delete(
+    "/{test_id}", response_model=TestListResponseModel, status_code=status.HTTP_200_OK
+)
+@inject
+def delete_test(
+    test_id: int,
+    test_service: ITestService = Depends(Provide[Services.test]),
+):
+    test_service.delete(test_id)
+    return TestListResponseModel(resource=[])

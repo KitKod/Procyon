@@ -83,8 +83,8 @@ class TestService(ITestService):
 
         return TestWithAmeListDataObject(resource=test_with_ame_list)
 
-    def delete(self, test_id: int) -> bool:
-        pass
+    def delete(self, test_id: int) -> None:
+        self._test_entity_repository.delete(test_id)
 
     def get_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
         test_list = self._test_entity_repository.get_list_by_filter(test_filter)
