@@ -10,6 +10,7 @@ export function extractFilesFromObject(obj: unknown): Record<string, File> {
 
     return Object.entries(obj).reduce<Record<string, File>>((acc, [key, value]) => {
         if (value instanceof File) {
+            delete (obj as any)[key];
             return { ...acc, [key]: value };
         }
 
