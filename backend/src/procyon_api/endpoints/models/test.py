@@ -24,6 +24,7 @@ from pydantic import BaseModel
 
 from procyon_api.domain.entities import (
     TestCreateEntity,
+    TestUpdateEntity,
     AmeCreateEntity,
     ManufacturerCreateEntity,
 )
@@ -33,6 +34,29 @@ from .root import MetaResponseModel
 
 
 # Request models section
+
+
+class TestUpdateRequestModel(BaseModel):
+    name: Optional[str] = None
+    ame_id: Optional[int] = None
+    type: Optional[str] = None
+    status: Optional[str] = None
+    date_of_approval: Optional[date] = None
+    location: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+    def to_domain(self):
+        return TestUpdateEntity(
+            name=self.name,
+            ame_id=self.ame_id,
+            type=self.type,
+            status=self.status,
+            date_of_approval=self.date_of_approval,
+            location=self.location,
+        )
 
 
 class TestWithAmeRequestModel(BaseModel):

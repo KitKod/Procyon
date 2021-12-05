@@ -19,16 +19,16 @@
 
 from typing import List, Dict, Any
 
-from sqlalchemy import select, func, literal_column, insert
+from sqlalchemy import select, func, literal_column, insert, update
 from sqlalchemy.exc import IntegrityError
 
 from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.entities import TestEntity, TestCreateEntity
+from procyon_api.domain.entities import TestEntity, TestCreateEntity, TestUpdateEntity
 from procyon_api.domain.exceptions import TestNotFoundError, TestAlreadyExistsError
 from procyon_api.domain.interfaces.repositories import ITestEntityRepository
 from procyon_api.infrastructure import Database
 from procyon_api.infrastructure.orm_models import test_table
-from .mappers import make_test_entities
+from .mappers import make_test_entities, make_test_entity
 
 
 class TestEntityRepository(ITestEntityRepository):
@@ -49,16 +49,16 @@ class TestEntityRepository(ITestEntityRepository):
             ],
         ).select_from(test_table)
 
-    def get(self, id: int) -> List[TestEntity]:
+    def get(self, id: int) -> TestEntity:
         query = self.get_query.where(test_table.c.id == id)
 
         with self.db.connection() as connection:
-            test_rows = connection.execute(query).fetchall()
+            test_rows = connection.execute(query).fetchone()
 
         if not test_rows:
             raise TestNotFoundError(f"Test with id `{id}` was not found.")
 
-        return make_test_entities(test_rows)
+        return make_test_entity(test_rows)
 
     def get_list_by_filter(self, filter: TestEntityFilter) -> List[TestEntity]:
         _filter = filter or TestEntityFilter()
@@ -111,5 +111,24 @@ class TestEntityRepository(ITestEntityRepository):
     def delete(self, id: int) -> bool:
         pass
 
-    def update(self, entity: TestEntity) -> TestEntity:
-        pass
+    def update(self, test_id: int, entity: TestUpdateEntity) -> TestEntity:
+        fields_to_update = entity.to_dict()
+
+        check_query = select([test_table.c.id]).where(test_table.c.id == test_id)
+        update_query = (
+            update(test_table)
+            .where(test_table.c.id == test_id)
+            .values(**fields_to_update)
+        )
+
+        with self.db.connection() as connection:
+            is_test_in_table = connection.execute(check_query).fetchone()
+
+            if is_test_in_table is None:
+                raise TestNotFoundError(
+                    "Test with id `{id}` was not found. So it can not be updated."
+                )
+
+            connection.execute(update_query)
+
+        return self.get(test_id)

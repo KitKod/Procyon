@@ -26,7 +26,7 @@ from procyon_api.domain.dataobjects import (
     TestListDataObject,
     ResponseMetaDataObject,
 )
-from procyon_api.domain.entities import TestCreateEntity
+from procyon_api.domain.entities import TestCreateEntity, TestUpdateEntity
 from procyon_api.domain.exceptions import DocumentNotFoundError
 from procyon_api.domain.interfaces.repositories import (
     ITestEntityRepository,
@@ -68,6 +68,20 @@ class TestService(ITestService):
         )
 
         return TestListDataObject(resource=created_test)
+
+    def update(
+        self, test_id: int, test_entity: TestUpdateEntity
+    ) -> TestWithAmeListDataObject:
+        updated_test = [self._test_entity_repository.update(test_id, test_entity)]
+
+        ame_filter = AmeEntityFilter()
+        for test in updated_test:
+            ame_filter.ids.append(test.ame_id)
+
+        ame_list = self._ame_entity_repository.get_list_by_filter(ame_filter)
+        test_with_ame_list = join_tests_with_ames(updated_test, ame_list)
+
+        return TestWithAmeListDataObject(resource=test_with_ame_list)
 
     def delete(self, test_id: int) -> bool:
         pass
