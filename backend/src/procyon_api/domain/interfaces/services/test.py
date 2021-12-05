@@ -20,23 +20,17 @@
 from abc import ABC, abstractmethod
 
 from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.dataobjects import (
-    TestListDataObject,
-    TestWithAmeListDataObject,
-    TestWithAmeAndDocListDataObject,
-)
+from procyon_api.domain.dataobjects import ListDataObject
 from procyon_api.domain.entities import TestCreateEntity, TestUpdateEntity
 
 
 class ITestService(ABC):
     @abstractmethod
-    def create(self, test_entity: TestCreateEntity) -> TestListDataObject:
+    def create(self, test_entity: TestCreateEntity) -> ListDataObject:
         pass
 
     @abstractmethod
-    def update(
-        self, test_id: int, test_entity: TestUpdateEntity
-    ) -> TestWithAmeListDataObject:
+    def update(self, test_id: int, test_entity: TestUpdateEntity) -> ListDataObject:
         pass
 
     @abstractmethod
@@ -44,21 +38,19 @@ class ITestService(ABC):
         pass
 
     @abstractmethod
-    def get_by_filter(self, test_filter: TestEntityFilter) -> TestListDataObject:
+    def get_by_filter(self, test_filter: TestEntityFilter) -> ListDataObject:
         pass
 
     @abstractmethod
-    def get_with_ame_by_filter(
-        self, test_filter: TestEntityFilter
-    ) -> TestWithAmeListDataObject:
+    def get_with_ame_by_filter(self, test_filter: TestEntityFilter) -> ListDataObject:
         pass
 
     @abstractmethod
     def get_with_ame_and_doc_by_filter(
         self, test_filter: TestEntityFilter
-    ) -> TestWithAmeAndDocListDataObject:
+    ) -> ListDataObject:
         pass
 
     @abstractmethod
-    def get_by_id(self, test_id: int) -> TestListDataObject:
+    def get_by_id(self, test_id: int) -> ListDataObject:
         pass

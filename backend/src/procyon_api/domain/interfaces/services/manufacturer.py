@@ -18,37 +18,14 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import Optional
 
-from procyon_api.domain.entities import ManufacturerCreateEntity, ManufacturerEntity
-from procyon_api.domain.dataobjects import ManufacturerEntityFilter
+from procyon_api.domain.dataobjects import ManufacturerEntityFilter, ListDataObject
 
 
-class IManufacturerEntityRepository(ABC):
+class IManufacturerService(ABC):
     @abstractmethod
-    def get(self, id: int) -> List[ManufacturerEntity]:
-        pass
-
-    @abstractmethod
-    def get_list_by_filter(
+    def get_by_filter(
         self, manufacturer_filter: Optional[ManufacturerEntityFilter] = None
-    ) -> List[ManufacturerEntity]:
-        pass
-
-    @abstractmethod
-    def get_total_count_by_filter(
-        self, manufacturer_filter: Optional[ManufacturerEntityFilter] = None
-    ) -> int:
-        pass
-
-    @abstractmethod
-    def add(self, entity: ManufacturerCreateEntity) -> List[ManufacturerEntity]:
-        pass
-
-    @abstractmethod
-    def delete(self, id: int) -> bool:
-        pass
-
-    @abstractmethod
-    def update(self, entity: ManufacturerEntity) -> List[ManufacturerEntity]:
+    ) -> ListDataObject:
         pass

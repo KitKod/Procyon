@@ -17,4 +17,4 @@
 # under the License.
 #
 
-from .root import ErrorModel, MetaResponseModel
+from .root import ErrorModel, MetaResponseModel, ListResponseModel

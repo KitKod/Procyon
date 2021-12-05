@@ -17,6 +17,23 @@
 # under the License.
 #
 
-from .manufacturer import IManufacturerService
-from .tactical_technical_characteristics import ITacticalTechnicalCharacteristicsService
-from .test import ITestService
+from dependency_injector.wiring import Provide, inject
+from fastapi import APIRouter, Depends, status
+
+from procyon_api.containers import Services
+from procyon_api.domain.interfaces.services import IManufacturerService
+from procyon_api.endpoints.models import ListResponseModel
+
+manufacturer_router = APIRouter(prefix="/manufacturers", tags=["Manufacturer"])
+
+
+@manufacturer_router.get(
+    "/", response_model=ListResponseModel, status_code=status.HTTP_200_OK
+)
+@inject
+def get_test_list(
+    manufacturer_service: IManufacturerService = Depends(
+        Provide[Services.manufacturer]
+    ),
+):
+    return manufacturer_service.get_by_filter()

@@ -22,6 +22,7 @@ from dependency_injector import containers, providers, resources
 from procyon_api.domain.services import (
     TestService,
     TacticalTechnicalCharacteristicsService,
+    ManufacturerService,
 )
 from procyon_api.infrastructure.databases import Database
 from procyon_api.infrastructure.repositories import (
@@ -112,6 +113,11 @@ class Services(containers.DeclarativeContainer):
     ttc: providers.Factory[TacticalTechnicalCharacteristicsService] = providers.Factory(
         TacticalTechnicalCharacteristicsService,
         ttc_repository=repositories.ttc,
+    )
+
+    manufacturer: providers.Factory[ManufacturerService] = providers.Factory(
+        ManufacturerService,
+        manufacturer_repository=repositories.manufacturer,
     )
 
 

@@ -43,3 +43,15 @@ class ManufacturerRequestModel(BaseModel):
 
 
 # Response models section
+
+
+class ManufacturerResponseModel(BaseModel):
+    id: int
+    name: str
+    address: str
+    chief: str
+    contact: str
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
