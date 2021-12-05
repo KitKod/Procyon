@@ -20,4 +20,7 @@
 from .ame import AmeEntityRepository
 from .document import DocumentEntityRepository
 from .manufacturer import ManufacturerEntityRepository
+from .tactical_technical_characteristics import (
+    TacticalTechnicalCharacteristicsRepository,
+)
 from .test import TestEntityRepository

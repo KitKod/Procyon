@@ -18,6 +18,7 @@
 #
 
 from dataclasses import dataclass, asdict
+from typing import Optional
 
 from .manufacturer import ManufacturerCreateEntity
 
@@ -38,6 +39,7 @@ class AmeCreateEntity:
     family: str
     type: str
     manufacturer: ManufacturerCreateEntity
+    ttc_id: Optional[int] = None
 
     def to_dict(self):
         ame_info = asdict(self)

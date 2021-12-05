@@ -17,16 +17,12 @@
 # under the License.
 #
 
-from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity
-from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
-from .tactical_technical_characteristics import (
-    TacticalTechnicalCharacteristicsCreateEntity,
-    TacticalTechnicalCharacteristicsEntity,
-)
-from .test import (
-    TestEntity,
-    TestWithAmeEntity,
-    TestWithAmeAndDocEntity,
-    TestCreateEntity,
-)
+from abc import ABC, abstractmethod
+
+from fastapi import UploadFile
+
+
+class ITacticalTechnicalCharacteristicsService(ABC):
+    @abstractmethod
+    def upload_to_storage(self, file: UploadFile) -> int:
+        pass

@@ -17,16 +17,13 @@
 # under the License.
 #
 
-from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity
-from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
-from .tactical_technical_characteristics import (
-    TacticalTechnicalCharacteristicsCreateEntity,
-    TacticalTechnicalCharacteristicsEntity,
-)
-from .test import (
-    TestEntity,
-    TestWithAmeEntity,
-    TestWithAmeAndDocEntity,
-    TestCreateEntity,
+from sqlalchemy import Column, String, Table, Integer
+
+from procyon_api.infrastructure import metadata
+
+tactical_technical_characteristics_table = Table(
+    "tactical_technical_characteristics",
+    metadata,
+    Column("id", Integer, nullable=False, unique=True, primary_key=True),
+    Column("file_index", String),
 )

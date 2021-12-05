@@ -17,4 +17,5 @@
 # under the License.
 #
 
+from .tactical_technical_characteristics import TacticalTechnicalCharacteristicsService
 from .test import TestService

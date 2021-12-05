@@ -17,16 +17,32 @@
 # under the License.
 #
 
-from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity
-from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
-from .tactical_technical_characteristics import (
+from abc import ABC, abstractmethod
+from typing import List
+
+from procyon_api.domain.entities import (
     TacticalTechnicalCharacteristicsCreateEntity,
     TacticalTechnicalCharacteristicsEntity,
 )
-from .test import (
-    TestEntity,
-    TestWithAmeEntity,
-    TestWithAmeAndDocEntity,
-    TestCreateEntity,
-)
+
+
+class ITacticalTechnicalCharacteristicsRepository(ABC):
+    @abstractmethod
+    def get(self, id: int) -> List[TacticalTechnicalCharacteristicsEntity]:
+        pass
+
+    @abstractmethod
+    def add(
+        self, entity: TacticalTechnicalCharacteristicsCreateEntity
+    ) -> TacticalTechnicalCharacteristicsEntity:
+        pass
+
+    @abstractmethod
+    def delete(self, id: int) -> bool:
+        pass
+
+    @abstractmethod
+    def update(
+        self, entity: TacticalTechnicalCharacteristicsEntity
+    ) -> List[TacticalTechnicalCharacteristicsEntity]:
+        pass

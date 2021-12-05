@@ -18,12 +18,16 @@
 #
 
 import json
+
 from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends, status, File, Form, UploadFile
 
 from procyon_api.containers import Services
 from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.interfaces.services import ITestService
+from procyon_api.domain.interfaces.services import (
+    ITestService,
+    ITacticalTechnicalCharacteristicsService,
+)
 from procyon_api.endpoints.models.test import (
     TestListResponseModel,
     TestWithAmeRequestModel,
@@ -63,6 +67,13 @@ def create_test(
     test: str = Form(...),
     ttc_file: UploadFile = File(...),
     test_service: ITestService = Depends(Provide[Services.test]),
+    ttc_service: ITacticalTechnicalCharacteristicsService = Depends(
+        Provide[Services.ttc]
+    ),
 ):
+    ttc_id = ttc_service.upload_to_storage(ttc_file)
+
     test_to_create = TestWithAmeRequestModel(**json.loads(test)).to_domain()
+    test_to_create.ame.ttc_id = ttc_id
+
     return test_service.create(test_to_create)

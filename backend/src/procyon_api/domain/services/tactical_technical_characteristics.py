@@ -17,10 +17,27 @@
 # under the License.
 #
 
-from .ame import IAmeEntityRepository
-from .document import IDocumentEntityRepository
-from .manufacturer import IManufacturerEntityRepository
-from .tactical_technical_characteristics import (
+from fastapi import UploadFile
+
+from procyon_api.domain.interfaces.repositories import (
     ITacticalTechnicalCharacteristicsRepository,
 )
-from .test import ITestEntityRepository
+from procyon_api.domain.interfaces.services import (
+    ITacticalTechnicalCharacteristicsService,
+)
+from procyon_api.domain.entities import TacticalTechnicalCharacteristicsCreateEntity
+
+
+class TacticalTechnicalCharacteristicsService(ITacticalTechnicalCharacteristicsService):
+    def __init__(
+        self,
+        ttc_repository: ITacticalTechnicalCharacteristicsRepository,
+    ):
+        self._ttc_repository = ttc_repository
+
+    def upload_to_storage(self, file: UploadFile) -> int:
+        ttc_entity = self._ttc_repository.add(
+            TacticalTechnicalCharacteristicsCreateEntity(file_index=file.filename)
+        )
+
+        return ttc_entity.id
