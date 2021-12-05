@@ -73,7 +73,6 @@ def create_test(
     ),
 ):
     ttc_id = ttc_service.upload_to_storage(ttc_file)
-
     test_to_create = TestWithAmeRequestModel(**json.loads(test)).to_domain()
     test_to_create.ame.ttc_id = ttc_id
 

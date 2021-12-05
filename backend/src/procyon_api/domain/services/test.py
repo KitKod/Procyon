@@ -54,14 +54,15 @@ class TestService(ITestService):
     def create(self, test_entity: TestCreateEntity) -> TestListDataObject:
         ame_entity = test_entity.get_ame_entity()
         manufacturer_entity = ame_entity.get_manufacturer()
+        manufacturer_id = manufacturer_entity.id
 
-        created_manufacturer = self._manufacturer_entity_repository.add(
-            manufacturer_entity
-        )[0]
+        if manufacturer_id is None:
+            created_manufacturer = self._manufacturer_entity_repository.add(
+                manufacturer_entity
+            )[0]
+            manufacturer_id = created_manufacturer.id
 
-        created_ame = self._ame_entity_repository.add(
-            ame_entity, created_manufacturer.id
-        )[0]
+        created_ame = self._ame_entity_repository.add(ame_entity, manufacturer_id)[0]
 
         created_test = self._test_entity_repository.add(
             test_entity, {"ame_id": created_ame.id}
