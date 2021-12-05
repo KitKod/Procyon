@@ -23,6 +23,7 @@ import os
 import uvicorn
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
+from pydantic.error_wrappers import ValidationError
 
 from procyon_api import endpoints
 from procyon_api.configs import Configs
@@ -99,6 +100,13 @@ def configure_error_handlers(app: FastAPI) -> None:
         return JSONResponse(
             status_code=status.HTTP_403_FORBIDDEN,
             content=ErrorModel(code=exc.code, message=str(exc)).dict(),
+        )
+
+    @app.exception_handler(ValidationError)
+    def validation_error(req: Request, exc: ValidationError):
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content=ErrorModel(code="validation_error", message=str(exc)).dict(),
         )
 
 

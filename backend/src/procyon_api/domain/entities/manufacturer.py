@@ -18,6 +18,7 @@
 #
 
 from dataclasses import dataclass, asdict
+from typing import Optional
 
 
 @dataclass
@@ -26,9 +27,12 @@ class ManufacturerCreateEntity:
     address: str
     chief: str
     contact: str
+    id: Optional[int] = None
 
     def to_dict(self):
-        return asdict(self)
+        manufacturer_info = asdict(self)
+        manufacturer_info.pop("id")
+        return manufacturer_info
 
 
 @dataclass

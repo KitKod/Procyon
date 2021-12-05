@@ -83,6 +83,7 @@ class TestWithAmeRequestModel(BaseModel):
                     address=self.ame.manufacturer.address,
                     chief=self.ame.manufacturer.chief,
                     contact=self.ame.manufacturer.contact,
+                    id=self.ame.manufacturer.id,
                 ),
             ),
             type=self.type,
