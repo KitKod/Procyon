@@ -77,7 +77,7 @@ class TestResponseModel(BaseModel):
     ame_id: int
     type: str
     status: str
-    date: date
+    date_of_approval: date
     location: str
 
     class Config:
@@ -91,7 +91,7 @@ class TestWithAmeResponseModel(BaseModel):
     ame: AmeResponseModel
     type: str
     status: str
-    date: date
+    date_of_approval: date
     location: str
 
     class Config:
@@ -105,7 +105,7 @@ class TestWithAmeAndDocResponseModel(BaseModel):
     ame: AmeResponseModel
     type: str
     status: str
-    date: date
+    date_of_approval: date
     location: str
     documents: List[DocumentResponseModel]
 

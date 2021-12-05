@@ -46,7 +46,7 @@ def join_tests_with_ames(
                 ame=ame_entity,
                 type=test.type,
                 status=test.status,
-                date=test.date,
+                date_of_approval=test.date_of_approval,
                 location=test.location,
             )
         )
@@ -76,7 +76,7 @@ def join_tests_with_documents(
                 ame=copy.deepcopy(test.ame),
                 type=test.type,
                 status=test.status,
-                date=copy.deepcopy(test.date),
+                date_of_approval=copy.deepcopy(test.date_of_approval),
                 location=test.location,
                 documents=doc_list,
             )
