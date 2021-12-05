@@ -25,7 +25,7 @@ from procyon_api.domain.dataobjects import (
     TestWithAmeListDataObject,
     TestWithAmeAndDocListDataObject,
 )
-from procyon_api.domain.entities import TestEntity, TestCreateEntity
+from procyon_api.domain.entities import TestCreateEntity
 
 
 class ITestService(ABC):

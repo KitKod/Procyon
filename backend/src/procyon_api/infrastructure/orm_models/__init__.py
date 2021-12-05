@@ -20,4 +20,7 @@
 from .ame_table import ame_table
 from .document_table import document_table
 from .manufacturer_table import manufacturer_table
+from .tactical_technical_characteristics_table import (
+    tactical_technical_characteristics_table,
+)
 from .test_table import test_table

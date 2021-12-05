@@ -19,9 +19,13 @@
 
 from dependency_injector import containers, providers, resources
 
-from procyon_api.domain.services import TestService
+from procyon_api.domain.services import (
+    TestService,
+    TacticalTechnicalCharacteristicsService,
+)
 from procyon_api.infrastructure.databases import Database
 from procyon_api.infrastructure.repositories import (
+    TacticalTechnicalCharacteristicsRepository,
     TestEntityRepository,
     AmeEntityRepository,
     DocumentEntityRepository,
@@ -85,6 +89,13 @@ class Repositories(containers.DeclarativeContainer):
         datasources.postgres_datasource,
     )
 
+    ttc: providers.Singleton[
+        TacticalTechnicalCharacteristicsRepository
+    ] = providers.Singleton(
+        TacticalTechnicalCharacteristicsRepository,
+        datasources.postgres_datasource,
+    )
+
 
 class Services(containers.DeclarativeContainer):
     repositories = providers.DependenciesContainer()
@@ -96,6 +107,11 @@ class Services(containers.DeclarativeContainer):
         ame_entity_repository=repositories.ame,
         document_entity_repository=repositories.document,
         manufacturer_entity_repository=repositories.manufacturer,
+    )
+
+    ttc: providers.Factory[TacticalTechnicalCharacteristicsService] = providers.Factory(
+        TacticalTechnicalCharacteristicsService,
+        ttc_repository=repositories.ttc,
     )
 
 

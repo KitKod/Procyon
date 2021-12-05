@@ -17,16 +17,12 @@
 # under the License.
 #
 
-from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity
-from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
-from .tactical_technical_characteristics import (
-    TacticalTechnicalCharacteristicsCreateEntity,
-    TacticalTechnicalCharacteristicsEntity,
-)
-from .test import (
-    TestEntity,
-    TestWithAmeEntity,
-    TestWithAmeAndDocEntity,
-    TestCreateEntity,
-)
+from .root import NotFoundError, AlreadyExistsError
+
+
+class TacticalTechnicalCharacteristicsNotFoundError(NotFoundError):
+    code = "tactical_technical_characteristics_not_found"
+
+
+class TacticalTechnicalCharacteristicsAlreadyExistsError(AlreadyExistsError):
+    code = "tactical_technical_characteristics_already_exists_error"

@@ -17,16 +17,18 @@
 # under the License.
 #
 
-from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity
-from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
-from .tactical_technical_characteristics import (
-    TacticalTechnicalCharacteristicsCreateEntity,
-    TacticalTechnicalCharacteristicsEntity,
-)
-from .test import (
-    TestEntity,
-    TestWithAmeEntity,
-    TestWithAmeAndDocEntity,
-    TestCreateEntity,
-)
+from dataclasses import dataclass, asdict
+
+
+@dataclass
+class TacticalTechnicalCharacteristicsCreateEntity:
+    file_index: str
+
+    def to_dict(self):
+        return asdict(self)
+
+
+@dataclass
+class TacticalTechnicalCharacteristicsEntity:
+    id: int
+    file_index: str

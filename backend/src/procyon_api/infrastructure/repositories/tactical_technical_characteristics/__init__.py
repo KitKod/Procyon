@@ -17,16 +17,4 @@
 # under the License.
 #
 
-from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity
-from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
-from .tactical_technical_characteristics import (
-    TacticalTechnicalCharacteristicsCreateEntity,
-    TacticalTechnicalCharacteristicsEntity,
-)
-from .test import (
-    TestEntity,
-    TestWithAmeEntity,
-    TestWithAmeAndDocEntity,
-    TestCreateEntity,
-)
+from .repository import TacticalTechnicalCharacteristicsRepository

@@ -17,16 +17,21 @@
 # under the License.
 #
 
-from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity
-from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
-from .tactical_technical_characteristics import (
-    TacticalTechnicalCharacteristicsCreateEntity,
-    TacticalTechnicalCharacteristicsEntity,
-)
-from .test import (
-    TestEntity,
-    TestWithAmeEntity,
-    TestWithAmeAndDocEntity,
-    TestCreateEntity,
-)
+from typing import List, Dict
+
+from procyon_api.domain.entities import TacticalTechnicalCharacteristicsEntity
+
+
+def make_tactical_technical_characteristics_entity(
+    raw_obj: Dict,
+) -> TacticalTechnicalCharacteristicsEntity:
+    return TacticalTechnicalCharacteristicsEntity(
+        id=raw_obj["id"],
+        file_index=raw_obj["file_index"],
+    )
+
+
+def make_tactical_technical_characteristics_entities(
+    rows: List[dict],
+) -> List[TacticalTechnicalCharacteristicsEntity]:
+    return [make_tactical_technical_characteristics_entity(row) for row in rows]
