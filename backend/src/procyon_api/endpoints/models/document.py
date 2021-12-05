@@ -14,7 +14,7 @@
 # under the License.
 #
 
-from datetime import datetime
+from datetime import date
 
 from pydantic import BaseModel
 
@@ -25,7 +25,7 @@ class DocumentResponseModel(BaseModel):
     type: str
     status: str
     government: str
-    date_of_approval: datetime
+    date_of_approval: date
     material_and_technical_means: str
     file_index: str
     ame_id: int

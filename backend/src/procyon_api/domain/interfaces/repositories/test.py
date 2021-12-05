@@ -21,12 +21,12 @@ from abc import ABC, abstractmethod
 from typing import List, Dict, Any
 
 from procyon_api.domain.dataobjects import TestEntityFilter
-from procyon_api.domain.entities import TestEntity, TestCreateEntity
+from procyon_api.domain.entities import TestEntity, TestCreateEntity, TestUpdateEntity
 
 
 class ITestEntityRepository(ABC):
     @abstractmethod
-    def get(self, id: int) -> List[TestEntity]:
+    def get(self, id: int) -> TestEntity:
         pass
 
     @abstractmethod
@@ -44,7 +44,7 @@ class ITestEntityRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, entity: TestEntity) -> TestEntity:
+    def update(self, test_id: int, entity: TestUpdateEntity) -> TestEntity:
         pass
 
     @abstractmethod

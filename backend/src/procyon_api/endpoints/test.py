@@ -31,6 +31,7 @@ from procyon_api.domain.interfaces.services import (
 from procyon_api.endpoints.models.test import (
     TestListResponseModel,
     TestWithAmeRequestModel,
+    TestUpdateRequestModel,
     TestWithAmeListResponseModel,
     TestWithAmeAndDocListResponseModel,
 )
@@ -77,3 +78,17 @@ def create_test(
     test_to_create.ame.ttc_id = ttc_id
 
     return test_service.create(test_to_create)
+
+
+@test_router.patch(
+    "/{test_id}",
+    response_model=TestWithAmeListResponseModel,
+    status_code=status.HTTP_200_OK,
+)
+@inject
+def update_test(
+    test_id: int,
+    field_to_update: TestUpdateRequestModel,
+    test_service: ITestService = Depends(Provide[Services.test]),
+):
+    return test_service.update(test_id, field_to_update.to_domain())

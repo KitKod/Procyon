@@ -19,7 +19,7 @@
 
 from dataclasses import dataclass, asdict
 from datetime import date
-from typing import List
+from typing import List, Optional
 
 from .ame import AmeEntity, AmeCreateEntity
 from .document import DocumentEntity
@@ -75,3 +75,17 @@ class TestCreateEntity:
 
     def get_ame_entity(self):
         return self.ame
+
+
+@dataclass
+class TestUpdateEntity:
+    name: Optional[str] = None
+    ame_id: Optional[int] = None
+    type: Optional[str] = None
+    status: Optional[str] = None
+    date_of_approval: Optional[date] = None
+    location: Optional[str] = None
+
+    def to_dict(self):
+        test_info = asdict(self)
+        return {k: v for k, v in test_info.items() if v is not None}

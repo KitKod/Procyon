@@ -25,12 +25,18 @@ from procyon_api.domain.dataobjects import (
     TestWithAmeListDataObject,
     TestWithAmeAndDocListDataObject,
 )
-from procyon_api.domain.entities import TestCreateEntity
+from procyon_api.domain.entities import TestCreateEntity, TestUpdateEntity
 
 
 class ITestService(ABC):
     @abstractmethod
     def create(self, test_entity: TestCreateEntity) -> TestListDataObject:
+        pass
+
+    @abstractmethod
+    def update(
+        self, test_id: int, test_entity: TestUpdateEntity
+    ) -> TestWithAmeListDataObject:
         pass
 
     @abstractmethod

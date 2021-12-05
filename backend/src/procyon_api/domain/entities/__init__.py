@@ -29,4 +29,5 @@ from .test import (
     TestWithAmeEntity,
     TestWithAmeAndDocEntity,
     TestCreateEntity,
+    TestUpdateEntity,
 )
