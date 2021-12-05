@@ -29,19 +29,15 @@ from procyon_api.domain.interfaces.services import (
     ITacticalTechnicalCharacteristicsService,
 )
 from procyon_api.endpoints.models.test import (
-    TestListResponseModel,
     TestWithAmeRequestModel,
     TestUpdateRequestModel,
-    TestWithAmeListResponseModel,
-    TestWithAmeAndDocListResponseModel,
 )
+from procyon_api.endpoints.models import ListResponseModel
 
 test_router = APIRouter(prefix="/tests", tags=["Test"])
 
 
-@test_router.get(
-    "/", response_model=TestWithAmeListResponseModel, status_code=status.HTTP_200_OK
-)
+@test_router.get("/", response_model=ListResponseModel, status_code=status.HTTP_200_OK)
 @inject
 def get_test_list(test_service: ITestService = Depends(Provide[Services.test])):
     return test_service.get_with_ame_by_filter(TestEntityFilter())
@@ -49,7 +45,7 @@ def get_test_list(test_service: ITestService = Depends(Provide[Services.test])):
 
 @test_router.get(
     "/{test_id}",
-    response_model=TestWithAmeAndDocListResponseModel,
+    response_model=ListResponseModel,
     status_code=status.HTTP_200_OK,
 )
 @inject
@@ -60,9 +56,7 @@ def get_test(
     return test_service.get_with_ame_and_doc_by_filter(TestEntityFilter(ids=[test_id]))
 
 
-@test_router.post(
-    "/", response_model=TestListResponseModel, status_code=status.HTTP_200_OK
-)
+@test_router.post("/", response_model=ListResponseModel, status_code=status.HTTP_200_OK)
 @inject
 def create_test(
     test: str = Form(...),
@@ -81,7 +75,7 @@ def create_test(
 
 @test_router.patch(
     "/{test_id}",
-    response_model=TestWithAmeListResponseModel,
+    response_model=ListResponseModel,
     status_code=status.HTTP_200_OK,
 )
 @inject
@@ -94,7 +88,7 @@ def update_test(
 
 
 @test_router.delete(
-    "/{test_id}", response_model=TestListResponseModel, status_code=status.HTTP_200_OK
+    "/{test_id}", response_model=ListResponseModel, status_code=status.HTTP_200_OK
 )
 @inject
 def delete_test(
@@ -102,4 +96,4 @@ def delete_test(
     test_service: ITestService = Depends(Provide[Services.test]),
 ):
     test_service.delete(test_id)
-    return TestListResponseModel(resource=[])
+    return ListResponseModel(resource=[])

@@ -18,13 +18,17 @@
 #
 
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from procyon_api.domain.entities import (
     TestEntity,
     TestWithAmeEntity,
     TestWithAmeAndDocEntity,
+    ManufacturerEntity,
 )
+
+
+# Response data objects
 
 
 @dataclass
@@ -34,21 +38,19 @@ class ResponseMetaDataObject:
 
 
 @dataclass
-class TestListDataObject:
-    resource: List[TestEntity]
+class ListDataObject:
+    resource: List[
+        Union[
+            TestEntity,
+            TestWithAmeEntity,
+            TestWithAmeAndDocEntity,
+            ManufacturerEntity,
+        ]
+    ]
     meta: Optional[ResponseMetaDataObject] = None
 
 
-@dataclass
-class TestWithAmeListDataObject:
-    resource: List[TestWithAmeEntity]
-    meta: Optional[ResponseMetaDataObject] = None
-
-
-@dataclass
-class TestWithAmeAndDocListDataObject:
-    resource: List[TestWithAmeAndDocEntity]
-    meta: Optional[ResponseMetaDataObject] = None
+# Filters
 
 
 @dataclass
@@ -58,6 +60,11 @@ class TestEntityFilter:
 
 @dataclass
 class AmeEntityFilter:
+    ids: List[int] = field(default_factory=list)
+
+
+@dataclass
+class ManufacturerEntityFilter:
     ids: List[int] = field(default_factory=list)
 
 

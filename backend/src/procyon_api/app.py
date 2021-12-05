@@ -66,6 +66,7 @@ def create_application() -> FastAPI:
     )
     fastapi_app.include_router(endpoints.debug_router, prefix=API_PREFIX)
     fastapi_app.include_router(endpoints.test_router, prefix=API_PREFIX)
+    fastapi_app.include_router(endpoints.manufacturer_router, prefix=API_PREFIX)
     fastapi_app.app = app
 
     configure_error_handlers(fastapi_app)

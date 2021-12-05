@@ -17,11 +17,12 @@
 # under the License.
 #
 
-from typing import List
+from typing import List, Optional
 
-from sqlalchemy import select, insert, literal_column
+from sqlalchemy import select, insert, literal_column, func
 from sqlalchemy.exc import IntegrityError
 
+from procyon_api.domain.dataobjects import ManufacturerEntityFilter
 from procyon_api.domain.entities import ManufacturerCreateEntity, ManufacturerEntity
 from procyon_api.domain.exceptions import (
     ManufacturerNotFoundError,
@@ -61,6 +62,42 @@ class ManufacturerEntityRepository(IManufacturerEntityRepository):
             )
 
         return make_manufacturer_entities(manufacturer)
+
+    def get_list_by_filter(
+        self, manufacturer_filter: Optional[ManufacturerEntityFilter] = None
+    ) -> List[ManufacturerEntity]:
+        _filter = manufacturer_filter or ManufacturerEntityFilter()
+        query = self.get_query
+
+        if _filter.ids:
+            query = query.where(manufacturer_table.c.id.in_(_filter.ids))
+
+        with self.db.connection() as connection:
+            manufacturer_rows = connection.execute(query).fetchall()
+
+        if not manufacturer_rows:
+            raise ManufacturerNotFoundError(
+                f"Manufacturers by filter `{_filter}` were not found."
+            )
+
+        return make_manufacturer_entities(manufacturer_rows)
+
+    def get_total_count_by_filter(
+        self, manufacturer_filter: Optional[ManufacturerEntityFilter] = None
+    ) -> int:
+        _filter = manufacturer_filter or ManufacturerEntityFilter()
+        query = select([func.count()]).select_from(manufacturer_table)
+
+        if _filter.ids:
+            query = query.where(manufacturer_table.c.id.in_(_filter.ids))
+
+        with self.db.connection() as connection:
+            result = connection.execute(query).fetchone()
+
+        if result is None:
+            return 0
+
+        return result[0]
 
     def add(self, entity: ManufacturerCreateEntity) -> List[ManufacturerEntity]:
         manufacturer_dict = entity.to_dict()

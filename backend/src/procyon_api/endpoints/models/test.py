@@ -30,7 +30,6 @@ from procyon_api.domain.entities import (
 )
 from .ame import AmeResponseModel, AmeRequestModel
 from .document import DocumentResponseModel
-from .root import MetaResponseModel
 
 
 # Request models section
@@ -140,30 +139,3 @@ class TestWithAmeAndDocResponseModel(BaseModel):
 
 
 # Response list models section
-
-
-class TestListResponseModel(BaseModel):
-    resource: List[TestResponseModel]
-    meta: Optional[MetaResponseModel] = None
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
-
-
-class TestWithAmeListResponseModel(BaseModel):
-    resource: List[TestWithAmeResponseModel]
-    meta: Optional[MetaResponseModel] = None
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
-
-
-class TestWithAmeAndDocListResponseModel(BaseModel):
-    resource: List[TestWithAmeAndDocResponseModel]
-    meta: Optional[MetaResponseModel] = None
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True

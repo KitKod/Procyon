@@ -17,9 +17,16 @@
 # under the License.
 #
 
-from typing import Optional, List
+from typing import Optional, List, Union
 
 from pydantic import BaseModel, Field
+
+from .manufacturer import ManufacturerResponseModel
+from .test import (
+    TestResponseModel,
+    TestWithAmeResponseModel,
+    TestWithAmeAndDocResponseModel,
+)
 
 
 class MetaResponseModel(BaseModel):
@@ -35,3 +42,19 @@ class MetaResponseModel(BaseModel):
 class ErrorModel(BaseModel):
     code: str
     message: str
+
+
+class ListResponseModel(BaseModel):
+    resource: List[
+        Union[
+            TestResponseModel,
+            TestWithAmeResponseModel,
+            TestWithAmeAndDocResponseModel,
+            ManufacturerResponseModel,
+        ]
+    ]
+    meta: Optional[MetaResponseModel] = None
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
