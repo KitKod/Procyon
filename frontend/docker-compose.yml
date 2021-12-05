@@ -34,6 +34,9 @@ services:
         - SERVE_PORT=${CONTAINER_PORT}
     networks:
       - procyon-network
+    volumes:
+        - ./src:/app/src
+
 
 networks:
   procyon-network:
