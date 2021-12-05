@@ -1,0 +1,76 @@
+@use '~@angular/material' as mat;
+@use '~@angular/material/core/theming/palette';
+@use 'sass:map';
+
+$base-color: #221cde;
+$blue-palette: (
+    50: #e3f2fd,
+    100: #bbdefb,
+    200: #90caf9,
+    300: #64b5f6,
+    400: #42a5f5,
+    500: $base-color,
+    600: #1e88e5,
+    700: #1976d2,
+    800: #1565c0,
+    900: #0d47a1,
+    A100: #82b1ff,
+    A200: #448aff,
+    A400: #2979ff,
+    A700: #2962ff,
+    contrast: (
+        50: palette.$dark-primary-text,
+        100: palette.$dark-primary-text,
+        200: palette.$dark-primary-text,
+        300: palette.$dark-primary-text,
+        400: palette.$dark-primary-text,
+        500: palette.$light-primary-text,
+        600: palette.$light-primary-text,
+        700: palette.$light-primary-text,
+        800: palette.$light-primary-text,
+        900: palette.$light-primary-text,
+        A100: palette.$dark-primary-text,
+        A200: palette.$light-primary-text,
+        A400: palette.$light-primary-text,
+        A700: palette.$light-primary-text,
+    ),
+);
+$procyon-primary: mat.define-palette($blue-palette);
+$procyon-accent: mat.define-palette(mat.$pink-palette, a200, a100, a400);
+$procyon-warn: mat.define-palette(mat.$red-palette);
+
+$procyon-base-font: 'Roboto';
+
+$app-light-font: 300 !default;
+$app-regular-font: 400 !default;
+$app-medium-font: 500 !default;
+$app-bold-font: 700 !default;
+$procyon-typography: mat.define-typography-config(
+    $font-family: '#{$procyon-base-font}, "Helvetica Neue", sans-serif',
+    $display-4: mat.define-typography-level(112px, normal, $app-light-font, $letter-spacing: -0.05em),
+    $display-3: mat.define-typography-level(46px, normal, $app-regular-font, $letter-spacing: -0.02em),
+    $display-2: mat.define-typography-level(40px, normal, $app-regular-font, $letter-spacing: -0.005em),
+    $display-1: mat.define-typography-level(34px, normal, $app-regular-font),
+    $headline: mat.define-typography-level(24px, normal, $app-regular-font),
+    $title: mat.define-typography-level(20px, normal, $app-medium-font, $letter-spacing: 0.005em),
+    $subheading-2: mat.define-typography-level(16px, normal, $app-regular-font),
+    $subheading-1: mat.define-typography-level(15px, normal, $app-regular-font),
+    $body-2: mat.define-typography-level(14px, normal, $app-regular-font),
+    $body-1: mat.define-typography-level(13px, normal, $app-regular-font),
+    $caption: mat.define-typography-level(12px, normal, $app-regular-font),
+    $button: mat.define-typography-level(13px, 13px, $app-medium-font),
+    $input: mat.define-typography-level(16px, 1.125, $app-regular-font),
+);
+
+$procyon-theme: mat.define-light-theme(
+    (
+        color: (
+            primary: $procyon-primary,
+            accent: $procyon-accent,
+            warn: $procyon-warn,
+        ),
+        typography: $procyon-typography,
+    )
+);
+$procyon-foreground: map.get($procyon-theme, foreground);
+$procyon-background: map.get($procyon-theme, background);

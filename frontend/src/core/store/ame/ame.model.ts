@@ -1,21 +1,20 @@
 import { ManufacturerModel } from '../manufacturer/manufacturer.model';
 import { WithoutId, OnlyId } from '@core/utility-types';
 
-export enum AmeFamily {
-    Aircraft = 'aircraft',
-    AeroelasticSystems = 'aeroelastic_systems',
-    ArmoredVehicles = 'armored_vehicles',
-    AutomotiveVehicles = 'automotive_vehicles',
-    ArtilleryArmament = 'artillery_armament',
-    SmallArms = 'small_arms',
-    Ships = 'ships',
-    RadarSystems = 'radar_systems',
-    IntelligenceTools = 'intelligence_tools',
-    MeansREB = 'means_REB',
-    MeansOfCommunication = 'means_of_communication',
-    SpecialVehicles = 'special_vehicles',
-    AntiAircraftMissileSystems = 'anti_aircraft_missile_systems',
-}
+export type AmeFamily =
+    | 'aircraft'
+    | 'aeroelastic_systems'
+    | 'armored_vehicles'
+    | 'automotive_vehicles'
+    | 'artillery_armament'
+    | 'small_arms'
+    | 'ships'
+    | 'radar_systems'
+    | 'intelligence_tools'
+    | 'means_REB'
+    | 'means_of_communication'
+    | 'special_vehicles'
+    | 'anti_aircraft_missile_systems';
 
 export interface AmeModel {
     /**

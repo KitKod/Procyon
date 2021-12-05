@@ -1,32 +1,18 @@
 @use '~@angular/material' as mat;
+@use 'theme';
 @use 'sass:map';
 
-$procyon-primary: mat.define-palette(mat.$indigo-palette);
-$procyon-accent: mat.define-palette(mat.$pink-palette, a200, a100, a400);
-$procyon-warn: mat.define-palette(mat.$red-palette);
-$procyon-theme: mat.define-light-theme(
-    (
-        color: (
-            primary: $procyon-primary,
-            accent: $procyon-accent,
-            warn: $procyon-warn,
-        ),
-    )
-);
-$procyon-foreground: map.get($procyon-theme, foreground);
-$procyon-background: map.get($procyon-theme, background);
-
-:root {
-    --color-primary: #{mat.get-color-from-palette($procyon-primary)};
-    --color-secondary: #{mat.get-color-from-palette($procyon-foreground, secondary-text)};
-    --color-warn: #{mat.get-color-from-palette($procyon-warn)};
-}
-@include mat.core;
-@include mat.all-component-themes($procyon-theme);
+@include mat.core(theme.$procyon-theme);
+@include mat.all-component-themes(theme.$procyon-theme);
+@include mat.typography-hierarchy(theme.$procyon-theme);
 
 @import '~tailwindcss/base';
 @import '~tailwindcss/components';
 @import '~tailwindcss/utilities';
+
+.procyon-primary-color {
+    color: theme.$base-color;
+}
 
 // You can add global styles to this file, and also import other style files
 html,
@@ -35,12 +21,12 @@ body {
 }
 
 body {
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    font-family: '#{theme.$procyon-base-font}', 'Helvetica Neue', sans-serif;
     margin: 0;
 }
 
 .table-control-panel {
-    background: mat.get-color-from-palette($procyon-background, card);
+    background: mat.get-color-from-palette(theme.$procyon-background, card);
 
     button {
         margin: 16px 8px;

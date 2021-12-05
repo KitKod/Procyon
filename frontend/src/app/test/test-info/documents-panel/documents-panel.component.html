@@ -1,13 +1,16 @@
-<mat-card class="mat-elevation-z0 border my-3">
-    <mat-card-title>{{ title }}</mat-card-title>
-    <mat-card-content>
-        <mat-accordion multi displayMode="flat">
-            <procyon-document-item
-                *ngFor="let document of documents"
-                [title]="getDocumentTitleByName(document)"
-                [document]="document"
-            >
-            </procyon-document-item>
-        </mat-accordion>
-    </mat-card-content>
-</mat-card>
+<mat-toolbar class="table-control-panel mb-0">
+    <mat-toolbar-row class="flex">
+        <div class="text-2xl">{{ title }}</div>
+        <button mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+        <div class="flex-1"></div>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-accordion multi displayMode="flat">
+    <procyon-document-item
+        *ngFor="let document of documents"
+        [title]="getDocumentTitleByName(document)"
+        [document]="document"
+    >
+    </procyon-document-item>
+</mat-accordion>

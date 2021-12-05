@@ -22,7 +22,7 @@ export const testsMock: TestModel[] = range(1, 11).map(
             id: faker.datatype.number(9999999),
             name: faker.name.jobArea(),
         },
-        date: faker.date.soon().toString(),
+        date_of_approval: faker.date.soon().toString(),
         location: faker.address.city(),
         status: (['preparation', 'testing', 'paused', 'continued', 'finished'] as const)[faker.datatype.number(4)],
     }),

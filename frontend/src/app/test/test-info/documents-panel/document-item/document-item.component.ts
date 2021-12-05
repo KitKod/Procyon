@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { TestDocumentModel } from '@core/store/test/test.model';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { TestDocumentModel, TestDocumentStatus } from '@core/store/test/test.model';
 import { WithoutId } from '@core/utility-types';
 
 @Component({
@@ -10,4 +10,13 @@ import { WithoutId } from '@core/utility-types';
 export class DocumentItemComponent {
     @Input() title = '';
     @Input() document!: WithoutId<TestDocumentModel>;
+
+    @Output() documentStatusChanged = new EventEmitter<{
+        document: WithoutId<TestDocumentModel>;
+        status: TestDocumentStatus;
+    }>();
+
+    changeDocumentStatus(document: WithoutId<TestDocumentModel>, status: TestDocumentStatus): void {
+        this.documentStatusChanged.emit({ document, status });
+    }
 }

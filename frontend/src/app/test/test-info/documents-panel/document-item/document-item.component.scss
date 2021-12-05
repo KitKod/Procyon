@@ -1,1 +1,13 @@
-// empty
+@use '~@angular/material' as mat;
+@use 'src/theme';
+
+:host {
+    ::ng-deep {
+        .mat-expansion-indicator {
+            &::after {
+                border-color: mat.get-color-from-palette(theme.$procyon-foreground, secondary-text);
+                border-width: 0 3px 3px 0;
+            }
+        }
+    }
+}

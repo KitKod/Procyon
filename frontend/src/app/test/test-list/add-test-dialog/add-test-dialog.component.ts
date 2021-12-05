@@ -8,10 +8,11 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { Store } from '@ngxs/store';
 import { DatePipe } from '@angular/common';
 import { AddTestDialogResult } from './add-test-dialog.data';
-import { TestStatus, TestType, TestActions } from '@core/store/test';
-import { AmeFamily } from '@core/store/ame/ame.model';
+import { TestStatus, TestActions } from '@core/store/test';
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
 import { API_DATE_FORMAT } from '@core/constants/api';
+import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-options';
+import { AME_FAMILIES } from '@core/constants/ame-options';
 
 const DEFAULT_TEST_STATUS: TestStatus = 'preparation';
 
@@ -50,34 +51,9 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
         .observe('(min-width: 800px)')
         .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
 
-    readonly testStatuses: TestStatus[] = ['preparation', 'testing', 'paused', 'continued', 'finished'];
-
-    readonly testTypes: TestType[] = [
-        'preliminary',
-        'state',
-        'interdepartmental',
-        'defining',
-        'departmental',
-        'research',
-        'control',
-        'special',
-    ];
-
-    readonly ameFamilies: AmeFamily[] = [
-        AmeFamily.Aircraft,
-        AmeFamily.AeroelasticSystems,
-        AmeFamily.ArmoredVehicles,
-        AmeFamily.AutomotiveVehicles,
-        AmeFamily.ArtilleryArmament,
-        AmeFamily.SmallArms,
-        AmeFamily.Ships,
-        AmeFamily.RadarSystems,
-        AmeFamily.IntelligenceTools,
-        AmeFamily.MeansREB,
-        AmeFamily.MeansOfCommunication,
-        AmeFamily.SpecialVehicles,
-        AmeFamily.AntiAircraftMissileSystems,
-    ];
+    readonly testStatuses = TEST_STATUSES;
+    readonly testTypes = TEST_TYPES;
+    readonly ameFamilies = AME_FAMILIES;
 
     readonly destroy$: ReplaySubject<void> = new ReplaySubject<void>(1);
 

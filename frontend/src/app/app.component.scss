@@ -1,5 +1,53 @@
+@use '~@angular/material' as mat;
+@use '../theme';
+
 ::ng-deep {
     .mat-drawer-container {
         background-color: inherit;
     }
+}
+
+:host {
+    mat-sidenav {
+        position: fixed;
+    }
+    mat-toolbar {
+        background-color: white;
+    }
+    .mat-toolbar-row,
+    .mat-toolbar-single-row {
+        height: unset;
+    }
+
+    .mat-toolbar-multiple-rows {
+        flex-direction: row;
+        min-height: unset;
+    }
+
+    mat-toolbar-row {
+        max-width: 1440px;
+    }
+}
+
+// stylelint-disable scss/selector-nest-combinators
+
+.mat-list-option,
+.mat-nav-list .mat-list-item,
+.mat-action-list .mat-list-item {
+    color: mat.get-color-from-palette(theme.$procyon-foreground, secondary-text);
+}
+
+.mat-list-option:hover,
+.mat-list-option:focus,
+.mat-nav-list .mat-list-item:hover,
+.mat-nav-list .mat-list-item:focus,
+.mat-action-list .mat-list-item:hover,
+.mat-action-list .mat-list-item:focus {
+    background: mat.get-color-from-palette(theme.$procyon-primary, 0.1);
+    color: mat.get-color-from-palette(theme.$procyon-primary);
+}
+
+mat-sidenav-container {
+    margin: 0 auto;
+    max-width: 1440px;
 }
