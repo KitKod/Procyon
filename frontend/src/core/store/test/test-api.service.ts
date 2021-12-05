@@ -22,7 +22,7 @@ export class TestApiService {
         const formData = new FormData();
         Object.entries(apiParams).forEach(([key, value]) => formData.append(key, value));
 
-        let request$ = this.http.post<ApiSingleResponseModel<TestModel>>(TESTS_ENDPOINT, formData, {
+        let request$ = this.http.post<ApiSingleResponseModel<TestModel>>(`${TESTS_ENDPOINT}/`, formData, {
             responseType: 'json',
         });
 

@@ -5,10 +5,15 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { map, takeUntil } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { StepperOrientation } from '@angular/cdk/stepper';
+import { Store } from '@ngxs/store';
+import { DatePipe } from '@angular/common';
 import { AddTestDialogResult } from './add-test-dialog.data';
-import { TestStatus, TestType } from '@core/store/test';
+import { TestStatus, TestType, TestActions } from '@core/store/test';
 import { AmeFamily } from '@core/store/ame/ame.model';
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
+import { API_DATE_FORMAT } from '@core/constants/api';
+
+const DEFAULT_TEST_STATUS: TestStatus = 'preparation';
 
 @Component({
     selector: 'procyon-add-test-dialog',
@@ -22,7 +27,8 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
         name: ['', Validators.required],
         type: ['', Validators.required],
         location: ['', Validators.required],
-        status: ['', Validators.required],
+        status: [DEFAULT_TEST_STATUS, Validators.required],
+        date_of_approval: [new Date(), Validators.required],
     });
 
     readonly ameInfoStepFormGroup = this.fb.group({
@@ -44,39 +50,33 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
         .observe('(min-width: 800px)')
         .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
 
-    readonly testStatuses: { label: string; value: TestStatus }[] = [
-        { label: 'Preparation', value: TestStatus.Preparation },
-        { label: 'Testing', value: TestStatus.Testing },
-        { label: 'Paused', value: TestStatus.Paused },
-        { label: 'Continued', value: TestStatus.Continued },
-        { label: 'Finished', value: TestStatus.Finished },
+    readonly testStatuses: TestStatus[] = ['preparation', 'testing', 'paused', 'continued', 'finished'];
+
+    readonly testTypes: TestType[] = [
+        'preliminary',
+        'state',
+        'interdepartmental',
+        'defining',
+        'departmental',
+        'research',
+        'control',
+        'special',
     ];
 
-    readonly testTypes: { label: string; value: TestType }[] = [
-        { label: 'Preliminary', value: TestType.Preliminary },
-        { label: 'State', value: TestType.State },
-        { label: 'Interdepartmental', value: TestType.Interdepartmental },
-        { label: 'Defining', value: TestType.Defining },
-        { label: 'Departmental', value: TestType.Departmental },
-        { label: 'Research', value: TestType.Research },
-        { label: 'Control', value: TestType.Control },
-        { label: 'Special', value: TestType.Special },
-    ];
-
-    readonly ameFamilies: { label: string; value: AmeFamily }[] = [
-        { label: 'Aircraft', value: AmeFamily.Aircraft },
-        { label: 'AeroelasticSystems', value: AmeFamily.AeroelasticSystems },
-        { label: 'ArmoredVehicles', value: AmeFamily.ArmoredVehicles },
-        { label: 'AutomotiveVehicles', value: AmeFamily.AutomotiveVehicles },
-        { label: 'ArtilleryArmament', value: AmeFamily.ArtilleryArmament },
-        { label: 'SmallArms', value: AmeFamily.SmallArms },
-        { label: 'Ships', value: AmeFamily.Ships },
-        { label: 'RadarSystems', value: AmeFamily.RadarSystems },
-        { label: 'IntelligenceTools', value: AmeFamily.IntelligenceTools },
-        { label: 'MeansREB', value: AmeFamily.MeansREB },
-        { label: 'MeansOfCommunication', value: AmeFamily.MeansOfCommunication },
-        { label: 'SpecialVehicles', value: AmeFamily.SpecialVehicles },
-        { label: 'AntiAircraftMissileSystems', value: AmeFamily.AntiAircraftMissileSystems },
+    readonly ameFamilies: AmeFamily[] = [
+        AmeFamily.Aircraft,
+        AmeFamily.AeroelasticSystems,
+        AmeFamily.ArmoredVehicles,
+        AmeFamily.AutomotiveVehicles,
+        AmeFamily.ArtilleryArmament,
+        AmeFamily.SmallArms,
+        AmeFamily.Ships,
+        AmeFamily.RadarSystems,
+        AmeFamily.IntelligenceTools,
+        AmeFamily.MeansREB,
+        AmeFamily.MeansOfCommunication,
+        AmeFamily.SpecialVehicles,
+        AmeFamily.AntiAircraftMissileSystems,
     ];
 
     readonly destroy$: ReplaySubject<void> = new ReplaySubject<void>(1);
@@ -86,6 +86,8 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private breakpointObserver: BreakpointObserver,
         private confirmSrv: ConfirmationDialogService,
+        private store: Store,
+        private datePipe: DatePipe,
     ) {
         dialogRef.disableClose = true;
     }
@@ -114,19 +116,26 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
     }
 
     onSave(): void {
-        const testInfo = this.testInfoStepFormGroup.value;
+        const { date_of_approval, ...testInfo } = this.testInfoStepFormGroup.value;
         const ameInfo = this.ameInfoStepFormGroup.value;
         const manufacturerInfo = this.manufacturerInfoStepFormGroup.value;
 
-        this.dialogRef.close({
-            ...testInfo,
-            ame: {
-                ...ameInfo,
-                manufacturer:
-                    ameInfo.manufacturer !== this.createNewManufacturerId
-                        ? { id: ameInfo.manufacturer }
-                        : manufacturerInfo,
-            },
-        });
+        this.store
+            .dispatch(
+                new TestActions.Add({
+                    ...testInfo,
+                    date_of_approval: this.datePipe.transform(date_of_approval, API_DATE_FORMAT),
+                    ame: {
+                        ...ameInfo,
+                        manufacturer:
+                            ameInfo.manufacturer !== this.createNewManufacturerId
+                                ? { id: ameInfo.manufacturer }
+                                : manufacturerInfo,
+                    },
+                }),
+            )
+            .subscribe(test => {
+                this.dialogRef.close(test);
+            });
     }
 }

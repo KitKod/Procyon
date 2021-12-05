@@ -62,6 +62,14 @@
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true
+                        },
+                        "mocks": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/without-mocks.ts",
+                                    "with": "src/environments/use-mocks.ts"
+                                }
+                            ]
                         }
                     },
                     "defaultConfiguration": "production"
@@ -78,11 +86,16 @@
                     },
                     "configurations": {
                         "production": {
-
                             "browserTarget": "procyon:build:production"
+                        },
+                        "production-mocks": {
+                            "browserTarget": "procyon:build:production,mocks"
                         },
                         "development": {
                             "browserTarget": "procyon:build:development"
+                        },
+                        "development-mocks": {
+                            "browserTarget": "procyon:build:development,mocks"
                         }
                     },
                     "defaultConfiguration": "development"

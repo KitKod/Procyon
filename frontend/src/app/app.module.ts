@@ -6,8 +6,10 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EventPluginsModule } from '@tinkoff/ng-event-plugins';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DATE_FORMAT, DEFAULT_LOCALE } from '@core/constants/ui';
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,7 +22,10 @@ import { AppComponent } from './app.component';
         NgxsLoggerPluginModule.forRoot(),
         MatSidenavModule,
     ],
-    providers: [],
+    providers: [
+        { provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT },
+        { provide: MAT_DATE_LOCALE, useValue: DEFAULT_LOCALE },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
