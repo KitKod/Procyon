@@ -38,7 +38,7 @@ export class TestState {
             map(response => {
                 const state = ctx.getState();
                 ctx.patchState({
-                    tests: [merge(action.test, response.resources[0]), ...state.tests],
+                    tests: [merge(action.test, response.resource[0]), ...state.tests],
                 });
             }),
         );
@@ -63,7 +63,7 @@ export class TestState {
                 const state = ctx.getState();
                 ctx.patchState({
                     tests: state.tests.map(test =>
-                        test.id === action.test.id ? merge(test, action.test, response.resources[0]) : test,
+                        test.id === action.test.id ? merge(test, action.test, response.resource[0]) : test,
                     ),
                 });
             }),
@@ -75,7 +75,7 @@ export class TestState {
         return this.api.getById(action.id).pipe(
             map(response => {
                 ctx.patchState({
-                    testToEdit: response.resources[0],
+                    testToEdit: response.resource[0],
                 });
             }),
         );
@@ -85,7 +85,7 @@ export class TestState {
     fetchAll(ctx: StateContext<TestStateModel>): Observable<void> {
         return this.api.fetchAll().pipe(
             map(response => {
-                ctx.patchState({ tests: response.resources });
+                ctx.patchState({ tests: response.resource });
             }),
         );
     }

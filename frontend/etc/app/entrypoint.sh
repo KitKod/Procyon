@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-HOST=0.0.0.0
-PORT=80
-
-cd /app
-ng serve --host=$HOST --port=$PORT
+cd $APP_DIR
+ng serve \
+    --configuration=$SERVE_CONFIGURATION \
+    --host=$SERVE_HOST \
+    --port=$SERVE_PORT \
+    --proxy-config=$SERVE_PROXY_CONFIG

@@ -3,5 +3,5 @@ export interface ManufacturerModel {
     name: string;
     address: string;
     chief: string;
-    contract: string;
+    contact: string;
 }

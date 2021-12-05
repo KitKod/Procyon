@@ -21,11 +21,17 @@ version: "3"
 
 services:
   web:
+    env_file:
+      - etc/app/env/.env.dev
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./etc/app/Dockerfile
       context: .
+      args:
+        APP_DIR: ${APP_DIR}
     ports:
-      - "80:80"
+      - "${EXPOSE_PORT}:${CONTAINER_PORT}"
+    environment:
+        - SERVE_PORT=${CONTAINER_PORT}
     networks:
       - procyon-network
 
