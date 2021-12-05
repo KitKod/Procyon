@@ -40,7 +40,7 @@ class ITestEntityRepository(ABC):
         pass
 
     @abstractmethod
-    def delete(self, id: int) -> bool:
+    def delete(self, test_id: int) -> None:
         pass
 
     @abstractmethod
