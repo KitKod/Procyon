@@ -5,8 +5,9 @@ import { mapTo, startWith, first } from 'rxjs/operators';
 import { ApiResponseModel, ApiSingleResponseModel } from '../api-model';
 import { TestModel, TestAddModel, TestUpdateModel, TestDeleteModel, TestModelExtended } from './test.model';
 import { extractFilesFromObject } from '@core/utils/api';
-import { TEST_ENTITY_ENDPOINT, TESTS_ENDPOINT } from '@core/constants/api';
+import { TESTS_ENDPOINT } from '@core/constants/api';
 import { testsMock } from '@core/mocks/test.mock';
+import { environment } from '@environment';
 
 @Injectable()
 export class TestApiService {
@@ -21,49 +22,60 @@ export class TestApiService {
         const formData = new FormData();
         Object.entries(apiParams).forEach(([key, value]) => formData.append(key, value));
 
-        return this.http
-            .post<ApiSingleResponseModel<TestModel>>(TEST_ENTITY_ENDPOINT, formData, {
-                responseType: 'json',
-            })
-            .pipe(
+        let request$ = this.http.post<ApiSingleResponseModel<TestModel>>(TESTS_ENDPOINT, formData, {
+            responseType: 'json',
+        });
+
+        if (environment.useMocks) {
+            request$ = request$.pipe(
                 startWith({
-                    resources: [testsMock[0]],
+                    resource: [testsMock[0]],
                     meta: {},
                 } as ApiSingleResponseModel<TestModel>),
                 first(),
             );
+        }
+
+        return request$;
     }
 
     delete(test: TestDeleteModel): Observable<void> {
-        return this.http
-            .delete(`${TEST_ENTITY_ENDPOINT}/${test.id}`)
-            .pipe(mapTo(undefined))
-            .pipe(startWith(undefined), first());
-        // return of(undefined);
+        let request$ = this.http.delete(`${TESTS_ENDPOINT}/${test.id}`).pipe(mapTo(undefined));
+
+        if (environment.useMocks) {
+            request$ = request$.pipe(startWith(undefined), first());
+        }
+
+        return request$;
     }
 
     update(test: TestUpdateModel): Observable<ApiSingleResponseModel<TestModel>> {
-        return this.http
-            .patch<ApiSingleResponseModel<TestModel>>(`${TEST_ENTITY_ENDPOINT}/${test.id}`, test, {
-                responseType: 'json',
-            })
-            .pipe(
+        let request$ = this.http.patch<ApiSingleResponseModel<TestModel>>(`${TESTS_ENDPOINT}/${test.id}`, test, {
+            responseType: 'json',
+        });
+
+        if (environment.useMocks) {
+            request$ = request$.pipe(
                 startWith({
-                    resources: [testsMock[0]],
+                    resource: [testsMock[0]],
                     meta: {},
                 } as ApiSingleResponseModel<TestModel>),
                 first(),
             );
+        }
+
+        return request$;
     }
 
     getById(id: number): Observable<ApiSingleResponseModel<TestModelExtended>> {
-        return this.http
-            .get<ApiSingleResponseModel<TestModelExtended>>(`${TEST_ENTITY_ENDPOINT}/${id}`, {
-                responseType: 'json',
-            })
-            .pipe(
+        let request$ = this.http.get<ApiSingleResponseModel<TestModelExtended>>(`${TESTS_ENDPOINT}/${id}`, {
+            responseType: 'json',
+        });
+
+        if (environment.useMocks) {
+            request$ = request$.pipe(
                 startWith({
-                    resources: [
+                    resource: [
                         {
                             ...testsMock[0],
                             documents: [],
@@ -73,19 +85,26 @@ export class TestApiService {
                 } as ApiSingleResponseModel<TestModelExtended>),
                 first(),
             );
+        }
+
+        return request$;
     }
 
     fetchAll(): Observable<ApiResponseModel<TestModel>> {
-        return this.http
-            .get<ApiResponseModel<TestModel>>(TESTS_ENDPOINT, {
-                responseType: 'json',
-            })
-            .pipe(
+        let request$ = this.http.get<ApiResponseModel<TestModel>>(`${TESTS_ENDPOINT}/`, {
+            responseType: 'json',
+        });
+
+        if (environment.useMocks) {
+            request$ = request$.pipe(
                 startWith({
-                    resources: testsMock,
+                    resource: testsMock,
                     meta: {},
                 } as ApiSingleResponseModel<TestModel>),
                 first(),
             );
+        }
+
+        return request$;
     }
 }

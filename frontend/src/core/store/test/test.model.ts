@@ -9,7 +9,7 @@ export interface TestBaseModel {
     name: string;
     type: TestType;
     location: string;
-    date: string;
+    date: string; // y-mm-dd
     status: TestStatus;
 }
 

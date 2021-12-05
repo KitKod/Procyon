@@ -37,7 +37,7 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
         name: ['', Validators.required],
         address: ['', Validators.required],
         chief: ['', Validators.required],
-        contract: ['', Validators.required],
+        contact: ['', Validators.required],
     });
 
     readonly stepperOrientation$: Observable<StepperOrientation> = this.breakpointObserver

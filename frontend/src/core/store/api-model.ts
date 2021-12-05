@@ -5,11 +5,11 @@ export interface ApiMetaModel {
 }
 
 export interface ApiResponseModel<T> {
-    resources: T[];
+    resource: T[];
     meta: ApiMetaModel;
 }
 
 export interface ApiSingleResponseModel<T> {
-    resources: [T];
+    resource: [T];
     meta: ApiMetaModel;
 }
