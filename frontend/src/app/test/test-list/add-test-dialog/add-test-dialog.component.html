@@ -8,30 +8,47 @@
             <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="testInfoStepFormGroup">
                 <mat-form-field appearance="standard">
                     <mat-label>Test name</mat-label>
-                    <input matInput formControlName="name" required />
+                    <input id="test-name" matInput formControlName="name" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Type</mat-label>
-                    <mat-select required formControlName="type">
-                        <mat-option *ngFor="let testType of testTypes" [value]="testType.value">
-                            {{ testType.label }}
+                    <mat-select id="test-type" required formControlName="type">
+                        <mat-option *ngFor="let testType of testTypes" [value]="testType">
+                            {{ testType }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Location</mat-label>
-                    <input matInput formControlName="location" required />
+                    <input id="test-location" matInput formControlName="location" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Status</mat-label>
-                    <mat-select required formControlName="status">
-                        <mat-option *ngFor="let testStatus of testStatuses" [value]="testStatus.value">
-                            {{ testStatus.label }}
+                    <mat-select id="test-status" required formControlName="status">
+                        <mat-option *ngFor="let testStatus of testStatuses" [value]="testStatus">
+                            {{ testStatus }}
                         </mat-option>
                     </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Date of approval</mat-label>
+                    <input
+                        id="test-date-of-approval"
+                        matInput
+                        formControlName="date_of_approval"
+                        [matDatepicker]="datepicker"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker>
+                        <mat-datepicker-actions>
+                            <button mat-button matDatepickerCancel>Cancel</button>
+                            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                        </mat-datepicker-actions>
+                    </mat-datepicker>
                 </mat-form-field>
             </form>
         </mat-step>
@@ -42,26 +59,26 @@
             <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="ameInfoStepFormGroup">
                 <mat-form-field appearance="standard">
                     <mat-label>Ame name</mat-label>
-                    <input matInput formControlName="name" required />
+                    <input id="ame-name" matInput formControlName="name" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Type</mat-label>
-                    <input matInput formControlName="type" required />
+                    <input id="ame-type" matInput formControlName="type" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Family</mat-label>
-                    <mat-select required formControlName="family">
-                        <mat-option *ngFor="let ameFamily of ameFamilies" [value]="ameFamily.value">
-                            {{ ameFamily.label }}
+                    <mat-select id="ame-family" required formControlName="family">
+                        <mat-option *ngFor="let ameFamily of ameFamilies" [value]="ameFamily">
+                            {{ ameFamily }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Manufacturer</mat-label>
-                    <mat-select required formControlName="manufacturer">
+                    <mat-select id="ame-manufacturer" required formControlName="manufacturer">
                         <mat-option [value]="createNewManufacturerId">Create new</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -69,6 +86,7 @@
                 <mat-form-field appearance="standard">
                     <mat-label>Upload TTC</mat-label>
                     <input
+                        id="ame-upload-ttc"
                         matInput
                         required
                         formControlName="ttc_file"
@@ -82,7 +100,13 @@
                         (change)="ameInfoStepFormGroup.get('ttc_file')?.setValue($any($event.target).files[0])"
                     />
 
-                    <button mat-icon-button color="primary" matSuffix (click)="fileUpload.click()">
+                    <button
+                        id="ame-upload-ttc-button"
+                        mat-icon-button
+                        color="primary"
+                        matSuffix
+                        (click)="fileUpload.click()"
+                    >
                         <mat-icon>upload</mat-icon>
                     </button>
                 </mat-form-field>
@@ -95,22 +119,22 @@
             <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="manufacturerInfoStepFormGroup">
                 <mat-form-field appearance="standard">
                     <mat-label>Manufacturer name</mat-label>
-                    <input matInput formControlName="name" required />
+                    <input id="manufacturer-name" matInput formControlName="name" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Address</mat-label>
-                    <input matInput formControlName="address" required />
+                    <input id="manufacturer-address" matInput formControlName="address" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Chief</mat-label>
-                    <input matInput formControlName="chief" required />
+                    <input id="manufacturer-chief" matInput formControlName="chief" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
                     <mat-label>Contact</mat-label>
-                    <input matInput formControlName="contact" required />
+                    <input id="manufacturer-contact" matInput formControlName="contact" required />
                 </mat-form-field>
             </form>
         </mat-step>
@@ -162,12 +186,21 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="flex">
-    <button mat-button color="primary" (click)="closeWithoutSave()">Cancel</button>
+    <button id="add-test-cancel-button" mat-button color="primary" (click)="closeWithoutSave()">Cancel</button>
     <span class="flex-1"></span>
-    <button *ngIf="stepper.selectedIndex !== 0" mat-button color="primary" (click)="stepper.previous()">Back</button>
+    <button
+        *ngIf="stepper.selectedIndex !== 0"
+        id="add-test-back-button"
+        mat-button
+        color="primary"
+        (click)="stepper.previous()"
+    >
+        Back
+    </button>
 
     <button
         *ngIf="stepper.selectedIndex + 1 !== stepper.steps?.length"
+        id="add-test-next-button"
         mat-raised-button
         color="primary"
         (click)="stepper.next()"
@@ -177,6 +210,7 @@
 
     <button
         *ngIf="stepper.selectedIndex + 1 === stepper.steps?.length"
+        id="add-test-save-button"
         mat-raised-button
         color="primary"
         (click)="onSave()"

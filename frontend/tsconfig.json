@@ -20,7 +20,7 @@
         "lib": ["es2018", "dom"],
         "paths": {
             "@core/*": ["src/core/*"],
-            "@environment": ["src/environments/environment.ts"]
+            "@environment": ["src/environments/index.ts"]
         }
     },
     "angularCompilerOptions": {

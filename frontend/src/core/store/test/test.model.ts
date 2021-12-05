@@ -1,8 +1,17 @@
 import { AmeModel, AmeCreateModel } from '../ame/ame.model';
 import { WithoutId, PartialWithId, OnlyId } from '@core/utility-types';
-import { TestType } from '@core/store/test/test.constants';
 
 export type TestStatus = 'preparation' | 'testing' | 'paused' | 'continued' | 'finished';
+
+export type TestType =
+    | 'preliminary'
+    | 'state'
+    | 'interdepartmental'
+    | 'defining'
+    | 'departmental'
+    | 'research'
+    | 'control'
+    | 'special';
 
 export interface TestBaseModel {
     id: number;

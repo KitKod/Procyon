@@ -4,3 +4,5 @@ const API_PREFIX = `${BASE_API_PREFIX}/${API_VERSION_1}`;
 
 // Test API
 export const TESTS_ENDPOINT = `${API_PREFIX}/tests`;
+
+export const API_DATE_FORMAT = 'yyyy-MM-dd';
