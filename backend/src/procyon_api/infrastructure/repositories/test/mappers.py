@@ -29,7 +29,7 @@ def make_test_entity(raw_obj: Dict) -> TestEntity:
         ame_id=raw_obj["ame_id"],
         type=raw_obj["type"],
         status=raw_obj["status"],
-        date=raw_obj["date_of_approval"],
+        date_of_approval=raw_obj["date_of_approval"],
         location=raw_obj["location"],
     )
 

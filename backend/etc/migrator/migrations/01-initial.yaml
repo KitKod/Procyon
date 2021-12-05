@@ -48,7 +48,7 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: date_of_approval
-            type: TIMESTAMP WITHOUT TIME ZONE
+            type: DATE
         - column:
             name: location
             type: VARCHAR
@@ -111,7 +111,7 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: date_of_approval
-            type: TIMESTAMP WITHOUT TIME ZONE
+            type: DATE
         - column:
             name: material_and_technical_means
             type: VARCHAR
@@ -291,7 +291,7 @@ databaseChangeLog:
         constraintName: fk_ame
         deferrable: false
         initiallyDeferred: false
-        onDelete: CASCADE  # TODO: should be clarified !
+        onDelete: NO ACTION
         onUpdate: NO ACTION
         referencedColumnNames: id
         referencedTableName: armament_and_military_equipment
@@ -305,7 +305,7 @@ databaseChangeLog:
         constraintName: fk_ttc
         deferrable: false
         initiallyDeferred: false
-        onDelete: CASCADE
+        onDelete: NO ACTION
         onUpdate: NO ACTION
         referencedColumnNames: id
         referencedTableName: tactical_technical_characteristics

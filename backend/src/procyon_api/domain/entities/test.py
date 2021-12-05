@@ -32,7 +32,7 @@ class TestEntity:
     ame_id: int
     type: str
     status: str
-    date: date
+    date_of_approval: date
     location: str
 
 
@@ -43,7 +43,7 @@ class TestWithAmeEntity:
     ame: AmeEntity
     type: str
     status: str
-    date: date
+    date_of_approval: date
     location: str
 
 
@@ -54,7 +54,7 @@ class TestWithAmeAndDocEntity:
     ame: AmeEntity
     type: str
     status: str
-    date: date
+    date_of_approval: date
     location: str
     documents: List[DocumentEntity]
 
