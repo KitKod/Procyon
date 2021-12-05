@@ -62,6 +62,10 @@ export class TestState {
             map(response => {
                 const state = ctx.getState();
                 ctx.patchState({
+                    testToEdit:
+                        state.testToEdit?.id === action.test.id
+                            ? merge(state.testToEdit, action.test, response.resource[0])
+                            : state.testToEdit,
                     tests: state.tests.map(test =>
                         test.id === action.test.id ? merge(test, action.test, response.resource[0]) : test,
                     ),
@@ -72,7 +76,7 @@ export class TestState {
 
     @Action(TestActions.GetById)
     getById(ctx: StateContext<TestStateModel>, action: TestActions.GetById): Observable<void> {
-        return this.api.getById(action.id).pipe(
+        return this.api.getById(action.testId).pipe(
             map(response => {
                 ctx.patchState({
                     testToEdit: response.resource[0],

@@ -2,139 +2,106 @@
     <mat-toolbar-row class="flex">
         <div class="text-4xl">Test information</div>
         <div class="flex-1"></div>
-        <div
-            *ngIf="testForm.get('status')?.value as status"
-            class="rounded-full py-1 px-2 shadow-lg"
-            [ngClass]="{
-                'bg-yellow-500': ['preparation', 'testing', 'continued'].includes(status),
-                'bg-red-500': ['paused'].includes(status),
-                'bg-green-500': ['finished'].includes(status),
-                'text-white': ['finished'].includes(status)
-            }"
-        >
-            {{ testForm.get('status')?.value }}
-        </div>
     </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-card class="mat-elevation-z0 border my-3">
+<mat-card class="mat-elevation-z0 border">
     <mat-card-content class="flex flex-row">
         <div class="flex">
             <span class="flex-1"></span>
-            <button mat-icon-button color="primary">
+            <button *ngIf="viewModeEnabled$ | async" mat-icon-button color="primary" (click)="enableEditMode()">
                 <mat-icon>edit</mat-icon>
+            </button>
+            <button *ngIf="viewModeEnabled$ | async" class="ml-2" mat-icon-button color="warn" (click)="deleteTest()">
+                <mat-icon>delete</mat-icon>
             </button>
         </div>
 
-        <div class="border-t my-3"></div>
-
-        <div class="flex flex-col">
+        <div *ngIf="viewModeEnabled$ | async" class="flex flex-col">
             <ng-container *ngTemplateOutlet="info; context: { field: 'name' }"></ng-container>
-            <div class="border-t my-3"></div>
             <ng-container *ngTemplateOutlet="info; context: { field: 'type' }"></ng-container>
-            <div class="border-t my-3"></div>
+            <ng-container
+                *ngTemplateOutlet="
+                    info;
+                    context: {
+                        label: 'Armament and military equipment',
+                        field: 'ame',
+                        value: testForm.get('ame')?.value.name
+                    }
+                "
+            ></ng-container>
             <ng-container *ngTemplateOutlet="info; context: { field: 'location' }"></ng-container>
+            <ng-container *ngTemplateOutlet="info; context: { field: 'status' }"></ng-container>
+            <ng-container
+                *ngTemplateOutlet="info; context: { label: 'Date of approval', field: 'date_of_approval' }"
+            ></ng-container>
 
-            <ng-template #info let-field="field">
+            <ng-template #info let-field="field" let-value="value" let-label="label">
+                <div class="border-t my-3"></div>
                 <div class="flex flex-row">
-                    <div class="w-32 font-semibold text-black text-opacity-60">{{ field | titlecase }}</div>
-                    <div class="text-left">{{ testForm.get(field)?.value }}</div>
+                    <div class="w-60 font-semibold text-black text-opacity-60">{{ label || (field | titlecase) }}</div>
+                    <div class="text-left">{{ (value ?? testForm.get(field)?.value) || 'Not set' }}</div>
                 </div>
             </ng-template>
-            <div *ngIf="testForm.get('status')?.value as status">
-                <button *ngIf="status === 'preparation'" mat-button [color]="'primary'">Start testing</button>
-                <button *ngIf="status === 'testing'" mat-button [color]="'primary'">Start testing</button>
-                <button *ngIf="status === 'paused'" mat-button [color]="'primary'">Start testing</button>
-                <button *ngIf="status === 'continued'" mat-button [color]="'primary'">Finish</button>
+        </div>
 
-                <button *ngIf="status !== 'finished' && status !== 'paused'" mat-button [color]="'primary'">
-                    Pause testing
-                </button>
-            </div>
+        <div *ngIf="editModeEnabled$ | async" class="flex flex-col">
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="testForm" (ngSubmit)="saveTest()">
+                <mat-form-field appearance="standard">
+                    <mat-label>Name</mat-label>
+                    <input id="test-name" matInput formControlName="name" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Type</mat-label>
+                    <mat-select id="test-type" required formControlName="type">
+                        <mat-option *ngFor="let testType of testTypes" [value]="testType">
+                            {{ testType }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Location</mat-label>
+                    <input id="test-location" matInput formControlName="location" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Status</mat-label>
+                    <mat-select id="test-status" required formControlName="status">
+                        <mat-option *ngFor="let testStatus of testStatuses" [value]="testStatus">
+                            {{ testStatus }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Date of approval</mat-label>
+                    <input
+                        id="test-date-of-approval"
+                        matInput
+                        formControlName="date_of_approval"
+                        [matDatepicker]="datepicker"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker>
+                        <mat-datepicker-actions>
+                            <button mat-button matDatepickerCancel>Cancel</button>
+                            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                        </mat-datepicker-actions>
+                    </mat-datepicker>
+                </mat-form-field>
+                <div class="flex col-span-1 md:col-span-2 justify-end gap-2">
+                    <button mat-button (click)="cancelEdit()">Cancel</button>
+                    <button mat-raised-button type="submit" color="primary" [disabled]="testForm.invalid">Save</button>
+                </div>
+            </form>
         </div>
     </mat-card-content>
 </mat-card>
 
-<procyon-documents-panel
-    [title]="'Documents'"
-    [documents]="[
-        {
-            name: 'document-order-for-test.doc',
-            type: 'order',
-            status: 'approved',
-            government: 'Danielius Hackett',
-            date_of_approval: '11-11-2021',
-            material_and_technical_means: '',
-            file_index: '12616-1621-6-126-12-216'
-        },
-        {
-            name: 'separate-order-test-124.doc',
-            type: 'separate_order',
-            status: 'developing',
-            government: 'Justin Fox',
-            date_of_approval: '',
-            material_and_technical_means: '',
-            file_index: '12616-1621-6-126-12-216'
-        },
-        {
-            name: '',
-            type: 'joint_decision',
-            status: 'developing',
-            government: '',
-            date_of_approval: '',
-            material_and_technical_means: '',
-            file_index: ''
-        }
-    ]"
->
-</procyon-documents-panel>
+<procyon-documents-panel [title]="'Documents'" [documents]="(documents$ | async)!"> </procyon-documents-panel>
 
-<procyon-documents-panel
-    [title]="'Program'"
-    [documents]="[
-        {
-            name: 'program-for-test.pdf',
-            type: 'program',
-            status: 'approving',
-            government: 'Mali Mercado',
-            date_of_approval: '',
-            material_and_technical_means: '',
-            file_index: '12616-1621-6-126-12-216'
-        }
-    ]"
->
-</procyon-documents-panel>
+<procyon-documents-panel [title]="'Programs'" [documents]="(programs$ | async)!"> </procyon-documents-panel>
 
-<procyon-documents-panel
-    [title]="'Methods'"
-    [documents]="[
-        {
-            name: 'method-for-testing-1.doc',
-            type: 'method',
-            status: 'approved',
-            government: 'Kairon Joyner',
-            date_of_approval: '12-11-2021',
-            material_and_technical_means: '',
-            file_index: '12616-1621-6-126-12-216'
-        },
-        {
-            name: 'method-for-testing-3.doc',
-            type: 'method',
-            status: 'approving',
-            government: 'Milosz Dickens',
-            date_of_approval: '',
-            material_and_technical_means: '',
-            file_index: '12616-1621-6-126-12-216'
-        },
-        {
-            name: '',
-            type: 'method',
-            status: 'developing',
-            government: '',
-            date_of_approval: '',
-            material_and_technical_means: '',
-            file_index: ''
-        }
-    ]"
->
-</procyon-documents-panel>
+<procyon-documents-panel [title]="'Methods'" [documents]="(methods$ | async)!"> </procyon-documents-panel>

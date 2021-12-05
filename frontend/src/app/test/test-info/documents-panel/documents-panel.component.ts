@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { WithoutId } from '@core/utility-types';
-import { TestDocumentModel, TestDocumentType } from '@core/store/test/test.model';
+import { TestDocumentModel } from '@core/store/test/test.model';
 
 @Component({
     selector: 'procyon-documents-panel',
@@ -9,7 +9,6 @@ import { TestDocumentModel, TestDocumentType } from '@core/store/test/test.model
 })
 export class DocumentsPanelComponent {
     @Input() title = '';
-
     @Input() documents!: WithoutId<TestDocumentModel>[];
 
     getDocumentTitleByName(document: WithoutId<TestDocumentModel>): string {
@@ -23,9 +22,7 @@ export class DocumentsPanelComponent {
             case 'program':
                 return 'Program';
             case 'method':
-                return document.file_index
-                    ? `Method: ${document.name.slice(0, document.name.lastIndexOf('.'))}`
-                    : 'Method';
+                return document.name ? `Method: ${document.name.slice(0, document.name.lastIndexOf('.'))}` : 'Method';
             default:
                 return 'Unknown';
         }

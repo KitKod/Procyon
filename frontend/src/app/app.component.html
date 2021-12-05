@@ -1,11 +1,30 @@
-<mat-sidenav-container class="h-screen">
-    <mat-sidenav></mat-sidenav>
-
-    <mat-sidenav-content class="bg-white">
-        <div class="flex h-full justify-center">
-            <div class="2xl:w-2/4 w-full">
-                <router-outlet></router-outlet>
-            </div>
+<mat-toolbar #toolbar="procyonElementRef" class="sticky justify-center top-0 z-10 border-b" procyonElementRef>
+    <mat-toolbar-row class="w-full">
+        <div class="flex flex-row items-baseline py-2 gap-3">
+            <img class="w-7 h-7 self-center" src="/assets/logo.png" />
+            <div class="text-base">PROCYON</div>
+            <div class="w-px">|</div>
+            <div class="text-sm">Test management system</div>
+            <div class="w-full"></div>
         </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div
+    class="block mx-auto h-full justify-center"
+    [style.height]="'calc(100vh - ' + toolbar.element.offsetHeight + 'px)'"
+>
+    <mat-sidenav-container hasBackdrop="false">
+        <mat-sidenav class="border-r-0" [mode]="'side'" [opened]="true" [style.top.px]="toolbar.element.offsetHeight">
+            <mat-nav-list>
+                <a *ngFor="let link of links" class="border-b-2 font-medium" mat-list-item [routerLink]="link.url">
+                    <mat-icon class="mr-4">{{ link.icon }}</mat-icon>
+                    <span>{{ link.label }}</span>
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content class="bg-white p-6">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

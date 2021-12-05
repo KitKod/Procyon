@@ -18,7 +18,7 @@ export interface TestBaseModel {
     name: string;
     type: TestType;
     location: string;
-    date: string; // y-mm-dd
+    date_of_approval: string; // y-mm-dd
     status: TestStatus;
 }
 
@@ -26,44 +26,38 @@ export interface TestModel extends TestBaseModel {
     ame: Pick<AmeModel, 'id' | 'name'>;
 }
 
-// export enum DocumentType {
-//     JointDecision = 'joint_decision',
-//     SeparateOrder = 'separate_order',
-//     Order = 'order',
-//     Program = 'program',
-//     Method = 'method',
-// }
-
 export type TestDocumentType = 'joint_decision' | 'separate_order' | 'order' | 'program' | 'method';
 
-// export enum DocumentStatus {
-//     Developing = 'developing',
-//     Approving = 'approving',
-//     Approved = 'approved',
-// }
+export type TestDocumentGovernment =
+    | 'Ministry_of_Defence'
+    | 'ZMO'
+    | 'NGSH'
+    | 'ZNGSH'
+    | 'Director_of_DVTP_ROVT'
+    | 'Chief_of_DNDІ_VS_OVT';
+
 export type TestDocumentStatus = 'developing' | 'approving' | 'approved';
 
 export interface TestDocumentModel {
     id: number;
-    name: string;
+    name?: string;
     type: TestDocumentType;
     status: TestDocumentStatus;
-    government: string;
+    government: TestDocumentGovernment;
     date_of_approval: string;
     material_and_technical_means: string;
-    file_index: string;
 }
 
 export interface TestModelExtended extends TestModel {
     documents: TestDocumentModel[];
 }
 
-export interface TestAddModel extends WithoutId<TestBaseModel> {
-    ame: AmeCreateModel;
-}
-
-export interface TestUpdateModel extends PartialWithId<TestBaseModel> {
-    ame?: OnlyId<AmeModel>;
-}
-
+// Test manage models
+export type TestAddModel = WithoutId<TestBaseModel> & { ame: AmeCreateModel };
+export type TestUpdateModel = PartialWithId<TestBaseModel> & { ame?: OnlyId<AmeModel> };
 export type TestDeleteModel = OnlyId<TestBaseModel>;
+
+// Test document manage models
+export type DocumentAddModel = WithoutId<TestDocumentModel & { file?: File }, 'name'>;
+export type DocumentUpdateModel = OnlyId<TestDocumentModel> & Partial<DocumentAddModel>;
+export type DocumentDeleteModel = OnlyId<TestDocumentModel>;

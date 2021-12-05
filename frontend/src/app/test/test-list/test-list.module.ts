@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
 import { TestListComponent } from './test-list.component';
 import { TestListRoutingModule } from './test-list-routing.module';
 import { AddTestDialogModule } from './add-test-dialog/add-test-dialog.module';
@@ -24,6 +25,7 @@ import { AddTestDialogModule } from './add-test-dialog/add-test-dialog.module';
         MatDialogModule,
         RouterModule,
         AddTestDialogModule,
+        MatCardModule,
     ],
 })
 export class TestListModule {}

@@ -3,7 +3,7 @@
 :host {
     ::ng-deep {
         .mat-accordion {
-            procyon-document-panel {
+            procyon-document-item {
                 &:not(:last-of-type) {
                     .mat-expansion-panel {
                         border-bottom-left-radius: unset;
