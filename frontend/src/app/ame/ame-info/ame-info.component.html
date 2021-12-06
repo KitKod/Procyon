@@ -1,0 +1,42 @@
+<mat-toolbar class="table-control-panel mb-4">
+    <mat-toolbar-row class="flex">
+        <div class="text-4xl">Ame information</div>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card class="mat-elevation-z0 border my-3">
+    <mat-card-content class="flex flex-row">
+        <div class="flex">
+            <span class="flex-1"></span>
+            <button mat-icon-button color="primary">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button class="ml-2" mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+
+        <div class="flex flex-col">
+            <ng-container *ngTemplateOutlet="info; context: { field: 'name' }"></ng-container>
+            <ng-container *ngTemplateOutlet="info; context: { field: 'family' }"></ng-container>
+            <ng-container *ngTemplateOutlet="info; context: { field: 'type' }"></ng-container>
+            <ng-container
+                *ngTemplateOutlet="
+                    info;
+                    context: {
+                        field: 'manufacturer',
+                        value: ameForm.get('manufacturer')?.value.name
+                    }
+                "
+            ></ng-container>
+
+            <ng-template #info let-field="field" let-value="value" let-label="label">
+                <div class="border-t my-3"></div>
+                <div class="flex flex-row">
+                    <div class="w-60 font-semibold text-black text-opacity-60">{{ label || (field | titlecase) }}</div>
+                    <div class="text-left">{{ (value ?? ameForm.get(field)?.value) || 'Not set' }}</div>
+                </div>
+            </ng-template>
+        </div>
+    </mat-card-content>
+</mat-card>

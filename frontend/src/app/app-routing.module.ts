@@ -11,6 +11,18 @@ const routes: Routes = [
         path: 'tests',
         loadChildren: () => import('./test').then(m => m.TestModule),
     },
+    {
+        path: 'ames',
+        loadChildren: () => import('./ame').then(m => m.AmeModule),
+    },
+    {
+        path: 'manufactures',
+        loadChildren: () => import('./manufacturer').then(m => m.ManufacturerModule),
+    },
+    {
+        path: '**',
+        redirectTo: 'tests',
+    },
 ];
 
 @NgModule({

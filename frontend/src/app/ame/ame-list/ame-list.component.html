@@ -1,0 +1,35 @@
+<mat-toolbar class="table-control-panel">
+    <mat-toolbar-row>
+        <button color="primary" mat-raised-button (click)="openAddAmeDialog()">Add</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-card>
+    <table *ngIf="dataSource$ | async as dataSource" mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
+            <td *matCellDef="let data" mat-cell>
+                <a class="text-blue-700 hover:text-blue-800 visited:text-blue-700" [routerLink]="data.id">{{
+                    data.name
+                }}</a>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+            <td *matCellDef="let data" mat-cell>{{ data.type }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="family">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Family</th>
+            <td *matCellDef="let data" mat-cell>{{ data.family }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="manufacturer">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Manufacturer</th>
+            <td *matCellDef="let data" mat-cell>{{ data.manufacturer?.name }}</td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="['name', 'type', 'family', 'manufacturer']" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: ['name', 'type', 'family', 'manufacturer']" mat-row></tr>
+    </table>
+</mat-card>
