@@ -1,0 +1,156 @@
+<div mat-dialog-title>Add new ame</div>
+
+<mat-dialog-content>
+    <mat-stepper #stepper linear [style.min-height.px]="386" [orientation]="(stepperOrientation$ | async)!">
+        <mat-step [stepControl]="ameInfoStepFormGroup">
+            <ng-template matStepLabel>AME</ng-template>
+
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="ameInfoStepFormGroup">
+                <mat-form-field appearance="standard">
+                    <mat-label>Ame name</mat-label>
+                    <input id="ame-name" matInput formControlName="name" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Type</mat-label>
+                    <input id="ame-type" matInput formControlName="type" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Family</mat-label>
+                    <mat-select id="ame-family" required formControlName="family">
+                        <mat-option *ngFor="let ameFamily of ameFamilies" [value]="ameFamily">
+                            {{ ameFamily }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Manufacturer</mat-label>
+                    <mat-select id="ame-manufacturer" required formControlName="manufacturer">
+                        <mat-option [value]="createNewManufacturerId">Create new</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Upload TTC</mat-label>
+                    <input
+                        id="ame-upload-ttc"
+                        matInput
+                        required
+                        formControlName="ttc_file"
+                        readonly
+                        [value]="ameInfoStepFormGroup.get('ttc_file')?.value?.name"
+                    />
+                    <input
+                        #fileUpload
+                        class="hidden"
+                        type="file"
+                        (change)="ameInfoStepFormGroup.get('ttc_file')?.setValue($any($event.target).files[0])"
+                    />
+
+                    <button
+                        id="ame-upload-ttc-button"
+                        mat-icon-button
+                        color="primary"
+                        matSuffix
+                        (click)="fileUpload.click()"
+                    >
+                        <mat-icon>upload</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="manufacturerInfoStepFormGroup">
+            <ng-template matStepLabel>Manufacturer</ng-template>
+
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="manufacturerInfoStepFormGroup">
+                <mat-form-field appearance="standard">
+                    <mat-label>Manufacturer name</mat-label>
+                    <input id="manufacturer-name" matInput formControlName="name" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Address</mat-label>
+                    <input id="manufacturer-address" matInput formControlName="address" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Chief</mat-label>
+                    <input id="manufacturer-chief" matInput formControlName="chief" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Contact</mat-label>
+                    <input id="manufacturer-contact" matInput formControlName="contact" required />
+                </mat-form-field>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Summary</ng-template>
+
+            <div *ngIf="ameInfoStepFormGroup.value as value" class="grid grid-cols-2 mt-3 mb-3">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Ame name', value: value.name }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Family', value: value.family }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Type', value: value.type }"></ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'TTC file', value: value.ttc_file?.name }">
+                </ng-container>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div *ngIf="manufacturerInfoStepFormGroup.value as value" class="grid grid-cols-2 mt-3">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Manufacturer name', value: value.name }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Address', value: value.address }">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Chief', value: value.chief }"></ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Contact', value: value.contact }">
+                </ng-container>
+            </div>
+
+            <ng-template #info let-label="label" let-value="value">
+                <div class="font-bold text-right">{{ label }}:</div>
+                <div class="text-left">{{ value }}</div>
+            </ng-template>
+        </mat-step>
+    </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex">
+    <button id="add-ame-cancel-button" mat-button color="primary" (click)="closeWithoutSave()">Cancel</button>
+    <span class="flex-1"></span>
+    <button
+        *ngIf="stepper.selectedIndex !== 0"
+        id="add-ame-back-button"
+        mat-button
+        color="primary"
+        (click)="stepper.previous()"
+    >
+        Back
+    </button>
+
+    <button
+        *ngIf="stepper.selectedIndex + 1 !== stepper.steps?.length"
+        id="add-ame-next-button"
+        mat-raised-button
+        color="primary"
+        (click)="stepper.next()"
+    >
+        Next
+    </button>
+
+    <button
+        *ngIf="stepper.selectedIndex + 1 === stepper.steps?.length"
+        id="add-ame-save-button"
+        mat-raised-button
+        color="primary"
+        (click)="onSave()"
+    >
+        Save
+    </button>
+</mat-dialog-actions>
