@@ -3,22 +3,23 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { FileChangeEvent } from '@angular/compiler-cli/src/perform_watch';
 import { ManageDocumentDialogData } from './manage-document-dialog.data';
-import { TestActions } from '@core/store/test';
-import { DocumentAddModel, DocumentUpdateModel } from '@core/store/test/test.model';
+import { TestDocumentActions, DocumentAddModel, DocumentUpdateModel } from '@core/store/test/document';
 
 @Component({
     selector: 'procyon-manage-document-dialog',
     templateUrl: './manage-document-dialog.component.html',
     styleUrls: ['./manage-document-dialog.component.scss'],
 })
-export class ManageDocumentDialogComponent<T extends TestActions.AddDocument | TestActions.UpdateDocument> {
+export class ManageDocumentDialogComponent<T extends TestDocumentActions.Add | TestDocumentActions.Update> {
     documentFormGroup = this.fb.group({
         type: [this.data.document?.type, Validators.required],
         status: [this.data.document?.status, Validators.required],
         government: [this.data.document?.government, Validators.required],
         date_of_approval: [this.data.document?.date_of_approval, Validators.required],
         material_and_technical_means: [this.data.document?.material_and_technical_means, Validators.required],
+        document_file: [this.data.document ? new File(['124'], this.data.document.name) : null, Validators.required],
     });
 
     constructor(
@@ -31,6 +32,10 @@ export class ManageDocumentDialogComponent<T extends TestActions.AddDocument | T
     onSave(): void {
         const { testId, action } = this.data;
         this.store.dispatch(new action(testId, this.getDocumentForDispatching()));
+    }
+
+    obFileChange(event: FileChangeEvent): void {
+        // TODO
     }
 
     private getDocumentForDispatching(): DocumentAddModel | DocumentUpdateModel {

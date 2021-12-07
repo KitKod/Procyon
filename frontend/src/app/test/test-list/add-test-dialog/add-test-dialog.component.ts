@@ -11,8 +11,8 @@ import { AddTestDialogResult } from './add-test-dialog.data';
 import { TestStatus, TestActions } from '@core/store/test';
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
 import { API_DATE_FORMAT } from '@core/constants/api';
-import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-options';
-import { AME_FAMILIES } from '@core/constants/ame-options';
+import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-constants';
+import { AME_FAMILIES } from '@core/constants/ame-constants';
 
 const DEFAULT_TEST_STATUS: TestStatus = 'preparation';
 

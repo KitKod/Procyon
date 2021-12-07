@@ -1,8 +1,7 @@
 import { Type } from '@angular/core';
-import { TestDocumentModel } from '@core/store/test/test.model';
-import { TestActions } from '@core/store/test';
+import { TestDocumentModel, TestDocumentActions } from '@core/store/test/document';
 
-export interface ManageDocumentDialogData<T extends TestActions.AddDocument | TestActions.UpdateDocument> {
+export interface ManageDocumentDialogData<T extends TestDocumentActions.Add | TestDocumentActions.Update> {
     action: Type<T>;
     testId: number;
     document?: TestDocumentModel;

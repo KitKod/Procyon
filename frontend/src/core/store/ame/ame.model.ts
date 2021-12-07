@@ -1,4 +1,4 @@
-import { ManufacturerModel } from '../manufacturer/manufacturer.model';
+import { ManufacturerModel, ManufacturerAddModel } from '../manufacturer/manufacturer.model';
 import { WithoutId, OnlyId } from '@core/utility-types';
 
 export type AmeFamily =
@@ -34,16 +34,15 @@ export interface AmeModel {
      */
     type: string;
     /**
-     * Id of file that relates to TTC
+     * Manufacturer structure
      */
-    ttc_id: number;
-    // /**
-    //  * Manufacturer structure
-    //  */
-    // manufacturer?: ManufacturerModel;
+    manufacturer: ManufacturerModel;
 }
 
-export interface AmeCreateModel extends Omit<WithoutId<AmeModel>, 'ttc_id'> {
-    manufacturer: WithoutId<ManufacturerModel> | OnlyId<ManufacturerModel>;
+export type AmeAddModel = WithoutId<AmeModel, 'manufacturer'> & {
+    manufacturer: OnlyId<ManufacturerModel> | ManufacturerAddModel;
     ttc_file: File;
-}
+};
+
+export type AmeUpdateModel = OnlyId<AmeModel> & Partial<AmeAddModel>;
+export type AmeDeleteModel = OnlyId<AmeModel>;
