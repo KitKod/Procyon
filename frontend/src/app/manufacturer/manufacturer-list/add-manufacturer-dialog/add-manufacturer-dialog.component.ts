@@ -2,12 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { map, takeUntil } from 'rxjs/operators';
-import { Observable, ReplaySubject } from 'rxjs';
-import { StepperOrientation } from '@angular/cdk/stepper';
+import { takeUntil } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { DatePipe } from '@angular/common';
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
+import { ManufacturerActions } from '@core/store/manufacturer';
 
 @Component({
     selector: 'procyon-add-manufacturer-dialog',
@@ -58,26 +58,10 @@ export class AddManufacturerDialogComponent implements OnInit, OnDestroy {
     }
 
     onSave(): void {
-        // const { date_of_approval, ...manufactureInfo } = this.manufactureInfoStepFormGroup.value;
-        // const manufactureInfo = this.manufactureInfoStepFormGroup.value;
-        // const manufacturerInfo = this.manufacturerInfoStepFormGroup.value;
-        //
-        // this.store
-        //     .dispatch(
-        //         new ManufactureActions.Add({
-        //             ...manufactureInfo,
-        //             date_of_approval: this.datePipe.transform(date_of_approval, API_DATE_FORMAT),
-        //             manufacturer: {
-        //                 ...manufactureInfo,
-        //                 manufacturer:
-        //                     manufactureInfo.manufacturer !== this.createNewManufacturerId
-        //                         ? { id: manufactureInfo.manufacturer }
-        //                         : manufacturerInfo,
-        //             },
-        //         }),
-        //     )
-        //     .subscribe(manufacturer => {
-        this.dialogRef.close();
-        //     });
+        const manufacturer = this.manufacturerInfoStepFormGroup.value;
+
+        this.store.dispatch(new ManufacturerActions.Add(manufacturer)).subscribe(() => {
+            this.dialogRef.close();
+        });
     }
 }

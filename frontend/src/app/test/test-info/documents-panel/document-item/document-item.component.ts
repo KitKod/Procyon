@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { TestDocumentModel, TestDocumentStatus } from '@core/store/test/test.model';
+import { TestDocumentModel, TestDocumentStatus } from '@core/store/test/document';
 import { WithoutId } from '@core/utility-types';
 
 @Component({
@@ -18,5 +18,10 @@ export class DocumentItemComponent {
 
     changeDocumentStatus(document: WithoutId<TestDocumentModel>, status: TestDocumentStatus): void {
         this.documentStatusChanged.emit({ document, status });
+    }
+
+    downloadDocument(): void {
+        // var _url = window.URL.createObjectURL(blob);
+        // window.open(_url, "_blank").focus(); // window.open + focus
     }
 }

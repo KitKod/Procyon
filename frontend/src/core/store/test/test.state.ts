@@ -4,12 +4,12 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { merge } from 'lodash-es';
 import { TestActions } from './test.actions';
-import { TestModel, TestModelExtended } from './test.model';
+import { TestModel } from './test.model';
 import { TestApiService } from './test-api.service';
 
 export interface TestStateModel {
     tests: TestModel[];
-    testToEdit?: TestModelExtended;
+    testToEdit?: TestModel;
 }
 
 @State<TestStateModel>({
@@ -26,7 +26,7 @@ export class TestState {
     }
 
     @Selector()
-    static testToEdit(state: TestStateModel): TestModelExtended | undefined {
+    static testToEdit(state: TestStateModel): TestModel | undefined {
         return state.testToEdit;
     }
 

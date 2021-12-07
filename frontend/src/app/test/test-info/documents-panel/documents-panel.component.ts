@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { WithoutId } from '@core/utility-types';
-import { TestDocumentModel } from '@core/store/test/test.model';
+import { TestDocumentModel } from '@core/store/test/document';
 
 @Component({
     selector: 'procyon-documents-panel',

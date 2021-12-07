@@ -2,27 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, BehaviorSubject } from 'rxjs';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { takeUntil, map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { TestActions, TestState, TestUpdateModel } from '@core/store/test';
-import { TestDocumentModel, DocumentAddModel, DocumentUpdateModel } from '@core/store/test/test.model';
-import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-options';
-import { WithoutId } from '@core/utility-types';
+import { TestDocumentState } from '@core/store/test/document';
+import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-constants';
 import { API_DATE_FORMAT } from '@core/constants/api';
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
+import { DOCUMENTS_GROUPS_BY_TYPE } from '@core/constants/test-documnet-constants';
 
-function createDocumentForm(fb: FormBuilder): FormGroup {
-    return fb.group({
-        id: [0, Validators.required],
-        name: ['', Validators.required],
-        type: ['', Validators.required],
-        status: ['', Validators.required],
-        government: ['', Validators.required],
-        date_of_approval: ['', Validators.required],
-        material_and_technical_means: ['', Validators.required],
-    });
-}
 @Component({
     selector: 'procyon-test-info',
     templateUrl: './test-info.component.html',
@@ -51,70 +40,17 @@ export class TestInfoComponent implements OnInit, OnDestroy {
 
     readonly destroy$ = new ReplaySubject<void>(1);
 
-    readonly documents$ = new BehaviorSubject<WithoutId<TestDocumentModel>[]>([
-        {
-            name: 'document-order-for-test.doc',
-            type: 'order',
-            status: 'approved',
-            government: 'Ministry_of_Defence',
-            date_of_approval: '11-11-2021',
-            material_and_technical_means: '',
-        },
-        {
-            name: 'separate-order-test-124.doc',
-            type: 'separate_order',
-            status: 'developing',
-            government: 'ZMO',
-            date_of_approval: '',
-            material_and_technical_means: '',
-        },
-        {
-            name: '',
-            type: 'joint_decision',
-            status: 'developing',
-            government: 'ZNGSH',
-            date_of_approval: '',
-            material_and_technical_means: '',
-        },
-    ]);
+    readonly documents$ = this.store
+        .select(TestDocumentState.documents(this.activatedRoute.snapshot.params.id))
+        .pipe(map(documents => documents.filter(({ type }) => DOCUMENTS_GROUPS_BY_TYPE.document.includes(type))));
 
-    readonly programs$ = new BehaviorSubject<WithoutId<TestDocumentModel>[]>([
-        {
-            name: 'program-for-test.pdf',
-            type: 'program',
-            status: 'approving',
-            government: 'Chief_of_DNDІ_VS_OVT',
-            date_of_approval: '',
-            material_and_technical_means: '',
-        },
-    ]);
+    readonly programs$ = this.store
+        .select(TestDocumentState.documents(this.activatedRoute.snapshot.params.id))
+        .pipe(map(documents => documents.filter(({ type }) => DOCUMENTS_GROUPS_BY_TYPE.program.includes(type))));
 
-    readonly methods$ = new BehaviorSubject<WithoutId<TestDocumentModel>[]>([
-        {
-            name: 'method-for-testing-1.doc',
-            type: 'method',
-            status: 'approved',
-            government: 'Chief_of_DNDІ_VS_OVT',
-            date_of_approval: '12-11-2021',
-            material_and_technical_means: '',
-        },
-        {
-            name: 'method-for-testing-3.doc',
-            type: 'method',
-            status: 'approving',
-            government: 'ZNGSH',
-            date_of_approval: '',
-            material_and_technical_means: '',
-        },
-        {
-            name: '',
-            type: 'method',
-            status: 'developing',
-            government: 'ZNGSH',
-            date_of_approval: '',
-            material_and_technical_means: '',
-        },
-    ]);
+    readonly methods$ = this.store
+        .select(TestDocumentState.documents(this.activatedRoute.snapshot.params.id))
+        .pipe(map(documents => documents.filter(({ type }) => DOCUMENTS_GROUPS_BY_TYPE.method.includes(type))));
 
     constructor(
         private store: Store,

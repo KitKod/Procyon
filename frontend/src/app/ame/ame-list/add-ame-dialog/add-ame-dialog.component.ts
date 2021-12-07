@@ -6,9 +6,9 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { StepperOrientation } from '@angular/cdk/stepper';
 import { Store } from '@ngxs/store';
-import { DatePipe } from '@angular/common';
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
-import { AME_FAMILIES } from '@core/constants/ame-options';
+import { AME_FAMILIES } from '@core/constants/ame-constants';
+import { AmeActions } from '@core/store/ame';
 
 @Component({
     selector: 'procyon-add-ame-dialog',
@@ -22,7 +22,7 @@ export class AddAmeDialogComponent implements OnInit, OnDestroy {
         family: ['', Validators.required],
         type: ['', Validators.required],
         ttc_file: [null, Validators.required],
-        manufacturer: [this.createNewManufacturerId],
+        manufacturer_id: [this.createNewManufacturerId],
     });
 
     readonly manufacturerInfoStepFormGroup = this.fb.group({
@@ -46,7 +46,6 @@ export class AddAmeDialogComponent implements OnInit, OnDestroy {
         private breakpointObserver: BreakpointObserver,
         private confirmSrv: ConfirmationDialogService,
         private store: Store,
-        private datePipe: DatePipe,
     ) {
         dialogRef.disableClose = true;
     }
@@ -75,26 +74,18 @@ export class AddAmeDialogComponent implements OnInit, OnDestroy {
     }
 
     onSave(): void {
-        // const { date_of_approval, ...ameInfo } = this.ameInfoStepFormGroup.value;
-        // const ameInfo = this.ameInfoStepFormGroup.value;
-        // const manufacturerInfo = this.manufacturerInfoStepFormGroup.value;
-        //
-        // this.store
-        //     .dispatch(
-        //         new AmeActions.Add({
-        //             ...ameInfo,
-        //             date_of_approval: this.datePipe.transform(date_of_approval, API_DATE_FORMAT),
-        //             ame: {
-        //                 ...ameInfo,
-        //                 manufacturer:
-        //                     ameInfo.manufacturer !== this.createNewManufacturerId
-        //                         ? { id: ameInfo.manufacturer }
-        //                         : manufacturerInfo,
-        //             },
-        //         }),
-        //     )
-        //     .subscribe(ame => {
-        this.dialogRef.close();
-        //     });
+        const { manufacturer_id, ...ameInfo } = this.ameInfoStepFormGroup.value;
+        const manufacturerInfo = this.manufacturerInfoStepFormGroup.value;
+
+        this.store
+            .dispatch(
+                new AmeActions.Add({
+                    ...ameInfo,
+                    ...(manufacturer_id ? { manufacturer_id } : manufacturerInfo),
+                }),
+            )
+            .subscribe(() => {
+                this.dialogRef.close();
+            });
     }
 }

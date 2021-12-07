@@ -1,4 +1,4 @@
-import { TestAddModel, TestUpdateModel, TestDeleteModel, DocumentAddModel, DocumentUpdateModel } from './test.model';
+import { TestAddModel, TestUpdateModel, TestDeleteModel } from './test.model';
 
 export namespace TestActions {
     export class Add {
@@ -23,30 +23,4 @@ export namespace TestActions {
     export class FetchAll {
         static readonly type = '[Test] Fetch All';
     }
-
-    export class GetDocuments {
-        static readonly type = '[Test] GetDocuments';
-        constructor(public testId: number) {}
-    }
-
-    export class AddDocument {
-        static readonly type = '[Test] CreateDocument';
-        constructor(public testId: number, public document: DocumentAddModel) {}
-    }
-
-    export class UpdateDocument {
-        static readonly type = '[Test] UpdateDocument';
-        constructor(public testId: number, public document: DocumentUpdateModel) {}
-    }
-
-    export class DeleteDocument {
-        static readonly type = '[Test] DeleteDocument';
-        constructor(public documentId: number) {}
-    }
 }
-
-// Test document API
-// GET /tests/:testId/documents
-// POST /tests/:testId/documents
-// PATCH /tests/:testId/documents/:documentId
-// DELETE /tests/:testId/documents/:documentId

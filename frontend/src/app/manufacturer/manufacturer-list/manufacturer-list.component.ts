@@ -3,10 +3,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { isEqual } from 'lodash-es';
-import { distinctUntilChanged, tap } from 'rxjs/operators';
+import { distinctUntilChanged, tap, switchMap, mapTo } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddManufacturerDialogComponent } from './add-manufacturer-dialog/add-manufacturer-dialog.component';
-import { ManufacturerModel } from '@core/store/manufacturer';
+import { ManufacturerModel, ManufacturerState, ManufacturerActions } from '@core/store/manufacturer';
 
 @Component({
     selector: 'procyon-manufacturer-list',
@@ -15,37 +15,19 @@ import { ManufacturerModel } from '@core/store/manufacturer';
 })
 export class ManufacturerListComponent implements OnInit {
     readonly dataSource$: Observable<MatTableDataSource<ManufacturerModel>> = of(new MatTableDataSource()).pipe(
-        tap(dataSource => {
-            dataSource.data = [
-                {
-                    id: 1,
-                    name: 'Kiev army factory',
-                    address: 'Ukraine',
-                    chief: 'President',
-                    contact: 'Ukraine',
-                },
-                {
-                    id: 2,
-                    name: 'Ukrainians',
-                    address: 'Ukraine',
-                    chief: 'President',
-                    contact: 'Ukraine',
-                },
-            ];
+        switchMap(dataSource => {
+            return this.store.select(ManufacturerState.manufacturers).pipe(
+                tap(manufacturer => (dataSource.data = manufacturer)),
+                mapTo(dataSource),
+            );
         }),
-        // switchMap(dataSource => {
-        //     return this.store.select(ManufactureState.manufactures).pipe(
-        //         tap(manufacturer => (dataSource.data = manufacturer)),
-        //         mapTo(dataSource),
-        //     );
-        // }),
         distinctUntilChanged(isEqual),
     );
 
     constructor(private store: Store, private matDialog: MatDialog) {}
 
     ngOnInit(): void {
-        // this.store.dispatch(ManufactureActions.FetchAll);
+        this.store.dispatch(ManufacturerActions.FetchAll);
     }
 
     openAddManufacturerDialog(): void {
