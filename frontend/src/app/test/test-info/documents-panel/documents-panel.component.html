@@ -1,7 +1,9 @@
 <mat-toolbar class="table-control-panel mb-0">
     <mat-toolbar-row class="flex">
         <div class="text-2xl">{{ title }}</div>
-        <button mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+        <button *ngIf="canAddDocument" mat-icon-button color="primary" (click)="addDocument()">
+            <mat-icon>add</mat-icon>
+        </button>
         <div class="flex-1"></div>
     </mat-toolbar-row>
 </mat-toolbar>
@@ -11,6 +13,10 @@
         *ngFor="let document of documents"
         [title]="getDocumentTitleByName(document)"
         [document]="document"
+        (onDocumentDownLoad)="downloadDocument(document)"
+        (onDocumentEdit)="editDocument(document)"
+        (onDocumentRemove)="removeDocument(document)"
+        (onDocumentStatusChanged)="documentStatusChanged(document, $event)"
     >
     </procyon-document-item>
 </mat-accordion>

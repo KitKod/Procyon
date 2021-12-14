@@ -33,7 +33,7 @@
 
             <ng-container matColumnDef="date">
                 <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
-                <td *matCellDef="let data" mat-cell>{{ data.date_of_approval | date: 'medium' }}</td>
+                <td *matCellDef="let data" mat-cell>{{ data.date_of_approval | date: 'shortDate' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="status">

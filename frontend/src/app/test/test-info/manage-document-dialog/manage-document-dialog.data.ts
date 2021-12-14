@@ -1,8 +1,10 @@
-import { Type } from '@angular/core';
-import { TestDocumentModel, TestDocumentActions } from '@core/store/test/document';
+import { TestDocumentModel, TestDocumentType } from '@core/store/test/document';
+import { WithoutId } from '@core/utility-types';
 
-export interface ManageDocumentDialogData<T extends TestDocumentActions.Add | TestDocumentActions.Update> {
-    action: Type<T>;
-    testId: number;
-    document?: TestDocumentModel;
+export interface ManageDocumentDialogData {
+    title: string;
+    prefilledData?: Partial<TestDocumentModel>;
+    availableTypes: TestDocumentType[];
+    canUploadFile?: boolean;
+    onSaveCallback: (document: WithoutId<TestDocumentModel>) => void;
 }

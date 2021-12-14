@@ -1,9 +1,67 @@
-<div mat-dialog-title>Add new test</div>
+<div mat-dialog-title>{{ title }}</div>
 
-<mat-dialog-content> </mat-dialog-content>
+<mat-dialog-content>
+    <form class="grid grid-cols-1 gap-4" [formGroup]="documentFormGroup">
+        <mat-form-field *ngIf="documentTypes.length > 1" appearance="standard">
+            <mat-label>Type</mat-label>
+            <mat-select id="test-document-type" required formControlName="type">
+                <mat-option *ngFor="let docType of documentTypes" [value]="docType">
+                    {{ docType }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="canUploadFile" appearance="standard">
+            <mat-label>Upload file</mat-label>
+            <input matInput required readonly [value]="documentFormGroup.get('document_file')?.value?.name" />
+            <input #fileUpload class="hidden" type="file" (change)="$any($event.target).files[0]" />
+
+            <button mat-icon-button color="primary" matSuffix (click)="fileUpload.click()">
+                <mat-icon>upload</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Government</mat-label>
+            <mat-select id="test-document-government" required formControlName="government">
+                <mat-option *ngFor="let government of documentGovernments" [value]="government">
+                    {{ government }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Date of approval</mat-label>
+            <input
+                id="test-document-date-of-approval"
+                matInput
+                formControlName="date_of_approval"
+                [matDatepicker]="datepicker"
+            />
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                </mat-datepicker-actions>
+            </mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+            <mat-label>Material and technical means</mat-label>
+            <textarea
+                id="test-document-material-and-technical-means"
+                cdkTextareaAutosize
+                matInput
+                formControlName="material_and_technical_means"
+                required
+            ></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
 
 <mat-dialog-actions class="flex">
-    <button id="manage-test-document-cancel-button" mat-button color="primary">Cancel</button>
+    <button id="manage-test-document-cancel-button" mat-dialog-close mat-button color="primary">Cancel</button>
     <span class="flex-1"></span>
-    <button id="manage-test-document-save-button" mat-raised-button color="primary">Save</button>
+    <button id="manage-test-document-save-button" mat-dialog-close mat-raised-button color="primary">Save</button>
 </mat-dialog-actions>

@@ -11,6 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxsModule } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { AmeInfoComponent } from './ame-info.component';
 import { AmeInfoRoutingModule } from './ame-info-routing.module';
 
@@ -31,6 +32,7 @@ import { AmeInfoRoutingModule } from './ame-info-routing.module';
         NgxsModule.forFeature([]),
         MatFormFieldModule,
         MatInputModule,
+        MatSelectModule,
     ],
 })
 export class AmeInfoModule {}

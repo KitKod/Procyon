@@ -8,6 +8,7 @@ export const ameMocks: AmeModel[] = [
         family: 'armored_vehicles',
         type: 'warhfdf hadsfhadha',
         manufacturer: manufacturersMock[0],
+        ttc_file_name: 'ttc-object-168.pdf',
     },
     {
         id: 2,
@@ -15,6 +16,7 @@ export const ameMocks: AmeModel[] = [
         family: 'armored_vehicles',
         type: 'human',
         manufacturer: manufacturersMock[0],
+        ttc_file_name: 'ttc-mi-666.pdf',
     },
     {
         id: 3,
@@ -22,6 +24,7 @@ export const ameMocks: AmeModel[] = [
         family: 'armored_vehicles',
         type: 'human',
         manufacturer: manufacturersMock[1],
+        ttc_file_name: 'ttc-wings.pdf',
     },
     {
         id: 4,
@@ -29,6 +32,7 @@ export const ameMocks: AmeModel[] = [
         family: 'armored_vehicles',
         type: 'warhfdf hadsfhadha',
         manufacturer: manufacturersMock[0],
+        ttc_file_name: 'ttc-jetpack-v228.pdf',
     },
     {
         id: 5,
@@ -36,5 +40,8 @@ export const ameMocks: AmeModel[] = [
         family: 'armored_vehicles',
         type: 'warhfdf hadsfhadha',
         manufacturer: manufacturersMock[0],
+        ttc_file_name: 'ttc-fort-pm.pdf',
     },
 ];
+
+export const ttcFileBlob: Blob = new Blob(['Test TTC Blob Mock']);

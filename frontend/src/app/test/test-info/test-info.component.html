@@ -33,7 +33,13 @@
             <ng-container *ngTemplateOutlet="info; context: { field: 'location' }"></ng-container>
             <ng-container *ngTemplateOutlet="info; context: { field: 'status' }"></ng-container>
             <ng-container
-                *ngTemplateOutlet="info; context: { label: 'Date of approval', field: 'date_of_approval' }"
+                *ngTemplateOutlet="
+                    info;
+                    context: {
+                        label: 'Date of approval',
+                        value: testForm.get('date_of_approval')?.value | date: 'shortDate'
+                    }
+                "
             ></ng-container>
 
             <ng-template #info let-field="field" let-value="value" let-label="label">
@@ -100,8 +106,41 @@
     </mat-card-content>
 </mat-card>
 
-<procyon-documents-panel [title]="'Documents'" [documents]="(documents$ | async)!"> </procyon-documents-panel>
+<procyon-documents-panel
+    *ngIf="documents$ | async as documents"
+    [title]="'Documents'"
+    [documents]="documents"
+    [canAddDocument]="(canAddDocuments$ | async)!"
+    (onAddDocument)="addDocument('document', documents)"
+    (onDocumentDownload)="downloadDocument($event)"
+    (onDocumentEdit)="editDocument($event)"
+    (onDocumentRemove)="removeDocument($event)"
+    (onDocumentStatusChanged)="changeDocumentStatus($event)"
+>
+</procyon-documents-panel>
 
-<procyon-documents-panel [title]="'Programs'" [documents]="(programs$ | async)!"> </procyon-documents-panel>
+<procyon-documents-panel
+    *ngIf="programs$ | async as programs"
+    [title]="'Programs'"
+    [documents]="programs"
+    [canAddDocument]="(canAddPrograms$ | async)!"
+    (onAddDocument)="addDocument('program', programs)"
+    (onDocumentDownload)="downloadDocument($event)"
+    (onDocumentEdit)="editDocument($event)"
+    (onDocumentRemove)="removeDocument($event)"
+    (onDocumentStatusChanged)="changeDocumentStatus($event)"
+>
+</procyon-documents-panel>
 
-<procyon-documents-panel [title]="'Methods'" [documents]="(methods$ | async)!"> </procyon-documents-panel>
+<procyon-documents-panel
+    *ngIf="methods$ | async as methods"
+    [title]="'Methods'"
+    [documents]="methods"
+    [canAddDocument]="(canAddMethods$ | async)!"
+    (onAddDocument)="addDocument('method', methods)"
+    (onDocumentDownload)="downloadDocument($event)"
+    (onDocumentEdit)="editDocument($event)"
+    (onDocumentRemove)="removeDocument($event)"
+    (onDocumentStatusChanged)="changeDocumentStatus($event)"
+>
+</procyon-documents-panel>

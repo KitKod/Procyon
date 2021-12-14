@@ -8,7 +8,7 @@ export const testDocumentMocks: TestDocumentModel[] = [
         status: 'approved',
         government: 'Ministry_of_Defence',
         date_of_approval: '11-11-2021',
-        material_and_technical_means: '',
+        material_and_technical_means: 'sadhsahjsahsfah\nasfjasdjasjsaffj\n\n\nad',
     },
     {
         id: 2,
@@ -21,7 +21,7 @@ export const testDocumentMocks: TestDocumentModel[] = [
     },
     {
         id: 3,
-        name: '',
+        name: 'joint_decision.doc',
         type: 'joint_decision',
         status: 'developing',
         government: 'ZNGSH',
