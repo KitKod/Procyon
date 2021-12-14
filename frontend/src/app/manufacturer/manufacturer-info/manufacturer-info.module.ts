@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ManufacturerInfoComponent } from './manufacturer-info.component';
 import { ManufacturerInfoRoutingModule } from './manufacturer-info-routing.module';
+import { ConfirmationDialogModule } from '@core/confirmation-dialog';
 
 @NgModule({
     declarations: [ManufacturerInfoComponent],
@@ -31,6 +32,7 @@ import { ManufacturerInfoRoutingModule } from './manufacturer-info-routing.modul
         NgxsModule.forFeature([]),
         MatFormFieldModule,
         MatInputModule,
+        ConfirmationDialogModule,
     ],
 })
 export class ManufacturerInfoModule {}

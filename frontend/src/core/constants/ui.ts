@@ -12,4 +12,4 @@ export const DATE_FORMAT: MatDateFormats = {
     },
 };
 
-export const DEFAULT_LOCALE = 'uk-UA';
+export const DEFAULT_LOCALE = 'uk';

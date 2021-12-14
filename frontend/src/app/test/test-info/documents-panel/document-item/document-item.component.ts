@@ -9,19 +9,27 @@ import { WithoutId } from '@core/utility-types';
 })
 export class DocumentItemComponent {
     @Input() title = '';
-    @Input() document!: WithoutId<TestDocumentModel>;
+    @Input() document!: TestDocumentModel;
 
-    @Output() documentStatusChanged = new EventEmitter<{
-        document: WithoutId<TestDocumentModel>;
-        status: TestDocumentStatus;
-    }>();
+    @Output() onDocumentStatusChanged = new EventEmitter<TestDocumentStatus>();
 
-    changeDocumentStatus(document: WithoutId<TestDocumentModel>, status: TestDocumentStatus): void {
-        this.documentStatusChanged.emit({ document, status });
+    @Output() onDocumentEdit = new EventEmitter();
+    @Output() onDocumentRemove = new EventEmitter();
+    @Output() onDocumentDownLoad = new EventEmitter<void>();
+
+    changeDocumentStatus(status: TestDocumentStatus): void {
+        this.onDocumentStatusChanged.emit(status);
     }
 
     downloadDocument(): void {
-        // var _url = window.URL.createObjectURL(blob);
-        // window.open(_url, "_blank").focus(); // window.open + focus
+        this.onDocumentDownLoad.emit();
+    }
+
+    editDocument(): void {
+        this.onDocumentEdit.emit();
+    }
+
+    removeDocument(): void {
+        this.onDocumentRemove.emit();
     }
 }

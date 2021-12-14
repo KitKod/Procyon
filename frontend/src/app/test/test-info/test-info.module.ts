@@ -19,6 +19,7 @@ import { TestInfoComponent } from './test-info.component';
 import { TestInfoRoutingModule } from './test-info-routing.module';
 import { DocumentItemComponent } from './documents-panel/document-item/document-item.component';
 import { DocumentsPanelComponent } from './documents-panel/documents-panel.component';
+import { ManageDocumentDialogModule } from './manage-document-dialog';
 import { ConfirmationDialogModule } from '@core/confirmation-dialog';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { ConfirmationDialogModule } from '@core/confirmation-dialog';
         MatNativeDateModule,
         MatMenuModule,
         ConfirmationDialogModule,
+        ManageDocumentDialogModule,
     ],
     providers: [DatePipe],
 })

@@ -27,6 +27,12 @@ export class TestDocumentState {
         });
     }
 
+    static documentFile(testId: number, documentId: number): (state: DocumentStateModel) => Blob | null {
+        return createSelector([TestDocumentState], (state: DocumentStateModel) => {
+            return (state.documentsBlobs[testId] || [])[documentId];
+        });
+    }
+
     constructor(private api: TestDocumentApiService) {}
 
     @Action(TestDocumentActions.Add)

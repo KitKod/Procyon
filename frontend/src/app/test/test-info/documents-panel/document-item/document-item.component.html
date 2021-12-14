@@ -15,72 +15,70 @@
                 (click.stop)="(null)"
             >
                 {{ testStatus }}
-                <span *ngIf="document.date_of_approval">/ {{ document.date_of_approval }}</span>
+                <span *ngIf="document.date_of_approval">/ {{ document.date_of_approval | date: 'shortDate' }}</span>
             </div>
         </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <div class="flex flex-col md:flex-row gap-4 md:items-baseline">
-        <mat-form-field *ngIf="!document.name; else docPreview" appearance="standard">
-            <mat-label>Upload document</mat-label>
-            <input matInput required readonly [value]="''" />
-            <input #fileUpload class="hidden" type="file" (change)="$any($event.target).files[0]" />
+    <div class="flex flex-col">
+        <div class="flex flex-col md:flex-row gap-4 md:items-baseline">
+            <mat-form-field class="flex-1" appearance="standard">
+                <mat-label>Government</mat-label>
+                <input matInput readonly [value]="document.government" />
+            </mat-form-field>
 
-            <button mat-icon-button color="primary" matSuffix (click)="fileUpload.click()">
-                <mat-icon>upload</mat-icon>
-            </button>
-        </mat-form-field>
+            <div
+                class="flex-1 text-blue-700 flex cursor-pointer align-start 2xl:self-center"
+                (click)="downloadDocument()"
+            >
+                <mat-icon>file_present</mat-icon>
+                <span class="font-bold self-center">{{ document.name }}</span>
+            </div>
+
+            <div class="flex-1"></div>
+
+            <div class="flex md:flex-row flex-col gap-4">
+                <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editDocument()">Edit</button>
+                    <button
+                        *ngIf="document.status !== 'approving'"
+                        mat-menu-item
+                        [disabled]="!document.name || !document.government"
+                        (click)="changeDocumentStatus('approving')"
+                    >
+                        Start approving
+                    </button>
+                    <button
+                        *ngIf="document.status !== 'developing'"
+                        mat-menu-item
+                        [disabled]="!document.name || !document.government"
+                        (click)="changeDocumentStatus('developing')"
+                    >
+                        For revision
+                    </button>
+                    <button
+                        *ngIf="document.status !== 'approved'"
+                        mat-menu-item
+                        [disabled]="!document.name || !document.government"
+                        (click)="changeDocumentStatus('approved')"
+                    >
+                        Approve
+                    </button>
+                    <button mat-menu-item (click)="removeDocument()">Delete</button>
+                </mat-menu>
+            </div>
+        </div>
 
         <mat-form-field appearance="standard">
-            <mat-label>Government</mat-label>
-            <input matInput disabled required [value]="document.government" />
+            <mat-label>Material and technical means</mat-label>
+            <textarea
+                cdkTextareaAutosize
+                matInput
+                readonly
+                [disabled]="!document.material_and_technical_means"
+                [value]="document.material_and_technical_means"
+            ></textarea>
         </mat-form-field>
-
-        <div class="flex-1"></div>
-
-        <div class="flex md:flex-row flex-col gap-4">
-            <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-            <mat-menu #menu="matMenu">
-                <button
-                    *ngIf="document.status === 'developing'"
-                    mat-menu-item
-                    [disabled]="!document.name || !document.government"
-                    (click)="changeDocumentStatus(document, 'approving')"
-                >
-                    Start approving
-                </button>
-                <button
-                    *ngIf="document.status === 'approving' || document.status === 'approved'"
-                    mat-menu-item
-                    [disabled]="!document.name || !document.government"
-                    (click)="changeDocumentStatus(document, 'developing')"
-                >
-                    For revision
-                </button>
-                <button
-                    *ngIf="document.status === 'approved'"
-                    mat-menu-item
-                    [disabled]="!document.name || !document.government"
-                    (click)="changeDocumentStatus(document, 'developing')"
-                >
-                    Reapprove
-                </button>
-                <button
-                    *ngIf="document.status === 'approving'"
-                    mat-menu-item
-                    [disabled]="!document.name || !document.government"
-                    (click)="changeDocumentStatus(document, 'approved')"
-                >
-                    Approve
-                </button>
-            </mat-menu>
-        </div>
     </div>
-
-    <ng-template #docPreview>
-        <div class="text-blue-700 flex cursor-pointer align-start 2xl:self-center">
-            <mat-icon>file_present</mat-icon>
-            <span class="font-bold self-end">{{ document.name }}</span>
-        </div>
-    </ng-template>
 </mat-expansion-panel>

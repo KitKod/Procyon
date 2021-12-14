@@ -78,7 +78,7 @@ export class AmeApiService {
         if (environment.useMocks) {
             request$ = request$.pipe(
                 startWith({
-                    resource: [ameMocks[0]],
+                    resource: [ameMocks[id - 1]],
                     meta: {},
                 } as ApiSingleResponseModel<AmeModel>),
                 first(),

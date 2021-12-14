@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { isEqual } from 'lodash-es';
 import { switchMap, distinctUntilChanged, mapTo, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AddTestDialogComponent } from './add-test-dialog/add-test-dialog.component';
-import { AddTestDialogResult } from './add-test-dialog/add-test-dialog.data';
 import { TestModel, TestState, TestActions } from '@core/store/test';
 
 @Component({
@@ -25,7 +25,12 @@ export class TestListComponent implements OnInit {
         distinctUntilChanged(isEqual),
     );
 
-    constructor(private store: Store, private matDialog: MatDialog) {}
+    constructor(
+        private store: Store,
+        private matDialog: MatDialog,
+        private activationRoute: ActivatedRoute,
+        private router: Router,
+    ) {}
 
     ngOnInit(): void {
         this.store.dispatch(TestActions.FetchAll);
@@ -33,10 +38,11 @@ export class TestListComponent implements OnInit {
 
     openAddTestDialog(): void {
         this.matDialog
-            .open<AddTestDialogComponent, never, AddTestDialogResult>(AddTestDialogComponent)
+            .open<AddTestDialogComponent>(AddTestDialogComponent)
             .afterClosed()
             .subscribe(result => {
-                console.log('openAddTestDialog', { result });
+                console.log('openAddTestDialog', result.test.tests[0]);
+                this.router.navigate([result.test.tests[0].id], { relativeTo: this.activationRoute });
             });
     }
 }

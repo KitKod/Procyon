@@ -16,7 +16,7 @@ const routes: Routes = [
         loadChildren: () => import('./ame').then(m => m.AmeModule),
     },
     {
-        path: 'manufactures',
+        path: 'manufacturers',
         loadChildren: () => import('./manufacturer').then(m => m.ManufacturerModule),
     },
     {

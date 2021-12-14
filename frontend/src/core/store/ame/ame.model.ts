@@ -17,26 +17,12 @@ export type AmeFamily =
     | 'anti_aircraft_missile_systems';
 
 export interface AmeModel {
-    /**
-     * AME database id
-     */
     id: number;
-    /**
-     * Name of AME, e.g. object 168
-     */
     name: string;
-    /**
-     * AME family e.g aircraft, ships, small arms etc.
-     */
     family: AmeFamily;
-    /**
-     * Type of AME e.g. tank, plane etc.
-     */
     type: string;
-    /**
-     * Manufacturer structure
-     */
     manufacturer: ManufacturerModel;
+    ttc_file_name: string;
 }
 
 export type AmeAddModel = WithoutId<AmeModel, 'manufacturer'> & {

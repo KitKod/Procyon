@@ -4,11 +4,11 @@
     </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-card class="mat-elevation-z0 border my-3">
+<mat-card *ngIf="ame$ | async as ameInfo" class="mat-elevation-z0 border my-3">
     <mat-card-content class="flex flex-row">
-        <div class="flex">
+        <div *ngIf="viewModeEnabled$ | async" class="flex">
             <span class="flex-1"></span>
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="enableEditMode()">
                 <mat-icon>edit</mat-icon>
             </button>
             <button class="ml-2" mat-icon-button color="warn">
@@ -16,7 +16,7 @@
             </button>
         </div>
 
-        <div class="flex flex-col">
+        <div *ngIf="viewModeEnabled$ | async" class="flex flex-col">
             <ng-container *ngTemplateOutlet="info; context: { field: 'name' }"></ng-container>
             <ng-container *ngTemplateOutlet="info; context: { field: 'family' }"></ng-container>
             <ng-container *ngTemplateOutlet="info; context: { field: 'type' }"></ng-container>
@@ -25,7 +25,7 @@
                     info;
                     context: {
                         field: 'manufacturer',
-                        value: ameForm.get('manufacturer')?.value.name
+                        value: ameInfo['manufacturer']?.name
                     }
                 "
             ></ng-container>
@@ -34,9 +34,78 @@
                 <div class="border-t my-3"></div>
                 <div class="flex flex-row">
                     <div class="w-60 font-semibold text-black text-opacity-60">{{ label || (field | titlecase) }}</div>
-                    <div class="text-left">{{ (value ?? ameForm.get(field)?.value) || 'Not set' }}</div>
+                    <div class="text-left">{{ (value ?? ameInfo[asAmeModelKey(field)]) || 'Not set' }}</div>
                 </div>
             </ng-template>
+
+            <div class="border-t my-3"></div>
+
+            <div class="flex flex-row">
+                <div class="w-60 font-semibold text-black text-opacity-60">TTC file</div>
+                <div class="text-blue-700 flex cursor-pointer align-start">
+                    <mat-icon class="self-center">file_present</mat-icon>
+                    <span class="font-bold self-center">"1500331464-2021-12-08_17-12-16.pdf"</span>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="editModeEnabled$ | async" class="flex flex-col">
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="ameForm">
+                <mat-form-field appearance="standard">
+                    <mat-label>Ame name</mat-label>
+                    <input id="ame-name" matInput formControlName="name" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Type</mat-label>
+                    <input id="ame-type" matInput formControlName="type" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Family</mat-label>
+                    <mat-select id="ame-family" required formControlName="family">
+                        <mat-option *ngFor="let ameFamily of ameFamilies" [value]="ameFamily">
+                            {{ ameFamily }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>Manufacturer</mat-label>
+                    <mat-select id="ame-manufacturer" required formControlName="manufacturer">
+                        <mat-option [value]="1">Kiev army factory</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard">
+                    <mat-label>TTC file</mat-label>
+
+                    <input
+                        id="ame-upload-ttc"
+                        matInput
+                        required
+                        readonly
+                        [value]="ameForm.get('ttc_file')?.value?.name"
+                    />
+
+                    <input #fileUpload class="hidden" type="file" (change)="updateFile($event)" />
+
+                    <button
+                        id="ame-upload-ttc-button"
+                        mat-icon-button
+                        color="primary"
+                        matSuffix
+                        (click)="fileUpload.click()"
+                    >
+                        <mat-icon>upload</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <div class="flex col-span-1 md:col-span-2 justify-end gap-2">
+                    <button mat-button (click)="cancelEdit()">Cancel</button>
+                    <button mat-raised-button type="submit" color="primary" (click)="saveAme()">Save</button>
+                </div>
+            </form>
         </div>
     </mat-card-content>
 </mat-card>

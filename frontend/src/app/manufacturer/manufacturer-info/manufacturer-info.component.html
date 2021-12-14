@@ -6,17 +6,17 @@
 
 <mat-card class="mat-elevation-z0 border my-3">
     <mat-card-content class="flex flex-row">
-        <div class="flex">
+        <div *ngIf="viewModeEnabled$ | async" class="flex">
             <span class="flex-1"></span>
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="enableEditMode()">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button class="ml-2" mat-icon-button color="warn">
+            <button class="ml-2" mat-icon-button color="warn" (click)="deleteManufacturer()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
 
-        <div class="flex flex-col">
+        <div *ngIf="viewModeEnabled$ | async" class="flex flex-col">
             <ng-container *ngTemplateOutlet="info; context: { field: 'name' }"></ng-container>
             <ng-container *ngTemplateOutlet="info; context: { field: 'address' }"></ng-container>
             <ng-container *ngTemplateOutlet="info; context: { field: 'chief' }"></ng-container>
@@ -30,5 +30,36 @@
                 </div>
             </ng-template>
         </div>
+
+        <form
+            *ngIf="editModeEnabled$ | async"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            [formGroup]="manufactureForm"
+        >
+            <mat-form-field appearance="standard">
+                <mat-label>Name</mat-label>
+                <input id="manufacture-name" matInput formControlName="name" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="standard">
+                <mat-label>Address</mat-label>
+                <input id="manufacture-address" matInput formControlName="address" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="standard">
+                <mat-label>Chief</mat-label>
+                <input id="manufacture-chief" matInput formControlName="chief" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="standard">
+                <mat-label>Contact</mat-label>
+                <input id="manufacture-contact" matInput formControlName="contact" required />
+            </mat-form-field>
+
+            <div class="flex col-span-1 md:col-span-2 justify-end gap-2">
+                <button mat-button (click)="cancelEdit()">Cancel</button>
+                <button mat-raised-button type="submit" color="primary">Save</button>
+            </div>
+        </form>
     </mat-card-content>
 </mat-card>

@@ -6,6 +6,7 @@ interface NavLink {
     label: string;
     icon: string;
 }
+
 @Component({
     selector: 'procyon-root',
     templateUrl: './app.component.html',
@@ -24,7 +25,7 @@ export class AppComponent {
             icon: 'flight',
         },
         {
-            url: '/manufactures',
+            url: '/manufacturers',
             label: 'Manufactures',
             icon: 'factory',
         },

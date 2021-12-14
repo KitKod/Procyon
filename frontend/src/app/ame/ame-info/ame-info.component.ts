@@ -1,8 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ActivatedRoute } from '@angular/router';
-import { ReplaySubject } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
+import { ReplaySubject, BehaviorSubject } from 'rxjs';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { map, switchMapTo, first, takeUntil } from 'rxjs/operators';
+import { AME_FAMILIES } from '@core/constants/ame-constants';
+import { AmeActions, AmeState, AmeModel } from '@core/store/ame';
+import { getDirtyValues } from '@core/utils/form';
 
 @Component({
     selector: 'procyon-ame-info',
@@ -14,39 +18,84 @@ export class AmeInfoComponent implements OnInit, OnDestroy {
         family: ['', Validators.required],
         type: ['', Validators.required],
         ttc_file: [null, Validators.required],
-        manufacturer: this.fb.group({
-            id: [0, Validators.required],
-            name: [0, Validators.required],
-        }),
+        manufacturer: [null, Validators.required],
     });
 
+    readonly ame$ = this.store.select(AmeState.ameToEdit);
+
+    readonly ameFamilies = AME_FAMILIES;
+
+    readonly editModeEnabled$ = new BehaviorSubject(false);
+    readonly viewModeEnabled$ = this.editModeEnabled$.pipe(map(v => !v));
+
     readonly destroy$ = new ReplaySubject<void>(1);
+
+    get ameId(): number {
+        return Number(this.activatedRoute.snapshot.params.id);
+    }
 
     constructor(private store: Store, private activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
     ngOnInit(): void {
-        this.ameForm.reset({
-            name: 'Fort PM',
-            family: 'armored_vehicles',
-            type: 'warhfdf hadsfhadha',
-            manufacturer: {
-                name: 'Kiev army factory',
-                address: 'Ukraine',
-                chief: 'President',
-                contact: 'Ukraine',
-            },
-        });
-
-        // this.store
-        //     .dispatch(new AmeActions.GetById(this.activatedRoute.snapshot.params.id))
-        //     .pipe(takeUntil(this.destroy$))
-        //     .subscribe(() => {
-        //         this.ameForm.reset(this.store.selectSnapshot(AmeState.ameToEdit) || {});
-        //     });
+        this.store
+            .dispatch(new AmeActions.GetById(this.ameId))
+            .pipe(switchMapTo(this.store.select(AmeState.ameToEdit)), first(Boolean), takeUntil(this.destroy$))
+            .subscribe(() => this.resetForm());
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    enableEditMode(): void {
+        this.editModeEnabled$.next(true);
+    }
+
+    cancelEdit(): void {
+        this.editModeEnabled$.next(false);
+        this.resetForm();
+    }
+
+    saveAme(): void {
+        const { manufacturer: manufacturer_id, ...updatedInfo } = getDirtyValues(this.ameForm);
+
+        this.store
+            .dispatch(
+                new AmeActions.Update({
+                    id: this.ameId,
+                    ...updatedInfo,
+                    ...(manufacturer_id && { manufacturer_id }),
+                }),
+            )
+            .subscribe(() => {
+                this.editModeEnabled$.next(false);
+                this.resetForm();
+            });
+    }
+
+    asAmeModelKey(v: unknown): keyof AmeModel {
+        return v as keyof AmeModel;
+    }
+
+    updateFile(event: Event): void {
+        const control: FormControl = this.ameForm.get('ttc_file') as FormControl;
+        const newFile = (event.target as HTMLInputElement).files?.[0];
+        if (newFile) {
+            control.setValue(newFile);
+            control.markAsDirty();
+        }
+    }
+
+    private resetForm(): void {
+        const { id, manufacturer, ttc_file_name, ...ame } = this.store.selectSnapshot(AmeState.ameToEdit) || {};
+
+        this.ameForm.reset({
+            name: 'Fort PM',
+            family: 'armored_vehicles',
+            type: 'warhfdf hadsfhadha',
+            ttc_file: new File([''], ttc_file_name as string),
+            manufacturer: manufacturer?.id,
+        });
     }
 }
