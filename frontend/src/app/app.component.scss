@@ -1,15 +1,12 @@
 @use '~@angular/material' as mat;
 @use '../theme';
 
-::ng-deep {
-    .mat-drawer-container {
-        background-color: inherit;
-    }
-}
-
 :host {
     mat-sidenav {
         position: fixed;
+    }
+
+    .sidenav-text-shown {
         width: 325px;
     }
 
@@ -29,6 +26,23 @@
 
     mat-toolbar-row {
         max-width: 1920px;
+    }
+
+    ::ng-deep {
+        .mat-drawer-inner-container {
+            overflow: hidden;
+        }
+
+        .mat-drawer-container {
+            background-color: inherit;
+        }
+
+        mat-nav-list {
+            a,
+            [mat-ripple] {
+                border-radius: 0 24px 24px 0;
+            }
+        }
     }
 }
 

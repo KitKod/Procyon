@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { first, map, switchMapTo, takeUntil } from 'rxjs/operators';
 
+import { ConfirmationDialogService } from '@core/confirmation-dialog';
 import { AME_FAMILIES } from '@core/constants/ame-constants';
 import { AmeActions, AmeModel, AmeState } from '@core/store/ame';
+import { ManufacturerActions } from '@core/store/manufacturer';
 import { getDirtyValues } from '@core/utils/form';
 import { getAmeFamilyLocalization } from '@core/utils/localization';
 
@@ -38,7 +40,13 @@ export class AmeInfoComponent implements OnInit, OnDestroy {
         return Number(this.activatedRoute.snapshot.params.id);
     }
 
-    constructor(private store: Store, private activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+    constructor(
+        private store: Store,
+        private activatedRoute: ActivatedRoute,
+        private fb: FormBuilder,
+        private confirmSrv: ConfirmationDialogService,
+        private router: Router,
+    ) {}
 
     ngOnInit(): void {
         this.store
@@ -76,6 +84,20 @@ export class AmeInfoComponent implements OnInit, OnDestroy {
                 this.editModeEnabled$.next(false);
                 this.resetForm();
             });
+    }
+
+    deleteAme(): void {
+        this.confirmSrv.open({
+            title: 'Підтвердьте видалення',
+            message: `Ви впевнені, що хочете видалити ОВТ?`,
+            affirmative: {
+                label: 'Delete',
+                handler: () => {
+                    this.store.dispatch(new AmeActions.Delete({ id: this.ameId }));
+                    this.router.navigate(['/ames']);
+                },
+            },
+        });
     }
 
     asAmeModelKey(v: unknown): keyof AmeModel {

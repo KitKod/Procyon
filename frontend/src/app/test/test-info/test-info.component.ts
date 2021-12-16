@@ -164,31 +164,35 @@ export class TestInfoComponent implements OnInit, OnDestroy {
     }
 
     addDocument(type: keyof typeof DOCUMENTS_GROUPS_BY_TYPE, alreadyAdded: TestDocumentModel[]): void {
-        const availableTypes: TestDocumentType[] = [];
         const usedTypes = alreadyAdded.map(v => v.type);
+        let availableTypes: TestDocumentType[] = [type as TestDocumentType];
+        let title = 'Додати документ';
+        let prefilledType: TestDocumentType | null = type as TestDocumentType;
 
         switch (type) {
             case 'document':
-                availableTypes.push(...DOCUMENTS_GROUPS_BY_TYPE[type].filter(v => !usedTypes.includes(v)));
+                availableTypes = DOCUMENTS_GROUPS_BY_TYPE[type].filter(v => !usedTypes.includes(v));
+                prefilledType = null;
+                if (availableTypes.length === 1) {
+                    title = `Додати ${getDocumentTypeLocalization(availableTypes[0])}`;
+                    prefilledType = availableTypes[0];
+                }
                 break;
             case 'program':
-                availableTypes.push('program');
+                title = `Додати програму`;
                 break;
             case 'method':
-                availableTypes.push('method');
-                break;
-            default:
+                title = `Додати методику`;
                 break;
         }
-        const lastTypeLeft = availableTypes.length === 1 ? availableTypes[0] : null;
 
         this.matDialog.open<ManageDocumentDialogComponent, ManageDocumentDialogData>(ManageDocumentDialogComponent, {
             data: {
-                title: `Add "${lastTypeLeft}"`,
+                title,
                 canUploadFile: true,
                 availableTypes,
                 prefilledData: {
-                    ...(lastTypeLeft && { type: lastTypeLeft }),
+                    ...(prefilledType && { type: prefilledType }),
                     status: 'developing',
                 },
                 onSaveCallback: document => {

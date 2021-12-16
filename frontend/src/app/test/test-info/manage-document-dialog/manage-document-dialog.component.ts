@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DOCUMENT_GOVERNMENTS } from '@core/constants/test-documnet-constants';
-import { getGovernmentLocalization } from '@core/utils/localization';
+import { getDocumentTypeLocalization, getGovernmentLocalization } from '@core/utils/localization';
 
 import { ManageDocumentDialogData } from './manage-document-dialog.data';
 
@@ -28,6 +28,7 @@ export class ManageDocumentDialogComponent {
 
     readonly documentGovernments = DOCUMENT_GOVERNMENTS;
     readonly getGovernment = getGovernmentLocalization;
+    readonly getDocumentType = getDocumentTypeLocalization;
 
     constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) private readonly data: ManageDocumentDialogData) {}
 
