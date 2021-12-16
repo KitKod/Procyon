@@ -1,4 +1,4 @@
-import { TestAddModel, TestUpdateModel, TestDeleteModel } from './test.model';
+import { TestAddModel, TestDeleteModel, TestUpdateModel } from './test.model';
 
 export namespace TestActions {
     export class Add {

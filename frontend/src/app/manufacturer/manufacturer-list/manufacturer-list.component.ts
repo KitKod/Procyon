@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
 import { isEqual } from 'lodash-es';
-import { distinctUntilChanged, tap, switchMap, mapTo } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, mapTo, switchMap, tap } from 'rxjs/operators';
+
+import { ManufacturerActions, ManufacturerModel, ManufacturerState } from '@core/store/manufacturer';
+
 import { AddManufacturerDialogComponent } from './add-manufacturer-dialog/add-manufacturer-dialog.component';
-import { ManufacturerModel, ManufacturerState, ManufacturerActions } from '@core/store/manufacturer';
 
 @Component({
     selector: 'procyon-manufacturer-list',

@@ -1,32 +1,32 @@
-<div mat-dialog-title>Add new manufacture</div>
+<div mat-dialog-title>Додати нового виробника</div>
 
 <mat-dialog-content>
     <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="manufacturerInfoStepFormGroup">
         <mat-form-field appearance="standard">
-            <mat-label>Name</mat-label>
+            <mat-label>Назва</mat-label>
             <input id="manufacturer-name" matInput formControlName="name" required />
         </mat-form-field>
 
         <mat-form-field appearance="standard">
-            <mat-label>Address</mat-label>
+            <mat-label>Адреса</mat-label>
             <input id="manufacturer-address" matInput formControlName="address" required />
         </mat-form-field>
 
         <mat-form-field appearance="standard">
-            <mat-label>Chief</mat-label>
+            <mat-label>Керівник</mat-label>
             <input id="manufacturer-chief" matInput formControlName="chief" required />
         </mat-form-field>
 
         <mat-form-field appearance="standard">
-            <mat-label>Contact</mat-label>
+            <mat-label>Контакт</mat-label>
             <input id="manufacturer-contact" matInput formControlName="contact" required />
         </mat-form-field>
     </form>
 </mat-dialog-content>
 
 <mat-dialog-actions class="flex">
-    <button id="add-manufacture-cancel-button" mat-button color="primary" (click)="closeWithoutSave()">Cancel</button>
+    <button id="add-manufacture-cancel-button" mat-button color="primary" (click)="closeWithoutSave()">Відміна</button>
     <span class="flex-1"></span>
 
-    <button id="add-manufacture-save-button" mat-raised-button color="primary" (click)="onSave()">Save</button>
+    <button id="add-manufacture-save-button" mat-raised-button color="primary" (click)="onSave()">Зберегти</button>
 </mat-dialog-actions>

@@ -1,18 +1,19 @@
-import { ComponentFixture, AmeBed } from '@angular/core/ameing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { AddAmeDialogComponent } from './add-ame-dialog.component';
 
-describe('AddAmeWizardComponent', () => {
+describe('AddAmeDialogComponent', () => {
     let component: AddAmeDialogComponent;
     let fixture: ComponentFixture<AddAmeDialogComponent>;
 
     beforeEach(async () => {
-        await AmeBed.configureAmeingModule({
+        await TestBed.configureTestingModule({
             declarations: [AddAmeDialogComponent],
         }).compileComponents();
     });
 
     beforeEach(() => {
-        fixture = AmeBed.createComponent(AddAmeDialogComponent);
+        fixture = TestBed.createComponent(AddAmeDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

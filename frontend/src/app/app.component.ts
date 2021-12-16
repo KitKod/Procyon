@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 interface NavLink {
-    url: any[] | string | null | undefined;
+    url: unknown[] | string | null | undefined;
     label: string;
     icon: string;
 }
@@ -16,17 +15,20 @@ export class AppComponent {
     readonly links: NavLink[] = [
         {
             url: '/tests',
-            label: 'Tests',
+            // label: 'Tests',
+            label: 'Випробування',
             icon: 'biotech',
         },
         {
             url: '/ames',
-            label: 'Armament and military equipments',
+            // label: 'Armament and military equipments',
+            label: 'Озброєння та військова техніка',
             icon: 'flight',
         },
         {
             url: '/manufacturers',
-            label: 'Manufactures',
+            // label: 'Manufactures',
+            label: 'Виробники',
             icon: 'factory',
         },
     ];

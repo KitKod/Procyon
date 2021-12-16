@@ -1,20 +1,22 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { EventPluginsModule } from '@tinkoff/ng-event-plugins';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+
+import { environment } from '@environment';
+
 import { DATE_FORMAT } from '@core/constants/ui';
 import { ElementRefModule } from '@core/element-ref';
-import { environment } from '@environment';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
     declarations: [AppComponent],

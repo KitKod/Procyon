@@ -1,6 +1,6 @@
 <mat-toolbar class="table-control-panel">
     <mat-toolbar-row>
-        <button color="primary" mat-raised-button (click)="openAddTestDialog()">Add</button>
+        <button color="primary" mat-raised-button (click)="openAddTestDialog()">Додати</button>
     </mat-toolbar-row>
 </mat-toolbar>
 
@@ -8,37 +8,37 @@
     <mat-card-content>
         <table *ngIf="dataSource$ | async as dataSource" mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="name">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header>Test name</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>Назва випробування</th>
                 <td *matCellDef="let data" mat-cell>
                     <a class="procyon-primary-color" [routerLink]="data.id">{{ data.name }}</a>
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="ame">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header>Armament and military equipment</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>Зразок ОВТ</th>
                 <td *matCellDef="let data" mat-cell>
                     <a class="procyon-primary-color" [routerLink]="['/ames', data.ame.id]">{{ data.ame.name }}</a>
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="type">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
-                <td *matCellDef="let data" mat-cell>{{ data.type }}</td>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>Тип</th>
+                <td *matCellDef="let data" mat-cell>{{ getTestType(data.type) }}</td>
             </ng-container>
 
             <ng-container matColumnDef="location">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header>Location</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>Місцезнаходження</th>
                 <td *matCellDef="let data" mat-cell>{{ data.location }}</td>
             </ng-container>
 
             <ng-container matColumnDef="date">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>Дата затвердження</th>
                 <td *matCellDef="let data" mat-cell>{{ data.date_of_approval | date: 'shortDate' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="status">
-                <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
-                <td *matCellDef="let data" mat-cell>{{ data.status }}</td>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header>Статус</th>
+                <td *matCellDef="let data" mat-cell>{{ getTestStatus(data.status) }}</td>
             </ng-container>
 
             <tr *matHeaderRowDef="['name', 'ame', 'type', 'location', 'date', 'status']" mat-header-row></tr>

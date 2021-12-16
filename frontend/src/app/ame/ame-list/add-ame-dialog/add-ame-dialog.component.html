@@ -1,39 +1,39 @@
-<div mat-dialog-title>Add new ame</div>
+<div mat-dialog-title>Додати нове ОВТ</div>
 
 <mat-dialog-content>
     <mat-stepper #stepper linear [style.min-height.px]="386" [orientation]="(stepperOrientation$ | async)!">
         <mat-step [stepControl]="ameInfoStepFormGroup">
-            <ng-template matStepLabel>AME</ng-template>
+            <ng-template matStepLabel>ОВТ</ng-template>
 
             <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="ameInfoStepFormGroup">
                 <mat-form-field appearance="standard">
-                    <mat-label>Ame name</mat-label>
+                    <mat-label>Назва ОВТ</mat-label>
                     <input id="ame-name" matInput formControlName="name" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
-                    <mat-label>Type</mat-label>
+                    <mat-label>Тип</mat-label>
                     <input id="ame-type" matInput formControlName="type" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
-                    <mat-label>Family</mat-label>
+                    <mat-label>Рід</mat-label>
                     <mat-select id="ame-family" required formControlName="family">
                         <mat-option *ngFor="let ameFamily of ameFamilies" [value]="ameFamily">
-                            {{ ameFamily }}
+                            {{ getAmeFamily(ameFamily) }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
-                    <mat-label>Manufacturer</mat-label>
+                    <mat-label>Вирбник</mat-label>
                     <mat-select id="ame-manufacturer" required formControlName="manufacturer_id">
-                        <mat-option [value]="createNewManufacturerId">Create new</mat-option>
+                        <mat-option [value]="createNewManufacturerId">Додати нового</mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
-                    <mat-label>Upload TTC</mat-label>
+                    <mat-label>Файл з ТТХ</mat-label>
                     <input
                         id="ame-upload-ttc"
                         matInput
@@ -63,53 +63,55 @@
         </mat-step>
 
         <mat-step [stepControl]="manufacturerInfoStepFormGroup">
-            <ng-template matStepLabel>Manufacturer</ng-template>
+            <ng-template matStepLabel>Виробник</ng-template>
 
             <form class="grid grid-cols-1 md:grid-cols-2 gap-4" [formGroup]="manufacturerInfoStepFormGroup">
                 <mat-form-field appearance="standard">
-                    <mat-label>Manufacturer name</mat-label>
+                    <mat-label>Назва Виробник</mat-label>
                     <input id="manufacturer-name" matInput formControlName="name" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
-                    <mat-label>Address</mat-label>
+                    <mat-label>Адреса</mat-label>
                     <input id="manufacturer-address" matInput formControlName="address" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
-                    <mat-label>Chief</mat-label>
+                    <mat-label>Керівник</mat-label>
                     <input id="manufacturer-chief" matInput formControlName="chief" required />
                 </mat-form-field>
 
                 <mat-form-field appearance="standard">
-                    <mat-label>Contact</mat-label>
+                    <mat-label>Контакт</mat-label>
                     <input id="manufacturer-contact" matInput formControlName="contact" required />
                 </mat-form-field>
             </form>
         </mat-step>
 
         <mat-step>
-            <ng-template matStepLabel>Summary</ng-template>
+            <ng-template matStepLabel>Огляд</ng-template>
 
             <div *ngIf="ameInfoStepFormGroup.value as value" class="grid grid-cols-2 mt-3 mb-3">
-                <ng-container *ngTemplateOutlet="info; context: { label: 'Ame name', value: value.name }">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Назва ОВТ', value: value.name }">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="info; context: { label: 'Family', value: value.family }">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Рід', value: getAmeFamily(value.family) }">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="info; context: { label: 'Type', value: value.type }"></ng-container>
-                <ng-container *ngTemplateOutlet="info; context: { label: 'TTC file', value: value.ttc_file?.name }">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Тип', value: value.type }"></ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Файл з ТТХ', value: value.ttc_file?.name }">
                 </ng-container>
             </div>
 
             <mat-divider></mat-divider>
 
             <div *ngIf="manufacturerInfoStepFormGroup.value as value" class="grid grid-cols-2 mt-3">
-                <ng-container *ngTemplateOutlet="info; context: { label: 'Manufacturer name', value: value.name }">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Назва вирбника', value: value.name }">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="info; context: { label: 'Address', value: value.address }">
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Адреса', value: value.address }">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="info; context: { label: 'Chief', value: value.chief }"></ng-container>
-                <ng-container *ngTemplateOutlet="info; context: { label: 'Contact', value: value.contact }">
+                <ng-container
+                    *ngTemplateOutlet="info; context: { label: 'Керівник', value: value.chief }"
+                ></ng-container>
+                <ng-container *ngTemplateOutlet="info; context: { label: 'Контакт', value: value.contact }">
                 </ng-container>
             </div>
 
@@ -122,7 +124,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="flex">
-    <button id="add-ame-cancel-button" mat-button color="primary" (click)="closeWithoutSave()">Cancel</button>
+    <button id="add-ame-cancel-button" mat-button color="primary" (click)="closeWithoutSave()">Відміна</button>
     <span class="flex-1"></span>
     <button
         *ngIf="stepper.selectedIndex !== 0"
@@ -131,7 +133,7 @@
         color="primary"
         (click)="stepper.previous()"
     >
-        Back
+        Назад
     </button>
 
     <button
@@ -141,7 +143,7 @@
         color="primary"
         (click)="stepper.next()"
     >
-        Next
+        Далі
     </button>
 
     <button
@@ -151,6 +153,6 @@
         color="primary"
         (click)="onSave()"
     >
-        Save
+        Зберегти
     </button>
 </mat-dialog-actions>

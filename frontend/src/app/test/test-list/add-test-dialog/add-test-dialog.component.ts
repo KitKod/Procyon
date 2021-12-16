@@ -1,18 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { map, takeUntil } from 'rxjs/operators';
-import { Observable, ReplaySubject } from 'rxjs';
 import { StepperOrientation } from '@angular/cdk/stepper';
-import { Store } from '@ngxs/store';
 import { DatePipe } from '@angular/common';
-import { AddTestDialogResult } from './add-test-dialog.data';
-import { TestStatus, TestActions } from '@core/store/test';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
+import { Observable, ReplaySubject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
+import { AME_FAMILIES } from '@core/constants/ame-constants';
 import { API_DATE_FORMAT } from '@core/constants/api';
 import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-constants';
-import { AME_FAMILIES } from '@core/constants/ame-constants';
+import { TestActions, TestStatus } from '@core/store/test';
+import { getAmeFamilyLocalization, getTestStatusLocalization, getTestTypeLocalization } from '@core/utils/localization';
+
+import { AddTestDialogResult } from './add-test-dialog.data';
 
 const DEFAULT_TEST_STATUS: TestStatus = 'preparation';
 
@@ -51,6 +54,10 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
         .observe('(min-width: 800px)')
         .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
 
+    readonly getTestType = getTestTypeLocalization;
+    readonly getTestStatus = getTestStatusLocalization;
+    readonly getAmeFamily = getAmeFamilyLocalization;
+
     readonly testStatuses = TEST_STATUSES;
     readonly testTypes = TEST_TYPES;
     readonly ameFamilies = AME_FAMILIES;
@@ -82,8 +89,8 @@ export class AddTestDialogComponent implements OnInit, OnDestroy {
 
     closeWithoutSave(): void {
         this.confirmSrv.open({
-            message: 'All unsaved data will be lost, are you sure you want to leave the dialog?',
-            title: 'Confirm',
+            title: 'Підтвердьте',
+            message: 'Усі незбережені дані будуть втрачені. Ви впевнені, що хочете закрити вікно?',
             affirmative: {
                 label: 'Yes',
                 handler: () => this.dialogRef.close(),

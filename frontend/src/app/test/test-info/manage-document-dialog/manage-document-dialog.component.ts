@@ -1,14 +1,16 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, Validators } from '@angular/forms';
 import { FileChangeEvent } from '@angular/compiler-cli/src/perform_watch';
-import { ManageDocumentDialogData } from './manage-document-dialog.data';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { DOCUMENT_GOVERNMENTS } from '@core/constants/test-documnet-constants';
+import { getGovernmentLocalization } from '@core/utils/localization';
+
+import { ManageDocumentDialogData } from './manage-document-dialog.data';
 
 @Component({
     selector: 'procyon-manage-document-dialog',
     templateUrl: './manage-document-dialog.component.html',
-    styleUrls: ['./manage-document-dialog.component.scss'],
 })
 export class ManageDocumentDialogComponent {
     readonly title = this.data.title;
@@ -25,6 +27,7 @@ export class ManageDocumentDialogComponent {
     });
 
     readonly documentGovernments = DOCUMENT_GOVERNMENTS;
+    readonly getGovernment = getGovernmentLocalization;
 
     constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) private readonly data: ManageDocumentDialogData) {}
 
@@ -32,7 +35,8 @@ export class ManageDocumentDialogComponent {
         this.data.onSaveCallback(this.documentFormGroup.value);
     }
 
-    obFileChange(event: FileChangeEvent): void {
+    onFileChange(event: FileChangeEvent): void {
         // TODO
+        console.log(event);
     }
 }

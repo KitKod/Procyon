@@ -1,4 +1,4 @@
-import { AmeDeleteModel, AmeUpdateModel, AmeAddModel } from './ame.model';
+import { AmeAddModel, AmeDeleteModel, AmeUpdateModel } from './ame.model';
 
 export namespace AmeActions {
     export class Add {

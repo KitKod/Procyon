@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { mapTo, startWith, first } from 'rxjs/operators';
-import { ApiResponseModel, ApiSingleResponseModel } from '../../api-model';
-import { testDocumentBlob, testDocumentMocks } from '../../../mocks/test-document-mocks';
-import { TestDocumentModel, DocumentAddModel, DocumentUpdateModel, DocumentDeleteModel } from './document.model';
-import { extractFilesFromObject } from '@core/utils/api';
+import { first, mapTo, startWith } from 'rxjs/operators';
+
 import { DOCUMENT_ENDPOINT } from '@core/constants/api';
+import { extractFilesFromObject } from '@core/utils/api';
+
+import { testDocumentBlob, testDocumentMocks } from '../../../mocks/test-document-mocks';
+import { ApiResponseModel, ApiSingleResponseModel } from '../../api-model';
+import { DocumentAddModel, DocumentDeleteModel, DocumentUpdateModel, TestDocumentModel } from './document.model';
 // import { environment } from '@environment';
 const environment = { useMocks: true };
 

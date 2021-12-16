@@ -3,7 +3,7 @@
 <mat-dialog-content>
     <form class="grid grid-cols-1 gap-4" [formGroup]="documentFormGroup">
         <mat-form-field *ngIf="documentTypes.length > 1" appearance="standard">
-            <mat-label>Type</mat-label>
+            <mat-label>Тип</mat-label>
             <mat-select id="test-document-type" required formControlName="type">
                 <mat-option *ngFor="let docType of documentTypes" [value]="docType">
                     {{ docType }}
@@ -12,7 +12,7 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="canUploadFile" appearance="standard">
-            <mat-label>Upload file</mat-label>
+            <mat-label>Файл з ТТХ</mat-label>
             <input matInput required readonly [value]="documentFormGroup.get('document_file')?.value?.name" />
             <input #fileUpload class="hidden" type="file" (change)="$any($event.target).files[0]" />
 
@@ -22,16 +22,16 @@
         </mat-form-field>
 
         <mat-form-field appearance="standard">
-            <mat-label>Government</mat-label>
+            <mat-label>Орган</mat-label>
             <mat-select id="test-document-government" required formControlName="government">
                 <mat-option *ngFor="let government of documentGovernments" [value]="government">
-                    {{ government }}
+                    {{ getGovernment(government) }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="standard">
-            <mat-label>Date of approval</mat-label>
+            <mat-label>Дата затвердження</mat-label>
             <input
                 id="test-document-date-of-approval"
                 matInput
@@ -41,14 +41,14 @@
             <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker>
                 <mat-datepicker-actions>
-                    <button mat-button matDatepickerCancel>Cancel</button>
-                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    <button mat-button matDatepickerCancel>Відміна</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Вибрати</button>
                 </mat-datepicker-actions>
             </mat-datepicker>
         </mat-form-field>
 
         <mat-form-field appearance="standard">
-            <mat-label>Material and technical means</mat-label>
+            <mat-label>Матеріально-технічні засоби</mat-label>
             <textarea
                 id="test-document-material-and-technical-means"
                 cdkTextareaAutosize
@@ -61,7 +61,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="flex">
-    <button id="manage-test-document-cancel-button" mat-dialog-close mat-button color="primary">Cancel</button>
+    <button id="manage-test-document-cancel-button" mat-dialog-close mat-button color="primary">Відміна</button>
     <span class="flex-1"></span>
-    <button id="manage-test-document-save-button" mat-dialog-close mat-raised-button color="primary">Save</button>
+    <button id="manage-test-document-save-button" mat-dialog-close mat-raised-button color="primary">Зберегти</button>
 </mat-dialog-actions>

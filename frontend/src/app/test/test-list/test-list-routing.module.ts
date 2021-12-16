@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { TestListComponent } from './test-list.component';
 
 const routes: Routes = [

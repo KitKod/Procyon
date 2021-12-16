@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogState } from '@angular/material/dialog/dialog-ref';
-import { ConfirmationDialogModule } from '@core/confirmation-dialog/confirmation-dialog.module';
-import { ConfirmationDialogData } from '@core/confirmation-dialog/confirmation-dialog.data';
+
 import { ConfirmationDialogComponent } from '@core/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogData } from '@core/confirmation-dialog/confirmation-dialog.data';
+import { ConfirmationDialogModule } from '@core/confirmation-dialog/confirmation-dialog.module';
 
 @Injectable({ providedIn: ConfirmationDialogModule })
 export class ConfirmationDialogService {

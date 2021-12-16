@@ -1,12 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ReplaySubject, BehaviorSubject } from 'rxjs';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
-import { map, switchMapTo, first, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { first, map, switchMapTo, takeUntil } from 'rxjs/operators';
+
 import { AME_FAMILIES } from '@core/constants/ame-constants';
-import { AmeActions, AmeState, AmeModel } from '@core/store/ame';
+import { AmeActions, AmeModel, AmeState } from '@core/store/ame';
 import { getDirtyValues } from '@core/utils/form';
+import { getAmeFamilyLocalization } from '@core/utils/localization';
 
 @Component({
     selector: 'procyon-ame-info',
@@ -24,6 +26,8 @@ export class AmeInfoComponent implements OnInit, OnDestroy {
     readonly ame$ = this.store.select(AmeState.ameToEdit);
 
     readonly ameFamilies = AME_FAMILIES;
+
+    readonly getAmeFamily = getAmeFamilyLocalization;
 
     readonly editModeEnabled$ = new BehaviorSubject(false);
     readonly viewModeEnabled$ = this.editModeEnabled$.pipe(map(v => !v));
@@ -88,7 +92,7 @@ export class AmeInfoComponent implements OnInit, OnDestroy {
     }
 
     private resetForm(): void {
-        const { id, manufacturer, ttc_file_name, ...ame } = this.store.selectSnapshot(AmeState.ameToEdit) || {};
+        const { manufacturer, ttc_file_name } = this.store.selectSnapshot(AmeState.ameToEdit) || {};
 
         this.ameForm.reset({
             name: 'Fort PM',

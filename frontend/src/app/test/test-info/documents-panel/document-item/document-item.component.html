@@ -14,7 +14,7 @@
                 }"
                 (click.stop)="(null)"
             >
-                {{ testStatus }}
+                {{ getDocumentStatus(testStatus) }}
                 <span *ngIf="document.date_of_approval">/ {{ document.date_of_approval | date: 'shortDate' }}</span>
             </div>
         </mat-panel-description>
@@ -23,8 +23,8 @@
     <div class="flex flex-col">
         <div class="flex flex-col md:flex-row gap-4 md:items-baseline">
             <mat-form-field class="flex-1" appearance="standard">
-                <mat-label>Government</mat-label>
-                <input matInput readonly [value]="document.government" />
+                <mat-label>Орган</mat-label>
+                <input matInput readonly [value]="getGovernment(document.government)" />
             </mat-form-field>
 
             <div
@@ -40,14 +40,14 @@
             <div class="flex md:flex-row flex-col gap-4">
                 <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="editDocument()">Edit</button>
+                    <button mat-menu-item (click)="editDocument()">Редагувати</button>
                     <button
                         *ngIf="document.status !== 'approving'"
                         mat-menu-item
                         [disabled]="!document.name || !document.government"
                         (click)="changeDocumentStatus('approving')"
                     >
-                        Start approving
+                        Почати погодження
                     </button>
                     <button
                         *ngIf="document.status !== 'developing'"
@@ -55,7 +55,7 @@
                         [disabled]="!document.name || !document.government"
                         (click)="changeDocumentStatus('developing')"
                     >
-                        For revision
+                        Для доопрацювання
                     </button>
                     <button
                         *ngIf="document.status !== 'approved'"
@@ -63,22 +63,16 @@
                         [disabled]="!document.name || !document.government"
                         (click)="changeDocumentStatus('approved')"
                     >
-                        Approve
+                        Затвердити
                     </button>
-                    <button mat-menu-item (click)="removeDocument()">Delete</button>
+                    <button mat-menu-item (click)="removeDocument()">Видалити</button>
                 </mat-menu>
             </div>
         </div>
 
-        <mat-form-field appearance="standard">
-            <mat-label>Material and technical means</mat-label>
-            <textarea
-                cdkTextareaAutosize
-                matInput
-                readonly
-                [disabled]="!document.material_and_technical_means"
-                [value]="document.material_and_technical_means"
-            ></textarea>
+        <mat-form-field *ngIf="document.material_and_technical_means" appearance="standard">
+            <mat-label>Матеріально-технічні засоби</mat-label>
+            <textarea cdkTextareaAutosize matInput readonly [value]="document.material_and_technical_means"></textarea>
         </mat-form-field>
     </div>
 </mat-expansion-panel>

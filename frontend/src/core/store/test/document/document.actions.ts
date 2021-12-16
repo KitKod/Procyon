@@ -1,4 +1,4 @@
-import { DocumentUpdateModel, DocumentAddModel, DocumentDeleteModel } from './document.model';
+import { DocumentAddModel, DocumentDeleteModel, DocumentUpdateModel } from './document.model';
 
 export namespace TestDocumentActions {
     export class Add {

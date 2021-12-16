@@ -1,6 +1,6 @@
 <mat-toolbar class="table-control-panel mb-4">
     <mat-toolbar-row class="flex">
-        <div class="text-4xl">Manufacture information</div>
+        <div class="text-4xl">Інформація про виробника</div>
     </mat-toolbar-row>
 </mat-toolbar>
 
@@ -17,15 +17,15 @@
         </div>
 
         <div *ngIf="viewModeEnabled$ | async" class="flex flex-col">
-            <ng-container *ngTemplateOutlet="info; context: { field: 'name' }"></ng-container>
-            <ng-container *ngTemplateOutlet="info; context: { field: 'address' }"></ng-container>
-            <ng-container *ngTemplateOutlet="info; context: { field: 'chief' }"></ng-container>
-            <ng-container *ngTemplateOutlet="info; context: { field: 'contact' }"></ng-container>
+            <ng-container *ngTemplateOutlet="info; context: { label: 'Назва', field: 'name' }"></ng-container>
+            <ng-container *ngTemplateOutlet="info; context: { label: 'Адреса', field: 'address' }"></ng-container>
+            <ng-container *ngTemplateOutlet="info; context: { label: 'Керівник', field: 'chief' }"></ng-container>
+            <ng-container *ngTemplateOutlet="info; context: { label: 'Контакт', field: 'contact' }"></ng-container>
 
-            <ng-template #info let-field="field">
+            <ng-template #info let-label="label" let-field="field">
                 <div class="border-t my-3"></div>
                 <div class="flex flex-row">
-                    <div class="w-32 font-semibold text-black text-opacity-60">{{ field | titlecase }}</div>
+                    <div class="w-32 font-semibold text-black text-opacity-60">{{ label }}</div>
                     <div class="text-left">{{ manufactureForm.get(field)?.value }}</div>
                 </div>
             </ng-template>
@@ -37,28 +37,28 @@
             [formGroup]="manufactureForm"
         >
             <mat-form-field appearance="standard">
-                <mat-label>Name</mat-label>
+                <mat-label>Назва</mat-label>
                 <input id="manufacture-name" matInput formControlName="name" required />
             </mat-form-field>
 
             <mat-form-field appearance="standard">
-                <mat-label>Address</mat-label>
+                <mat-label>Адреса</mat-label>
                 <input id="manufacture-address" matInput formControlName="address" required />
             </mat-form-field>
 
             <mat-form-field appearance="standard">
-                <mat-label>Chief</mat-label>
+                <mat-label>Керівник</mat-label>
                 <input id="manufacture-chief" matInput formControlName="chief" required />
             </mat-form-field>
 
             <mat-form-field appearance="standard">
-                <mat-label>Contact</mat-label>
+                <mat-label>Контакт</mat-label>
                 <input id="manufacture-contact" matInput formControlName="contact" required />
             </mat-form-field>
 
             <div class="flex col-span-1 md:col-span-2 justify-end gap-2">
-                <button mat-button (click)="cancelEdit()">Cancel</button>
-                <button mat-raised-button type="submit" color="primary">Save</button>
+                <button mat-button (click)="cancelEdit()">Відміна</button>
+                <button mat-raised-button type="submit" color="primary">Зберегти</button>
             </div>
         </form>
     </mat-card-content>

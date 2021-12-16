@@ -1,20 +1,34 @@
 {
     "arrowParens": "avoid",
-    "attributeGroups": [
-        "$ANGULAR_ELEMENT_REF",
-        "$ANGULAR_STRUCTURAL_DIRECTIVE",
-        "$CLASS",
-        "$ID",
-        "$DEFAULT",
-        "$ANGULAR_ANIMATION",
-        "$ANGULAR_ANIMATION_INPUT",
-        "$ANGULAR_INPUT",
-        "$ANGULAR_TWO_WAY_BINDING",
-        "$ANGULAR_OUTPUT"
-    ],
-    "endOfLine": "auto",
+    "endOfLine": "lf",
     "printWidth": 120,
     "singleQuote": true,
     "tabWidth": 4,
-    "trailingComma": "all"
+    "trailingComma": "all",
+    "overrides": [
+        {
+            "files": "*.html",
+            "options": {
+                "parser": "html"
+            }
+        },
+        {
+            "files": "*.component.html",
+            "options": {
+                "parser": "angular",
+                "attributeGroups": [
+                    "$ANGULAR_ELEMENT_REF",
+                    "$ANGULAR_STRUCTURAL_DIRECTIVE",
+                    "$CLASS",
+                    "$ID",
+                    "$DEFAULT",
+                    "$ANGULAR_ANIMATION",
+                    "$ANGULAR_ANIMATION_INPUT",
+                    "$ANGULAR_INPUT",
+                    "$ANGULAR_TWO_WAY_BINDING",
+                    "$ANGULAR_OUTPUT"
+                ]
+            }
+        }
+    ]
 }

@@ -39,19 +39,11 @@
             "always",
             { "except": ["last-nested", "before-comment", "before-dollar-variable"] }
         ],
-        "scss/dollar-variable-empty-line-before": [
-            "always",
-            { "except": ["first-nested", "after-comment", "after-dollar-variable"] }
-        ],
-        "scss/dollar-variable-first-in-block": [
-            true,
-            { "except": ["function", "mixins"], "ignore": ["comments", "imports"] }
-        ],
         "scss/dollar-variable-no-missing-interpolation": true,
         "scss/double-slash-comment-whitespace-inside": "always",
         "scss/function-quote-no-quoted-strings-inside": true,
         "scss/function-unquote-no-unquoted-strings-inside": true,
-        "scss/no-duplicate-dollar-variables": false,
+        "scss/no-duplicate-dollar-variables": null,
         "scss/no-duplicate-mixins": true,
         "scss/operator-no-newline-after": true,
         "scss/operator-no-newline-before": true,

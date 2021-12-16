@@ -1,28 +1,34 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ReplaySubject, BehaviorSubject } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
-import { takeUntil, map, filter, first } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ManageDocumentDialogComponent } from './manage-document-dialog/manage-document-dialog.component';
-import { ManageDocumentDialogData } from './manage-document-dialog/manage-document-dialog.data';
-import { DocumentStatusChanged } from './documents-panel/documents-panel.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { filter, first, map, takeUntil } from 'rxjs/operators';
+
+import { ConfirmationDialogService } from '@core/confirmation-dialog';
+import { API_DATE_FORMAT } from '@core/constants/api';
+import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-constants';
+import { DOCUMENTS_GROUPS_BY_TYPE } from '@core/constants/test-documnet-constants';
 import { TestActions, TestState, TestUpdateModel } from '@core/store/test';
 import {
-    TestDocumentState,
-    TestDocumentActions,
-    TestDocumentModel,
-    TestDocumentType,
     DocumentAddModel,
     DocumentUpdateModel,
+    TestDocumentActions,
+    TestDocumentModel,
+    TestDocumentState,
+    TestDocumentType,
 } from '@core/store/test/document';
-import { TEST_STATUSES, TEST_TYPES } from '@core/constants/test-constants';
-import { API_DATE_FORMAT } from '@core/constants/api';
-import { ConfirmationDialogService } from '@core/confirmation-dialog';
-import { DOCUMENTS_GROUPS_BY_TYPE } from '@core/constants/test-documnet-constants';
-import { WithoutId } from '@core/utility-types';
+import {
+    getDocumentTypeLocalization,
+    getTestStatusLocalization,
+    getTestTypeLocalization,
+} from '@core/utils/localization';
+
+import { DocumentStatusChanged } from './documents-panel/documents-panel.component';
+import { ManageDocumentDialogComponent } from './manage-document-dialog/manage-document-dialog.component';
+import { ManageDocumentDialogData } from './manage-document-dialog/manage-document-dialog.data';
 
 const MAXIMUM_ALLOWED_DOCUMENTS = DOCUMENTS_GROUPS_BY_TYPE.document.length;
 const MAXIMUM_ALLOWED_PROGRAMS = 1;
@@ -50,6 +56,8 @@ export class TestInfoComponent implements OnInit, OnDestroy {
 
     readonly testStatuses = TEST_STATUSES;
     readonly testTypes = TEST_TYPES;
+    readonly getTestType = getTestTypeLocalization;
+    readonly getTestStatus = getTestStatusLocalization;
 
     editModeEnabled$ = new BehaviorSubject(false);
     viewModeEnabled$ = this.editModeEnabled$.pipe(map(v => !v));
@@ -143,10 +151,10 @@ export class TestInfoComponent implements OnInit, OnDestroy {
 
     deleteTest(): void {
         this.confirmSrv.open({
-            title: 'Confirm deletion',
-            message: `Are you sure you want to delete the test?`,
+            title: 'Підтвердьте видалення',
+            message: `Ви впевнені, що хочете видалити випробування?`,
             affirmative: {
-                label: 'Delete',
+                label: 'Видалити',
                 handler: () =>
                     this.store.dispatch(new TestActions.Delete(this.testForm.value)).subscribe(() => {
                         this.router.navigate(['/tests']);
@@ -158,7 +166,7 @@ export class TestInfoComponent implements OnInit, OnDestroy {
     addDocument(type: keyof typeof DOCUMENTS_GROUPS_BY_TYPE, alreadyAdded: TestDocumentModel[]): void {
         const availableTypes: TestDocumentType[] = [];
         const usedTypes = alreadyAdded.map(v => v.type);
-        console.log(usedTypes);
+
         switch (type) {
             case 'document':
                 availableTypes.push(...DOCUMENTS_GROUPS_BY_TYPE[type].filter(v => !usedTypes.includes(v)));
@@ -194,7 +202,9 @@ export class TestInfoComponent implements OnInit, OnDestroy {
     editDocument(document: TestDocumentModel): void {
         this.matDialog.open<ManageDocumentDialogComponent, ManageDocumentDialogData>(ManageDocumentDialogComponent, {
             data: {
-                title: `Edit "${document.type}" ${document.name}`,
+                title: `Редагування "${getDocumentTypeLocalization(document.type).toLocaleLowerCase()}" ${
+                    document.name
+                }`,
                 availableTypes: [document.type],
                 prefilledData: document,
                 onSaveCallback: updateDocument => {
@@ -212,8 +222,10 @@ export class TestInfoComponent implements OnInit, OnDestroy {
 
     removeDocument(document: TestDocumentModel): void {
         this.confirmSrv.open({
-            title: 'Confirm deletion',
-            message: `Are you sure you want to delete ${document.type} "<b>${document.name}</b>"?`,
+            title: 'Підтвердьте видалення',
+            message: `Ви впевнені, що хочете видалити ${getDocumentTypeLocalization(
+                document.type,
+            ).toLocaleLowerCase()} "<b>${document.name}</b>"?`,
             affirmative: {
                 label: 'Delete',
                 handler: () => {

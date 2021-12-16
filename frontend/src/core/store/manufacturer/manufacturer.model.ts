@@ -1,4 +1,4 @@
-import { WithoutId, OnlyId } from '@core/utility-types';
+import { OnlyId, WithoutId } from '@core/utility-types';
 
 export interface ManufacturerModel {
     id: number;

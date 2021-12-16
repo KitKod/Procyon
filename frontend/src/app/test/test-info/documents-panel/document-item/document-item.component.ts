@@ -1,6 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { TestDocumentModel, TestDocumentStatus } from '@core/store/test/document';
-import { WithoutId } from '@core/utility-types';
+import {
+    getDocumentStatusLocalization,
+    getDocumentTypeLocalization,
+    getGovernmentLocalization,
+} from '@core/utils/localization';
 
 @Component({
     selector: 'procyon-document-item',
@@ -16,6 +21,10 @@ export class DocumentItemComponent {
     @Output() onDocumentEdit = new EventEmitter();
     @Output() onDocumentRemove = new EventEmitter();
     @Output() onDocumentDownLoad = new EventEmitter<void>();
+
+    readonly getDocumentType = getDocumentTypeLocalization;
+    readonly getDocumentStatus = getDocumentStatusLocalization;
+    readonly getGovernment = getGovernmentLocalization;
 
     changeDocumentStatus(status: TestDocumentStatus): void {
         this.onDocumentStatusChanged.emit(status);
