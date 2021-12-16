@@ -119,7 +119,7 @@
 
 <procyon-documents-panel
     *ngIf="documents$ | async as documents"
-    [title]="'Документ'"
+    [title]="'Документи'"
     [documents]="documents"
     [canAddDocument]="(canAddDocuments$ | async)!"
     (onAddDocument)="addDocument('document', documents)"

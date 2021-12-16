@@ -1,4 +1,5 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -32,6 +33,7 @@ import { AppRoutingModule } from './app-routing.module';
         ElementRefModule,
         MatListModule,
         MatIconModule,
+        MatButtonModule,
     ],
     providers: [
         { provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT },

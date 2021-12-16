@@ -13,6 +13,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
 
+import { ConfirmationDialogModule } from '@core/confirmation-dialog';
+
 import { AmeInfoComponent } from './ame-info.component';
 import { AmeInfoRoutingModule } from './ame-info-routing.module';
 
@@ -34,6 +36,7 @@ import { AmeInfoRoutingModule } from './ame-info-routing.module';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
+        ConfirmationDialogModule,
     ],
 })
 export class AmeInfoModule {}

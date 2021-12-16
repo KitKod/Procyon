@@ -70,7 +70,7 @@ export class AddAmeDialogComponent implements OnInit, OnDestroy {
             title: 'Підтвердьте',
             message: 'Усі незбережені дані будуть втрачені. Ви впевнені, що хочете закрити вікно?',
             affirmative: {
-                label: 'Yes',
+                label: 'Так',
                 handler: () => this.dialogRef.close(),
             },
         });

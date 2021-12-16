@@ -6,7 +6,7 @@
             <mat-label>Тип</mat-label>
             <mat-select id="test-document-type" required formControlName="type">
                 <mat-option *ngFor="let docType of documentTypes" [value]="docType">
-                    {{ docType }}
+                    {{ getDocumentType(docType) }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
