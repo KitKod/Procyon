@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
 import { NgxsModule } from '@ngxs/store';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestListComponent } from './test-list.component';
+
 import { TestState } from '@core/store/test';
 import { TestApiService } from '@core/store/test/test-api.service';
+
+import { TestListComponent } from './test-list.component';
 
 describe('TestListComponent', () => {
     let component: TestListComponent;

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { merge } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { ManufacturerActions } from './manufacturer.actions';
 import { ManufacturerModel } from './manufacturer.model';
 import { ManufacturerApiService } from './manufacturer-api.service';

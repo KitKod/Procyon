@@ -1,3 +1,3 @@
 export { TestActions } from './test.actions';
-export type { TestStatus, TestModel, TestDeleteModel, TestAddModel, TestUpdateModel, TestType } from './test.model';
-export { TestStateModel, TestState } from './test.state';
+export type { TestAddModel, TestDeleteModel, TestModel, TestStatus, TestType, TestUpdateModel } from './test.model';
+export { TestState, TestStateModel } from './test.state';

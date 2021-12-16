@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mapTo, startWith, first } from 'rxjs/operators';
-import { ApiResponseModel, ApiSingleResponseModel } from '../api-model';
-import { TestModel, TestAddModel, TestUpdateModel, TestDeleteModel } from './test.model';
-import { extractFilesFromObject } from '@core/utils/api';
+import { first, mapTo, startWith } from 'rxjs/operators';
+
 import { TEST_ENDPOINT } from '@core/constants/api';
 import { testMocks } from '@core/mocks/test-mocks';
-import { environment } from '@environment';
+import { extractFilesFromObject } from '@core/utils/api';
+
+import { ApiResponseModel, ApiSingleResponseModel } from '../api-model';
+import { TestAddModel, TestDeleteModel, TestModel, TestUpdateModel } from './test.model';
+// import { environment } from '@environment';
+const environment = { useMocks: true };
 
 @Injectable()
 export class TestApiService {

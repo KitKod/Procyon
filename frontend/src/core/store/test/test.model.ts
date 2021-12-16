@@ -1,5 +1,6 @@
-import { AmeModel, AmeAddModel } from '../ame/ame.model';
-import { WithoutId, PartialWithId, OnlyId } from '@core/utility-types';
+import { OnlyId, PartialWithId, WithoutId } from '@core/utility-types';
+
+import { AmeAddModel, AmeModel } from '../ame/ame.model';
 
 export type TestStatus = 'preparation' | 'testing' | 'paused' | 'continued' | 'finished';
 

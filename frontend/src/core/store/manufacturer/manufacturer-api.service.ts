@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mapTo, startWith, first } from 'rxjs/operators';
-import { ApiResponseModel, ApiSingleResponseModel } from '../api-model';
-import {
-    ManufacturerModel,
-    ManufacturerAddModel,
-    ManufacturerUpdateModel,
-    ManufacturerDeleteModel,
-} from './manufacturer.model';
+import { first, mapTo, startWith } from 'rxjs/operators';
+
 import { MANUFACTURER_ENDPOINT } from '@core/constants/api';
 import { manufacturersMock } from '@core/mocks/manufacturer-mocks';
+
+import { ApiResponseModel, ApiSingleResponseModel } from '../api-model';
+import {
+    ManufacturerAddModel,
+    ManufacturerDeleteModel,
+    ManufacturerModel,
+    ManufacturerUpdateModel,
+} from './manufacturer.model';
 // import { environment } from '@environment';
 const environment = { useMocks: true };
 

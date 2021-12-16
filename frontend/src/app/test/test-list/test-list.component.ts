@@ -1,13 +1,16 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
-import { isEqual } from 'lodash-es';
-import { switchMap, distinctUntilChanged, mapTo, tap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router, ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { isEqual } from 'lodash-es';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, mapTo, switchMap, tap } from 'rxjs/operators';
+
+import { TestActions, TestModel, TestState } from '@core/store/test';
+import { getTestStatusLocalization, getTestTypeLocalization } from '@core/utils/localization';
+
 import { AddTestDialogComponent } from './add-test-dialog/add-test-dialog.component';
-import { TestModel, TestState, TestActions } from '@core/store/test';
 
 @Component({
     selector: 'procyon-test-list',
@@ -24,6 +27,9 @@ export class TestListComponent implements OnInit {
         }),
         distinctUntilChanged(isEqual),
     );
+
+    readonly getTestType = getTestTypeLocalization;
+    readonly getTestStatus = getTestStatusLocalization;
 
     constructor(
         private store: Store,

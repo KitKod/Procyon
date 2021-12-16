@@ -1,13 +1,13 @@
 {
     "root": true,
-    "ignorePatterns": ["**/*.js"],
     "overrides": [
         {
-            "files": ["*.ts"],
+            "files": ["*.ts", "*.js"],
             "parserOptions": {
                 "project": ["tsconfig.json"],
                 "createDefaultProgram": true
             },
+            "plugins": ["simple-import-sort"],
             "extends": [
                 "eslint:recommended",
                 "plugin:@typescript-eslint/recommended",
@@ -62,9 +62,29 @@
                 "@typescript-eslint/restrict-template-expressions": "off",
                 "@typescript-eslint/no-floating-promises": "off",
                 "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }],
+                "@typescript-eslint/no-unused-vars": [
+                    "error",
+                    { "argsIgnorePattern": "^_", "ignoreRestSiblings": true }
+                ],
                 "import/no-extraneous-dependencies": "error",
-                "import/order": "error",
+                "import/order": "off",
                 "import/prefer-default-export": "off",
+                "@typescript-eslint/no-explicit-any": "error",
+                "simple-import-sort/exports": "error",
+                "simple-import-sort/imports": [
+                    "error",
+                    {
+                        "groups": [
+                            [
+                                "^@angular/.*",
+                                "^@?\\w" // other external libs
+                            ],
+                            ["@environment"],
+                            ["^@core.*"],
+                            ["^"] // other
+                        ]
+                    }
+                ],
                 "rxjs/finnish": [
                     "error",
                     {
@@ -96,7 +116,6 @@
                     }
                 ],
                 "curly": "error",
-                "default-case": "error",
                 "eqeqeq": ["error", "smart"],
                 "guard-for-in": "error",
                 "no-caller": "error",
@@ -124,6 +143,16 @@
                 ],
                 "radix": "error",
                 "spaced-comment": ["error", "always", { "markers": ["/"] }]
+            }
+        },
+        {
+            "files": ["*.js"],
+            "env": {
+                "node": true,
+                "commonjs": true
+            },
+            "rules": {
+                "@typescript-eslint/no-var-requires": "off"
             }
         },
         {

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, createSelector } from '@ngxs/store';
-import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Action, createSelector, State, StateContext } from '@ngxs/store';
 import { merge } from 'lodash-es';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { TestDocumentActions } from './document.actions';
 import { TestDocumentModel } from './document.model';
 import { TestDocumentApiService } from './document-api.service';

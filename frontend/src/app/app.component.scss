@@ -12,9 +12,11 @@
         position: fixed;
         width: 325px;
     }
+
     mat-toolbar {
-        background-color: white;
+        background-color: #fff;
     }
+
     .mat-toolbar-row,
     .mat-toolbar-single-row {
         height: unset;
@@ -26,7 +28,7 @@
     }
 
     mat-toolbar-row {
-        max-width: 1440px;
+        max-width: 1920px;
     }
 }
 
@@ -50,5 +52,5 @@
 
 mat-sidenav-container {
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: 1920px;
 }

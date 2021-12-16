@@ -1,11 +1,11 @@
+export { TestDocumentActions } from './document.actions';
 export type {
-    DocumentDeleteModel,
-    TestDocumentModel,
     DocumentAddModel,
+    DocumentDeleteModel,
     DocumentUpdateModel,
+    TestDocumentGovernment,
+    TestDocumentModel,
     TestDocumentStatus,
     TestDocumentType,
-    TestDocumentGovernment,
 } from './document.model';
 export { DocumentStateModel, TestDocumentState } from './document.state';
-export { TestDocumentActions } from './document.actions';

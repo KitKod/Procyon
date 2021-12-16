@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ReplaySubject, BehaviorSubject } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { takeUntil, first, switchMap, switchMapTo, filter, map } from 'rxjs/operators';
-import { TestActions } from '@core/store/test';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { first, map, switchMapTo, takeUntil } from 'rxjs/operators';
+
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
-import { ManufacturerActions, ManufacturerState, ManufacturerModel } from '@core/store/manufacturer';
+import { ManufacturerActions, ManufacturerState } from '@core/store/manufacturer';
 
 @Component({
     selector: 'procyon-manufacturer-info',
@@ -63,23 +63,13 @@ export class ManufacturerInfoComponent implements OnInit, OnDestroy {
     }
 
     updateManufacturer(): void {
-        this.confirmSrv.open({
-            title: 'Confirm deletion',
-            message: `Are you sure you want to delete the manufacturer?`,
-            affirmative: {
-                label: 'Delete',
-                handler: () => {
-                    this.store.dispatch(new ManufacturerActions.Delete({ id: this.manufactureId }));
-                    this.router.navigate(['/manufacturers']);
-                },
-            },
-        });
+        // TODO
     }
 
     deleteManufacturer(): void {
         this.confirmSrv.open({
-            title: 'Confirm deletion',
-            message: `Are you sure you want to delete the manufacturer?`,
+            title: 'Підтвердьте видалення',
+            message: `Ви впевнені, що хочете видалити виробника?`,
             affirmative: {
                 label: 'Delete',
                 handler: () => {

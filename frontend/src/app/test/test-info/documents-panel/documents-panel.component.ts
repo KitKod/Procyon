@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { WithoutId } from '@core/utility-types';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { TestDocumentModel, TestDocumentStatus } from '@core/store/test/document';
+import { getDocumentTypeLocalization } from '@core/utils/localization';
 
 export interface DocumentStatusChanged {
     document: TestDocumentModel;
@@ -10,7 +11,6 @@ export interface DocumentStatusChanged {
 @Component({
     selector: 'procyon-documents-panel',
     templateUrl: './documents-panel.component.html',
-    styleUrls: ['./documents-panel.component.scss'],
 })
 export class DocumentsPanelComponent {
     @Input() title = '';
@@ -24,19 +24,12 @@ export class DocumentsPanelComponent {
     @Output() onDocumentStatusChanged = new EventEmitter<DocumentStatusChanged>();
 
     getDocumentTitleByName(document: TestDocumentModel): string {
+        const base = getDocumentTypeLocalization(document.type);
         switch (document.type) {
-            case 'joint_decision':
-                return 'Joint decision';
-            case 'separate_order':
-                return 'Separate order';
-            case 'order':
-                return 'Order';
-            case 'program':
-                return 'Program';
             case 'method':
-                return document.name ? `Method: ${document.name.slice(0, document.name.lastIndexOf('.'))}` : 'Method';
+                return document.name ? `${base}: ${document.name.slice(0, document.name.lastIndexOf('.'))}` : base;
             default:
-                return 'Unknown';
+                return base;
         }
     }
 

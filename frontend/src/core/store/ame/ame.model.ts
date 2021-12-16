@@ -1,5 +1,6 @@
-import { ManufacturerModel, ManufacturerAddModel } from '../manufacturer/manufacturer.model';
-import { WithoutId, OnlyId } from '@core/utility-types';
+import { OnlyId, WithoutId } from '@core/utility-types';
+
+import { ManufacturerAddModel, ManufacturerModel } from '../manufacturer/manufacturer.model';
 
 export type AmeFamily =
     | 'aircraft'

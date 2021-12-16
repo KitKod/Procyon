@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, Validators } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { takeUntil } from 'rxjs/operators';
-import { ReplaySubject } from 'rxjs';
-import { Store } from '@ngxs/store';
 import { DatePipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngxs/store';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
 import { ManufacturerActions } from '@core/store/manufacturer';
 
@@ -48,10 +49,10 @@ export class AddManufacturerDialogComponent implements OnInit, OnDestroy {
 
     closeWithoutSave(): void {
         this.confirmSrv.open({
-            message: 'All unsaved data will be lost, are you sure you want to leave the dialog?',
-            title: 'Confirm',
+            message: 'Усі незбережені дані будуть втрачені. Ви впевнені, що хочете закрити вікно?',
+            title: 'Підтвердьте',
             affirmative: {
-                label: 'Yes',
+                label: 'Так',
                 handler: () => this.dialogRef.close(),
             },
         });

@@ -1,4 +1,4 @@
-import { ManufacturerAddModel, ManufacturerUpdateModel, ManufacturerDeleteModel } from './manufacturer.model';
+import { ManufacturerAddModel, ManufacturerDeleteModel, ManufacturerUpdateModel } from './manufacturer.model';
 
 export namespace ManufacturerActions {
     export class Add {

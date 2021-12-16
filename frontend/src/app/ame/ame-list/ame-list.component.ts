@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
 import { isEqual } from 'lodash-es';
-import { distinctUntilChanged, tap, switchMap, mapTo } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, mapTo, switchMap, tap } from 'rxjs/operators';
+
+import { AmeActions, AmeModel, AmeState } from '@core/store/ame';
+import { getAmeFamilyLocalization } from '@core/utils/localization';
+
 import { AddAmeDialogComponent } from './add-ame-dialog/add-ame-dialog.component';
-import { AmeModel, AmeState, AmeActions } from '@core/store/ame';
 
 @Component({
     selector: 'procyon-ame-list',
@@ -23,6 +26,8 @@ export class AmeListComponent implements OnInit {
         ),
         distinctUntilChanged(isEqual),
     );
+
+    readonly getAmeFamily = getAmeFamilyLocalization;
 
     constructor(private store: Store, private matDialog: MatDialog) {}
 

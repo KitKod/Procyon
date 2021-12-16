@@ -1,26 +1,28 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { NgxsModule } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { TestInfoComponent } from './test-info.component';
-import { TestInfoRoutingModule } from './test-info-routing.module';
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+
+import { ConfirmationDialogModule } from '@core/confirmation-dialog';
+
 import { DocumentItemComponent } from './documents-panel/document-item/document-item.component';
 import { DocumentsPanelComponent } from './documents-panel/documents-panel.component';
 import { ManageDocumentDialogModule } from './manage-document-dialog';
-import { ConfirmationDialogModule } from '@core/confirmation-dialog';
+import { TestInfoComponent } from './test-info.component';
+import { TestInfoRoutingModule } from './test-info-routing.module';
 
 @NgModule({
     declarations: [TestInfoComponent, DocumentItemComponent, DocumentsPanelComponent],

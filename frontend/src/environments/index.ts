@@ -1,6 +1,7 @@
-import { USE_MOCKS } from './without-mocks';
-import { environment as baseEnvironment } from './environment';
 import { DEFAULT_LOCALE } from '@core/constants/ui';
+
+import { environment as baseEnvironment } from './environment';
+import { USE_MOCKS } from './without-mocks';
 
 export const environment = {
     ...baseEnvironment,
