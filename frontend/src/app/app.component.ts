@@ -1,8 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenavContainer } from '@angular/material/sidenav';
+import { MatDrawerMode } from '@angular/material/sidenav/drawer';
+import { NavigationEnd, Router } from '@angular/router';
 import { animationFrameScheduler, BehaviorSubject, combineLatest, interval } from 'rxjs';
-import { filter, map, switchMapTo } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, scan, switchMapTo, tap } from 'rxjs/operators';
 
 import { onTextAppear } from '@core/animations/on-side-move';
 
@@ -12,7 +14,7 @@ interface NavLink {
     icon: string;
 }
 
-const NAV_MENU_COLLAPSED_B_Y_DEFAULT_MEDIA = '(min-width: 1700px)';
+const NAV_MENU_COLLAPSED_BY_DEFAULT_MEDIA = '(min-width: 1700px)';
 
 @Component({
     selector: 'procyon-root',
@@ -42,32 +44,73 @@ export class AppComponent implements OnInit {
         },
     ];
 
-    readonly isMouseOnNavList$ = new BehaviorSubject(false);
-    readonly isMenuNameShown = new BehaviorSubject(true);
-    readonly _navTestManualVisibility = new BehaviorSubject(
-        this.breakpointObserver.isMatched(NAV_MENU_COLLAPSED_B_Y_DEFAULT_MEDIA),
+    private readonly textAnimatingState$ = new BehaviorSubject<'inactive' | 'hover' | 'switch-state'>('inactive');
+    private readonly isMouseOnNavList$ = new BehaviorSubject(false);
+    private readonly navTestManualVisibility = new BehaviorSubject(
+        this.breakpointObserver.isMatched(NAV_MENU_COLLAPSED_BY_DEFAULT_MEDIA),
     );
 
-    readonly navTestShown$ = combineLatest([this._navTestManualVisibility, this.isMouseOnNavList$]).pipe(
+    readonly navTestShown$ = combineLatest([this.navTestManualVisibility, this.isMouseOnNavList$]).pipe(
         map(visibility => visibility.includes(true)),
     );
 
-    @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
+    readonly sideNavMode$ = combineLatest([
+        this.navTestManualVisibility,
+        this.textAnimatingState$,
+        this.isMouseOnNavList$,
+    ]).pipe(
+        map(([navTestManualVisibility, textAnimatingState]): MatDrawerMode => {
+            return navTestManualVisibility || textAnimatingState === 'switch-state' ? 'side' : 'over';
+        }),
+    );
 
-    trackContentChange$ = new BehaviorSubject(false);
+    readonly activeNavItem$ = this.router.events.pipe(
+        scan((acc, event) => {
+            if (event instanceof NavigationEnd && event.url !== acc) {
+                return event.url;
+            }
+            return acc;
+        }, ''),
+        distinctUntilChanged(),
+        tap(url => console.log(url)),
+    );
 
-    constructor(private breakpointObserver: BreakpointObserver) {}
+    @ViewChild(MatSidenavContainer) private sidenavContainer!: MatSidenavContainer;
+
+    constructor(private breakpointObserver: BreakpointObserver, private router: Router) {}
 
     toggleVisibilityOfNavText(): void {
-        this._navTestManualVisibility.next(!this._navTestManualVisibility.value);
+        this.textAnimatingState$.next('switch-state');
+        this.navTestManualVisibility.next(!this.navTestManualVisibility.value);
     }
 
     ngOnInit(): void {
         // Animation workaround
         interval(1, animationFrameScheduler)
-            .pipe(switchMapTo(this.trackContentChange$), filter(Boolean))
+            .pipe(
+                switchMapTo(this.textAnimatingState$),
+                filter(state => state !== 'inactive'),
+            )
             .subscribe(() => {
                 this.sidenavContainer.updateContentMargins();
             });
+    }
+
+    startTextAppearAnimation(): void {
+        if (this.textAnimatingState$.value === 'inactive') {
+            this.textAnimatingState$.next('hover');
+        }
+    }
+
+    stopTextAppearAnimation(): void {
+        this.textAnimatingState$.next('inactive');
+    }
+
+    onNavListHover(): void {
+        this.isMouseOnNavList$.next(true);
+    }
+
+    onNavListLeave(): void {
+        this.isMouseOnNavList$.next(false);
     }
 }

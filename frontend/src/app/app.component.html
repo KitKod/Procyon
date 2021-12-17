@@ -1,7 +1,7 @@
-<mat-toolbar #toolbar="procyonElementRef" class="sticky justify-center top-0 z-10 border-b" procyonElementRef>
-    <mat-toolbar-row class="w-full">
+<mat-toolbar #toolbar="procyonElementRef" class="fixed justify-center top-0 z-10 border-b" procyonElementRef>
+    <mat-toolbar-row class="!pl-[8px] w-full">
         <div class="flex flex-row items-baseline py-2 gap-3">
-            <button mat-icon-button (click)="toggleVisibilityOfNavText()">
+            <button cdkTrapFocus mat-icon-button (click)="toggleVisibilityOfNavText()">
                 <mat-icon>menu</mat-icon>
             </button>
             <img class="w-7 h-7 self-center" src="/assets/logo.png" />
@@ -14,6 +14,7 @@
 </mat-toolbar>
 <div
     class="block mx-auto h-full justify-center"
+    [style.padding-top.px]="toolbar.element.offsetHeight"
     [style.height]="'calc(100vh - ' + toolbar.element.offsetHeight + 'px)'"
 >
     <mat-sidenav-container #sidenavContainer hasBackdrop="false" autosize>
@@ -21,26 +22,28 @@
             class="border-r-0"
             [style.top.px]="toolbar.element.offsetHeight"
             [opened]="true"
-            [mode]="'side'"
-            (mouseenter)="isMouseOnNavList$.next(true)"
-            (mouseleave)="isMouseOnNavList$.next(false)"
+            [mode]="(sideNavMode$ | async)!"
         >
-            <mat-nav-list>
-                <a
-                    *ngFor="let link of links"
-                    class="border-b-2 font-medium whitespace-nowrap"
-                    mat-list-item
-                    [routerLink]="link.url"
-                >
-                    <mat-icon class="mr-4">{{ link.icon }}</mat-icon>
-                    <span
-                        *ngIf="navTestShown$ | async"
-                        [@onTextAppear]="'open'"
-                        (@onTextAppear.start)="trackContentChange$.next(true)"
-                        (@onTextAppear.done)="trackContentChange$.next(false)"
-                        >{{ link.label }}</span
+            <mat-nav-list class="!pt-0" (mouseenter)="onNavListHover()" (mouseleave)="onNavListLeave()">
+                <ng-container *ngFor="let link of links; let last = last; let first = first">
+                    <a
+                        class="font-medium whitespace-nowrap"
+                        mat-list-item
+                        [routerLink]="link.url"
+                        [routerLinkActive]="['is-active']"
                     >
-                </a>
+                        <mat-icon>{{ link.icon }}</mat-icon>
+                        <span
+                            *ngIf="navTestShown$ | async"
+                            class="ml-4"
+                            [@onTextAppear]="'open'"
+                            (@onTextAppear.start)="startTextAppearAnimation()"
+                            (@onTextAppear.done)="stopTextAppearAnimation()"
+                            >{{ link.label }}</span
+                        >
+                    </a>
+                    <div class="border-t" mat-list-item></div>
+                </ng-container>
             </mat-nav-list>
         </mat-sidenav>
 
