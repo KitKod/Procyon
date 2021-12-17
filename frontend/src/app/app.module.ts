@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
@@ -34,6 +35,7 @@ import { AppRoutingModule } from './app-routing.module';
         MatListModule,
         MatIconModule,
         MatButtonModule,
+        A11yModule,
     ],
     providers: [
         { provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT },

@@ -2,10 +2,6 @@
 @use '../theme';
 
 :host {
-    mat-sidenav {
-        position: fixed;
-    }
-
     .sidenav-text-shown {
         width: 325px;
     }
@@ -33,21 +29,51 @@
             overflow: hidden;
         }
 
+        .mat-drawer-content {
+            margin-left: 72px;
+        }
+
         .mat-drawer-container {
             background-color: inherit;
         }
 
+        mat-sidenav {
+            background: transparent;
+            position: fixed;
+        }
+
+        .mat-drawer {
+            &:not(.mat-drawer-side) {
+                box-shadow: none;
+            }
+        }
+
         mat-nav-list {
-            a,
-            [mat-ripple] {
-                border-radius: 0 24px 24px 0;
+            a {
+                &.mat-list-item {
+                    &::before {
+                        background: mat.get-color-from-palette(theme.$procyon-background, card);
+                        bottom: 0;
+                        content: '';
+                        left: 0;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        z-index: -1;
+                    }
+
+                    &.is-active {
+                        background: mat.get-color-from-palette(theme.$procyon-primary, 0.1);
+                        // stylelint-disable-next-line declaration-no-important
+                        color: mat.get-color-from-palette(theme.$procyon-primary) !important;
+                    }
+                }
             }
         }
     }
 }
 
 // stylelint-disable scss/selector-nest-combinators
-
 .mat-list-option,
 .mat-nav-list .mat-list-item,
 .mat-action-list .mat-list-item {
