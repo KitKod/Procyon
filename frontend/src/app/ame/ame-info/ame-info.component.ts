@@ -8,7 +8,6 @@ import { first, map, switchMapTo, takeUntil } from 'rxjs/operators';
 import { ConfirmationDialogService } from '@core/confirmation-dialog';
 import { AME_FAMILIES } from '@core/constants/ame-constants';
 import { AmeActions, AmeModel, AmeState } from '@core/store/ame';
-import { ManufacturerActions } from '@core/store/manufacturer';
 import { getDirtyValues } from '@core/utils/form';
 import { getAmeFamilyLocalization } from '@core/utils/localization';
 

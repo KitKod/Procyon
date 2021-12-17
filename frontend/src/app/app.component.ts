@@ -1,20 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenavContainer } from '@angular/material/sidenav';
-import { eq } from 'lodash-es';
-import { animationFrameScheduler, BehaviorSubject, combineLatest, interval, Observable, Subject } from 'rxjs';
-import {
-    concat,
-    concatMapTo,
-    filter,
-    map,
-    pluck,
-    share,
-    switchMapTo,
-    tap,
-    throttleTime,
-    withLatestFrom,
-} from 'rxjs/operators';
+import { animationFrameScheduler, BehaviorSubject, combineLatest, interval } from 'rxjs';
+import { filter, map, switchMapTo } from 'rxjs/operators';
 
 import { onTextAppear } from '@core/animations/on-side-move';
 
@@ -54,10 +42,6 @@ export class AppComponent implements OnInit {
         },
     ];
 
-    readonly isSideNavHiddenByDefault$ = this.breakpointObserver
-        .observe(NAV_MENU_COLLAPSED_B_Y_DEFAULT_MEDIA)
-        .pipe(pluck('matches'), map(eq.bind(null, false)), share());
-
     readonly isMouseOnNavList$ = new BehaviorSubject(false);
     readonly isMenuNameShown = new BehaviorSubject(true);
     readonly _navTestManualVisibility = new BehaviorSubject(
@@ -68,14 +52,7 @@ export class AppComponent implements OnInit {
         map(visibility => visibility.includes(true)),
     );
 
-    sidenavContainerAnimationParams$!: Observable<{
-        params: { closeMargin: string; openMargin: string };
-        value: string;
-    }>;
-
     @ViewChild(MatSidenavContainer) sidenavContainer!: MatSidenavContainer;
-
-    contentLeftMargin!: Observable<string>;
 
     trackContentChange$ = new BehaviorSubject(false);
 
