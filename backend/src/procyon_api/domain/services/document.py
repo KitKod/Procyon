@@ -26,7 +26,7 @@ from procyon_api.domain.dataobjects import (
     DocumentEntityFilter,
     ResponseMetaDataObject,
 )
-from procyon_api.domain.entities import FileEntity, DocumentCreateEntity
+from procyon_api.domain.entities import FileEntity, DocumentCreateEntity, FileDataObject
 from procyon_api.domain.exceptions import CanNotSaveFileError
 from procyon_api.domain.exceptions import DocumentNotFoundError
 from procyon_api.domain.interfaces.repositories import (
@@ -76,3 +76,6 @@ class DocumentService(IDocumentService):
             )
 
         return file_info
+
+    def download_file_from_storage(self, path: str) -> FileDataObject:
+        return self._file_repository.download(path)

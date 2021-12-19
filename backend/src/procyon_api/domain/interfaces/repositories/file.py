@@ -18,16 +18,15 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import Any
 
 from fastapi import UploadFile
 
-from procyon_api.domain.entities import FileEntity
+from procyon_api.domain.entities import FileEntity, FileDataObject
 
 
 class IFileRepository(ABC):
     @abstractmethod
-    def download(self, file_info: FileEntity) -> Any:
+    def download(self, path: str) -> FileDataObject:
         pass
 
     @abstractmethod

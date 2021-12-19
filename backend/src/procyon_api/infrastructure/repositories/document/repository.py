@@ -79,6 +79,9 @@ class DocumentEntityRepository(IDocumentEntityRepository):
         if _filter.test_ids:
             query = query.where(document_table.c.test_id.in_(_filter.test_ids))
 
+        if _filter.ids:
+            query = query.where(document_table.c.id.in_(_filter.ids))
+
         with self.db.connection() as connection:
             doc_rows = connection.execute(query).fetchall()
 

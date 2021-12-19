@@ -20,7 +20,7 @@
 import os
 from dataclasses import dataclass, asdict
 from datetime import date
-from typing import Optional
+from typing import Optional, Any
 
 from procyon_api.constants import FileTypes
 
@@ -75,3 +75,9 @@ class FileEntity:
             path = os.path.join(path, self.type.value)
 
         return os.path.join(path, self.name)
+
+
+@dataclass
+class FileDataObject:
+    tmp_file: Any
+    content_type: str

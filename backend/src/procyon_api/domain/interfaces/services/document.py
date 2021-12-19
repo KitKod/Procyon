@@ -23,7 +23,7 @@ from typing import Optional
 from fastapi import UploadFile
 
 from procyon_api.domain.dataobjects import DocumentEntityFilter, ListDataObject
-from procyon_api.domain.entities import DocumentCreateEntity, FileEntity
+from procyon_api.domain.entities import DocumentCreateEntity, FileEntity, FileDataObject
 
 
 class IDocumentService(ABC):
@@ -41,4 +41,8 @@ class IDocumentService(ABC):
     def upload_file_to_storage(
         self, file_info: FileEntity, file: UploadFile
     ) -> FileEntity:
+        pass
+
+    @abstractmethod
+    def download_file_from_storage(self, path: str) -> FileDataObject:
         pass
