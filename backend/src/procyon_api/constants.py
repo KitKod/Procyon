@@ -37,3 +37,16 @@ class SQLDialect(Enum):
 
 class DatabaseDriver(Enum):
     PSYCOPG2 = "psycopg2"
+
+
+class DatabaseDriver(Enum):
+    PSYCOPG2 = "psycopg2"
+
+
+class FileTypes(Enum):
+    JOINT_DECISION = "joint_decision"
+    SEPARATE_ORDER = "separate_order"
+    ORDER = "order"
+    PROGRAM = "program"
+    METHOD = "method"
+    TTC = "ttc"

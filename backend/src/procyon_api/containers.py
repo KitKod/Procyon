@@ -24,9 +24,10 @@ from procyon_api.domain.services import (
     TacticalTechnicalCharacteristicsService,
     ManufacturerService,
 )
-from procyon_api.infrastructure.databases import Database
+from procyon_api.infrastructure.dataresources import Database, FileStorage
 from procyon_api.infrastructure.repositories import (
     TacticalTechnicalCharacteristicsRepository,
+    FileRepository,
     TestEntityRepository,
     AmeEntityRepository,
     DocumentEntityRepository,
@@ -52,8 +53,30 @@ class DatabaseResource(resources.Resource):
         resource.close()
 
 
+class FileStorageResource(resources.Resource):
+    def init(
+        self,
+        username: str,
+        password: str,
+        host: str,
+        port: int,
+    ) -> FileStorage:
+        file_storage = FileStorage(
+            username=username,
+            password=password,
+            host=host,
+            port=port,
+        )
+        file_storage.login()
+        return file_storage
+
+    def shutdown(self, resource: FileStorage) -> None:
+        resource.logout()
+
+
 class Datasources(containers.DeclarativeContainer):
     postgres_config = providers.Configuration()
+    file_storage_config = providers.Configuration()
 
     postgres_datasource: providers.Provider[Database] = providers.Resource(
         DatabaseResource,
@@ -62,6 +85,14 @@ class Datasources(containers.DeclarativeContainer):
         postgres_config.host,
         postgres_config.port,
         postgres_config.db,
+    )
+
+    file_storage_datasource: providers.Provider[FileStorage] = providers.Resource(
+        FileStorageResource,
+        file_storage_config.user,
+        file_storage_config.password,
+        file_storage_config.host,
+        file_storage_config.port,
     )
 
 
@@ -97,6 +128,11 @@ class Repositories(containers.DeclarativeContainer):
         datasources.postgres_datasource,
     )
 
+    file: providers.Singleton[FileRepository] = providers.Singleton(
+        FileRepository,
+        datasources.file_storage_datasource,
+    )
+
 
 class Services(containers.DeclarativeContainer):
     repositories = providers.DependenciesContainer()
@@ -113,6 +149,7 @@ class Services(containers.DeclarativeContainer):
     ttc: providers.Factory[TacticalTechnicalCharacteristicsService] = providers.Factory(
         TacticalTechnicalCharacteristicsService,
         ttc_repository=repositories.ttc,
+        file_repository=repositories.file,
     )
 
     manufacturer: providers.Factory[ManufacturerService] = providers.Factory(
@@ -124,7 +161,9 @@ class Services(containers.DeclarativeContainer):
 class Application(containers.DeclarativeContainer):
     config = providers.Configuration()
     datasources: providers.Container[Datasources] = providers.Container(
-        Datasources, postgres_config=config.postgres
+        Datasources,
+        postgres_config=config.postgres,
+        file_storage_config=config.file_storage,
     )
     repositories: providers.Container[Repositories] = providers.Container(
         Repositories, datasources=datasources

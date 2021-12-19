@@ -17,34 +17,47 @@
 # under the License.
 #
 
-import owncloud
 from fastapi import UploadFile
 
 from procyon_api.domain.interfaces.repositories import (
     ITacticalTechnicalCharacteristicsRepository,
+    IFileRepository,
 )
 from procyon_api.domain.interfaces.services import (
     ITacticalTechnicalCharacteristicsService,
 )
-from procyon_api.domain.entities import TacticalTechnicalCharacteristicsCreateEntity
+from procyon_api.domain.entities import (
+    TacticalTechnicalCharacteristicsCreateEntity,
+    FileEntity,
+)
+from procyon_api.constants import FileTypes
+from procyon_api.domain.exceptions import CanNotSaveFileError
 
 
 class TacticalTechnicalCharacteristicsService(ITacticalTechnicalCharacteristicsService):
     def __init__(
         self,
         ttc_repository: ITacticalTechnicalCharacteristicsRepository,
+        file_repository: IFileRepository,
     ):
         self._ttc_repository = ttc_repository
-        self._file_storage = owncloud.Client("http://owncloud:8080/")
+        self._file_repository = file_repository
 
-    def upload_to_storage(self, file: UploadFile) -> int:
+    def upload_file_to_storage(self, test_name: str, file: UploadFile) -> FileEntity:
+        file_info = FileEntity(test_name, FileTypes.TTC, file.filename)
 
-        self._file_storage.login("admin", "admin")
-        self._file_storage.put_file_contents(f"/{file.filename}", file.file.read())
-        self._file_storage.logout()
+        if not self._file_repository.upload_file_content(file_info, file):
+            raise CanNotSaveFileError(
+                f"Can not save file to storage by path={file_info.make_path()}."
+            )
 
+        return file_info
+
+    def save_file_info_to_db(self, file_info: FileEntity) -> int:
         ttc_entity = self._ttc_repository.add(
-            TacticalTechnicalCharacteristicsCreateEntity(file_index=file.filename)
+            TacticalTechnicalCharacteristicsCreateEntity(
+                file_index=file_info.make_path()
+            )
         )
 
         return ttc_entity.id
