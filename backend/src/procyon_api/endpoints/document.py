@@ -18,14 +18,17 @@
 #
 
 import json
+import os
 
 from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends, status, Form, UploadFile, File
+from fastapi.responses import FileResponse
+from starlette.background import BackgroundTasks
 
 from procyon_api.constants import FileTypes
 from procyon_api.containers import Services, Repositories
 from procyon_api.domain.dataobjects import DocumentEntityFilter
-from procyon_api.domain.entities import FileEntity
+from procyon_api.domain.entities import FileEntity, FileDataObject
 from procyon_api.domain.interfaces.repositories import ITestEntityRepository
 from procyon_api.domain.interfaces.services import IDocumentService
 from procyon_api.endpoints.models import ListResponseModel
@@ -43,6 +46,31 @@ def get_documents_list(
     document_service: IDocumentService = Depends(Provide[Services.document]),
 ):
     return document_service.get_by_filter(DocumentEntityFilter(test_ids=[test_id]))
+
+
+@document_router.get(
+    "/{document_id}/download",
+    response_model=ListResponseModel,
+    status_code=status.HTTP_200_OK,
+)
+@inject
+def create_test(
+    test_id: int,
+    document_id: int,
+    background_tasks: BackgroundTasks,
+    document_service: IDocumentService = Depends(Provide[Services.document]),
+):
+    document = document_service.get_by_filter(
+        DocumentEntityFilter(ids=[document_id], test_ids=[test_id])
+    )
+    path_to_file = document.resource[0].file_index
+    file_data: FileDataObject = document_service.download_file_from_storage(
+        path_to_file
+    )
+
+    background_tasks.add_task(lambda path: os.unlink(path), file_data.tmp_file.name)
+
+    return FileResponse(file_data.tmp_file.name, media_type=file_data.content_type)
 
 
 @document_router.post(

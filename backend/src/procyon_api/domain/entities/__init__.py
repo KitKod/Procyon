@@ -18,7 +18,7 @@
 #
 
 from .ame import AmeEntity, AmeCreateEntity
-from .document import DocumentEntity, FileEntity, DocumentCreateEntity
+from .document import DocumentEntity, FileEntity, DocumentCreateEntity, FileDataObject
 from .manufacturer import ManufacturerCreateEntity, ManufacturerEntity
 from .tactical_technical_characteristics import (
     TacticalTechnicalCharacteristicsCreateEntity,

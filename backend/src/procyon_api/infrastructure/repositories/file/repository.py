@@ -18,12 +18,12 @@
 #
 
 import os
-import owncloud
-from typing import Any
+import tempfile
 
+import owncloud
 from fastapi import UploadFile
 
-from procyon_api.domain.entities import FileEntity
+from procyon_api.domain.entities import FileEntity, FileDataObject
 from procyon_api.domain.interfaces.repositories import IFileRepository
 from procyon_api.infrastructure import FileStorage
 
@@ -32,8 +32,13 @@ class FileRepository(IFileRepository):
     def __init__(self, storage: FileStorage) -> None:
         self._storage_client = storage.get_client()
 
-    def download(self, file_info: FileEntity) -> Any:
-        pass
+    def download(self, path: str) -> FileDataObject:
+        file_info = self._storage_client.file_info(path)
+        tmp_file = tempfile.NamedTemporaryFile(delete=False)
+
+        self._storage_client.get_file(path, tmp_file.name)
+
+        return FileDataObject(tmp_file, file_info.attributes["{DAV:}getcontenttype"])
 
     def upload_file_content(self, file_info: FileEntity, file: UploadFile) -> bool:
         full_path = file_info.make_path()
