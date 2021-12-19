@@ -17,6 +17,7 @@
 # under the License.
 #
 
+from .document import DocumentService
 from .manufacturer import ManufacturerService
 from .tactical_technical_characteristics import TacticalTechnicalCharacteristicsService
 from .test import TestService

@@ -21,6 +21,7 @@ from typing import Optional, List, Union
 
 from pydantic import BaseModel, Field
 
+from .document import DocumentResponseModel
 from .manufacturer import ManufacturerResponseModel
 from .test import (
     TestResponseModel,
@@ -51,6 +52,7 @@ class ListResponseModel(BaseModel):
             TestWithAmeResponseModel,
             TestResponseModel,
             ManufacturerResponseModel,
+            DocumentResponseModel,
         ]
     ]
     meta: Optional[MetaResponseModel] = None

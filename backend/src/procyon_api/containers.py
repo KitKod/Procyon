@@ -23,6 +23,7 @@ from procyon_api.domain.services import (
     TestService,
     TacticalTechnicalCharacteristicsService,
     ManufacturerService,
+    DocumentService,
 )
 from procyon_api.infrastructure.dataresources import Database, FileStorage
 from procyon_api.infrastructure.repositories import (
@@ -155,6 +156,12 @@ class Services(containers.DeclarativeContainer):
     manufacturer: providers.Factory[ManufacturerService] = providers.Factory(
         ManufacturerService,
         manufacturer_repository=repositories.manufacturer,
+    )
+
+    document: providers.Factory[DocumentService] = providers.Factory(
+        DocumentService,
+        document_entity_repository=repositories.document,
+        file_repository=repositories.file,
     )
 
 

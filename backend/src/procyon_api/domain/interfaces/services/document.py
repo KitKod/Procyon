@@ -17,25 +17,28 @@
 # under the License.
 #
 
-from typing import List, Dict
+from abc import ABC, abstractmethod
+from typing import Optional
 
-from procyon_api.domain.entities import DocumentEntity
+from fastapi import UploadFile
 
-
-def make_document_entity(raw_obj: Dict) -> DocumentEntity:
-    return DocumentEntity(
-        id=raw_obj["id"],
-        name=raw_obj["name"],
-        type=raw_obj["type"],
-        status=raw_obj["status"],
-        government=raw_obj["government"],
-        date_of_approval=raw_obj["date_of_approval"],
-        material_and_technical_means=raw_obj["material_and_technical_means"],
-        file_index=raw_obj["file_index"],
-        ame_id=raw_obj["ame_id"],
-        test_id=raw_obj["test_id"],
-    )
+from procyon_api.domain.dataobjects import DocumentEntityFilter, ListDataObject
+from procyon_api.domain.entities import DocumentCreateEntity, FileEntity
 
 
-def make_document_entities(rows: List[dict]) -> List[DocumentEntity]:
-    return [make_document_entity(row) for row in rows]
+class IDocumentService(ABC):
+    @abstractmethod
+    def get_by_filter(
+        self, document_filter: Optional[DocumentEntityFilter]
+    ) -> ListDataObject:
+        pass
+
+    @abstractmethod
+    def create_document(self, document_entity: DocumentCreateEntity) -> ListDataObject:
+        pass
+
+    @abstractmethod
+    def upload_file_to_storage(
+        self, file_info: FileEntity, file: UploadFile
+    ) -> FileEntity:
+        pass

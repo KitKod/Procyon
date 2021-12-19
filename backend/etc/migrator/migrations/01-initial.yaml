@@ -435,4 +435,12 @@ databaseChangeLog:
         onUpdate: NO ACTION
         referencedColumnNames: code
         referencedTableName: armament_family
+- changeSet:
+    id: 23
+    author: Mykyta Kamak
+    changes:
+    - addUniqueConstraint:
+        columnNames: id, file_index
+        constraintName: document_id_file_index_unique_key
+        tableName: document
 

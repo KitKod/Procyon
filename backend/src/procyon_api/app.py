@@ -50,6 +50,7 @@ def init_application() -> Application:
     app.config.from_pydantic(Configs())
     app.init_resources()
     app.services.wire(packages=(endpoints,))
+    app.repositories.wire(packages=(endpoints,))
 
     return app
 
@@ -64,6 +65,9 @@ def create_application() -> FastAPI:
         description=DESCRIPTION,
         openapi_url=f"{API_PREFIX}/openapi.json",
     )
+
+    endpoints.test_router.include_router(endpoints.document_router)
+
     fastapi_app.include_router(endpoints.debug_router, prefix=API_PREFIX)
     fastapi_app.include_router(endpoints.test_router, prefix=API_PREFIX)
     fastapi_app.include_router(endpoints.manufacturer_router, prefix=API_PREFIX)

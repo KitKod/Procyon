@@ -17,11 +17,15 @@
 # under the License.
 #
 
-from .root import NotFoundError, ProcyonException
+from .root import NotFoundError, ProcyonException, AlreadyExistsError
 
 
 class DocumentNotFoundError(NotFoundError):
     code = "document_not_found"
+
+
+class DocumentAlreadyExistsError(AlreadyExistsError):
+    code = "document_already_exists_error"
 
 
 class CanNotSaveFileError(ProcyonException):
