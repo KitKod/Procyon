@@ -18,10 +18,10 @@
 #
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from procyon_api.domain.dataobjects import DocumentEntityFilter
-from procyon_api.domain.entities import DocumentEntity
+from procyon_api.domain.entities import DocumentEntity, DocumentCreateEntity
 
 
 class IDocumentEntityRepository(ABC):
@@ -33,4 +33,12 @@ class IDocumentEntityRepository(ABC):
     def get_list_by_filter(
         self, filter: Optional[DocumentEntityFilter] = None
     ) -> List[DocumentEntity]:
+        pass
+
+    @abstractmethod
+    def add(self, entity: DocumentCreateEntity) -> List[DocumentEntity]:
+        pass
+
+    @abstractmethod
+    def get_total_count_by_filter(self, filter: DocumentEntityFilter) -> int:
         pass

@@ -15,8 +15,44 @@
 #
 
 from datetime import date
+from typing import Optional
 
 from pydantic import BaseModel
+from procyon_api.domain.entities import DocumentCreateEntity
+
+
+# Request models section
+
+
+class DocumentRequestModel(BaseModel):
+    type: str
+    status: str
+    government: str
+    date_of_approval: date
+    material_and_technical_means: str
+    ame_id: int
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+    def to_domain(
+        self, name: str, test_id: Optional[int] = None, file_index: Optional[str] = None
+    ):
+        return DocumentCreateEntity(
+            type=self.type,
+            status=self.status,
+            government=self.government,
+            date_of_approval=self.date_of_approval,
+            material_and_technical_means=self.material_and_technical_means,
+            ame_id=self.ame_id,
+            file_index=file_index,
+            test_id=test_id,
+            name=name,
+        )
+
+
+# Response models section
 
 
 class DocumentResponseModel(BaseModel):

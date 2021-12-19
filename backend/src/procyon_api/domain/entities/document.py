@@ -18,8 +18,9 @@
 #
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from datetime import date
+from typing import Optional
 
 from procyon_api.constants import FileTypes
 
@@ -38,6 +39,22 @@ class DocumentEntity:
     file_index: str
     ame_id: int
     test_id: int
+
+
+@dataclass
+class DocumentCreateEntity:
+    type: str
+    status: str
+    government: str
+    date_of_approval: date
+    material_and_technical_means: str
+    ame_id: int
+    name: str
+    file_index: Optional[str] = None
+    test_id: Optional[int] = None
+
+    def to_dict(self):
+        return asdict(self)
 
 
 @dataclass

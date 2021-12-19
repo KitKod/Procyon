@@ -25,6 +25,7 @@ from procyon_api.domain.entities import (
     TestWithAmeEntity,
     TestWithAmeAndDocEntity,
     ManufacturerEntity,
+    DocumentEntity,
 )
 
 
@@ -41,10 +42,11 @@ class ResponseMetaDataObject:
 class ListDataObject:
     resource: List[
         Union[
-            TestEntity,
-            TestWithAmeEntity,
             TestWithAmeAndDocEntity,
+            TestWithAmeEntity,
+            TestEntity,
             ManufacturerEntity,
+            DocumentEntity,
         ]
     ]
     meta: Optional[ResponseMetaDataObject] = None

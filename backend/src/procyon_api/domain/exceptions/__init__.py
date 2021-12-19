@@ -18,7 +18,11 @@
 #
 
 from .ame import AmeNotFoundError, AmeAlreadyExistsError
-from .document import DocumentNotFoundError, CanNotSaveFileError
+from .document import (
+    DocumentNotFoundError,
+    CanNotSaveFileError,
+    DocumentAlreadyExistsError,
+)
 from .manufacturer import ManufacturerNotFoundError, ManufacturerAlreadyExistsError
 from .root import NotFoundError, ForbiddenError, AlreadyExistsError, ProcyonException
 from .tactical_technical_characteristics import (

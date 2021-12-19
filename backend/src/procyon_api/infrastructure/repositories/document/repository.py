@@ -19,11 +19,15 @@
 
 from typing import List, Optional
 
-from sqlalchemy import select
+from sqlalchemy import select, insert, func, literal_column
+from sqlalchemy.exc import IntegrityError
 
 from procyon_api.domain.dataobjects import DocumentEntityFilter
-from procyon_api.domain.entities import DocumentEntity
-from procyon_api.domain.exceptions import DocumentNotFoundError
+from procyon_api.domain.entities import DocumentEntity, DocumentCreateEntity
+from procyon_api.domain.exceptions import (
+    DocumentNotFoundError,
+    DocumentAlreadyExistsError,
+)
 from procyon_api.domain.interfaces.repositories import IDocumentEntityRepository
 from procyon_api.infrastructure import Database
 from procyon_api.infrastructure.orm_models import document_table
@@ -38,18 +42,18 @@ class DocumentEntityRepository(IDocumentEntityRepository):
     def get_query(self):
         return select(
             [
-                document_table.c.id.label("document_id"),
-                document_table.c.name.label("document_name"),
-                document_table.c.type.label("document_type"),
-                document_table.c.status.label("document_status"),
-                document_table.c.government.label("document_government"),
-                document_table.c.date_of_approval.label("document_date_of_approval"),
+                document_table.c.id.label("id"),
+                document_table.c.name.label("name"),
+                document_table.c.type.label("type"),
+                document_table.c.status.label("status"),
+                document_table.c.government.label("government"),
+                document_table.c.date_of_approval.label("date_of_approval"),
                 document_table.c.material_and_technical_means.label(
-                    "document_material_and_technical_means"
+                    "material_and_technical_means"
                 ),
-                document_table.c.file_index.label("document_file_index"),
-                document_table.c.ame_id.label("document_ame_id"),
-                document_table.c.test_id.label("document_test_id"),
+                document_table.c.file_index.label("file_index"),
+                document_table.c.ame_id.label("ame_id"),
+                document_table.c.test_id.label("test_id"),
             ],
         ).select_from(document_table)
 
@@ -72,7 +76,7 @@ class DocumentEntityRepository(IDocumentEntityRepository):
         _filter = filter or DocumentEntityFilter()
         query = self.get_query
 
-        if _filter.ids:
+        if _filter.test_ids:
             query = query.where(document_table.c.test_id.in_(_filter.test_ids))
 
         with self.db.connection() as connection:
@@ -84,3 +88,38 @@ class DocumentEntityRepository(IDocumentEntityRepository):
             )
 
         return make_document_entities(doc_rows)
+
+    def get_total_count_by_filter(self, filter: DocumentEntityFilter) -> int:
+        _filter = filter or DocumentEntityFilter()
+        query = select([func.count()]).select_from(document_table)
+
+        if _filter.test_ids:
+            query = query.where(document_table.c.test_id.in_(_filter.test_ids))
+
+        with self.db.connection() as connection:
+            result = connection.execute(query).fetchone()
+
+        if result is None:
+            return 0
+
+        return result[0]
+
+    def add(self, entity: DocumentCreateEntity) -> List[DocumentEntity]:
+        document_dict = entity.to_dict()
+
+        insert_query = (
+            insert(document_table)
+            .values(**document_dict)
+            .returning(literal_column("*"))
+        )
+
+        with self.db.connection() as connection:
+            try:
+                obj = connection.execute(insert_query).fetchone()
+            except IntegrityError:
+                raise
+                raise DocumentAlreadyExistsError(
+                    f"Error during inserting Document `{entity}`"
+                )
+
+        return make_document_entities([obj])
