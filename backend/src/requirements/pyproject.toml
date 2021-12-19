@@ -40,6 +40,7 @@ SQLAlchemy-Utils = "^0.37.9"
 pyjwt = "2.3.0"
 Authlib = "0.15.5"
 python-dateutil = "2.8.2"
+pyocclient = "0.6"
 
 [tool.poetry.dev-dependencies]
 mypy = "~0.910"

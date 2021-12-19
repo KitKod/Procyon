@@ -17,6 +17,7 @@
 # under the License.
 #
 
+import owncloud
 from fastapi import UploadFile
 
 from procyon_api.domain.interfaces.repositories import (
@@ -34,8 +35,14 @@ class TacticalTechnicalCharacteristicsService(ITacticalTechnicalCharacteristicsS
         ttc_repository: ITacticalTechnicalCharacteristicsRepository,
     ):
         self._ttc_repository = ttc_repository
+        self._file_storage = owncloud.Client("http://owncloud:8080/")
 
     def upload_to_storage(self, file: UploadFile) -> int:
+
+        self._file_storage.login("admin", "admin")
+        self._file_storage.put_file_contents(f"/{file.filename}", file.file.read())
+        self._file_storage.logout()
+
         ttc_entity = self._ttc_repository.add(
             TacticalTechnicalCharacteristicsCreateEntity(file_index=file.filename)
         )

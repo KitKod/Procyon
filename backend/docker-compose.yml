@@ -28,6 +28,8 @@ services:
       - ./etc/api/env/.dev.env
     depends_on:
       - procyondb
+    external_links:
+      - owncloud:owncloud
     ports:
       - 8010:8000
     networks:
