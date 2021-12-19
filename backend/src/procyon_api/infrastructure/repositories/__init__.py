@@ -19,6 +19,7 @@
 
 from .ame import AmeEntityRepository
 from .document import DocumentEntityRepository
+from .file import FileRepository
 from .manufacturer import ManufacturerEntityRepository
 from .tactical_technical_characteristics import (
     TacticalTechnicalCharacteristicsRepository,

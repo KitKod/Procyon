@@ -17,4 +17,4 @@
 # under the License.
 #
 
-from .dataresources import Database, FileStorage, metadata
+from .repository import FileRepository

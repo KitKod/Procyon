@@ -31,8 +31,19 @@ class PostgresConfigs(BaseSettings):
         env_prefix = "POSTGRES_"
 
 
+class FileStorageConfigs(BaseSettings):
+    user: str = Field(None)
+    password: str = Field(None)
+    host: str = Field(None)
+    port: int = 8080
+
+    class Config:
+        env_prefix = "FILE_STORAGE_"
+
+
 class Configs(BaseSettings):
     env: str = "development"
     version: str = "1.0.0"
 
     postgres: PostgresConfigs = PostgresConfigs()
+    file_storage: FileStorageConfigs = FileStorageConfigs()

@@ -1,7 +1,8 @@
+import owncloud
 import logging
 import threading
 from contextlib import contextmanager
-from typing import Generator
+from typing import Generator, Optional
 
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.engine.base import Connection, Engine
@@ -94,3 +95,34 @@ class Database:
     def healthcheck(self):
         with self.connection() as conn:
             conn.execute("select 1;")
+
+
+class FileStorage:
+    def __init__(
+        self,
+        username: str,
+        password: str,
+        host: str,
+        port: int,
+    ) -> None:
+        self._client: Optional[owncloud.Client] = None
+
+        self.username = username
+        self.password = password
+        self.host = host
+        self.port = port
+        self.storage_url: str = f"http://{self.host}:{self.port}/"
+
+    def login(self) -> None:
+        self._client = owncloud.Client(self.storage_url)
+        self._client.login(self.username, self.password)
+
+    def logout(self) -> None:
+        self._client.logout()
+        self._client = None
+
+    def get_client(self) -> owncloud.Client:
+        if self._client is None:
+            self.login()
+
+        return self._client

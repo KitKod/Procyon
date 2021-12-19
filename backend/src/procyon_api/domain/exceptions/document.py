@@ -17,8 +17,12 @@
 # under the License.
 #
 
-from .root import NotFoundError
+from .root import NotFoundError, ProcyonException
 
 
 class DocumentNotFoundError(NotFoundError):
     code = "document_not_found"
+
+
+class CanNotSaveFileError(ProcyonException):
+    code = "can_not_save_file_error"

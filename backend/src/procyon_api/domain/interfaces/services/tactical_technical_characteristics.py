@@ -21,8 +21,14 @@ from abc import ABC, abstractmethod
 
 from fastapi import UploadFile
 
+from procyon_api.domain.entities import FileEntity
+
 
 class ITacticalTechnicalCharacteristicsService(ABC):
     @abstractmethod
-    def upload_to_storage(self, file: UploadFile) -> int:
+    def upload_file_to_storage(self, test_name: str, file: UploadFile) -> FileEntity:
+        pass
+
+    @abstractmethod
+    def save_file_info_to_db(self, file_info: FileEntity) -> int:
         pass

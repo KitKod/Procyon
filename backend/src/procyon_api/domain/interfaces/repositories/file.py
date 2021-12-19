@@ -17,4 +17,27 @@
 # under the License.
 #
 
-from .dataresources import Database, FileStorage, metadata
+from abc import ABC, abstractmethod
+from typing import Any
+
+from fastapi import UploadFile
+
+from procyon_api.domain.entities import FileEntity
+
+
+class IFileRepository(ABC):
+    @abstractmethod
+    def download(self, file_info: FileEntity) -> Any:
+        pass
+
+    @abstractmethod
+    def upload_file_content(self, file_info: FileEntity, file: UploadFile) -> bool:
+        pass
+
+    @abstractmethod
+    def create_directory(self, full_path: str) -> bool:
+        pass
+
+    @abstractmethod
+    def is_path_exist(self, path: str) -> bool:
+        pass

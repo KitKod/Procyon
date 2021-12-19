@@ -17,12 +17,17 @@
 # under the License.
 #
 
+import os
 from dataclasses import dataclass
 from datetime import date
+
+from procyon_api.constants import FileTypes
 
 
 @dataclass
 class DocumentEntity:
+    """The entity reflects a logical view of file on disk."""
+
     id: int
     name: str
     type: str
@@ -33,3 +38,23 @@ class DocumentEntity:
     file_index: str
     ame_id: int
     test_id: int
+
+
+@dataclass
+class FileEntity:
+    """The entity reflects a physical file on disk."""
+
+    test_name: str
+    type: FileTypes
+    name: str
+    root_path: str = "/"
+
+    def make_path(self) -> str:
+        path = os.path.join(self.root_path, self.test_name)
+
+        if self.type == FileTypes.METHOD:
+            path = os.path.join(path, FileTypes.PROGRAM.value, FileTypes.METHOD.value)
+        else:
+            path = os.path.join(path, self.type.value)
+
+        return os.path.join(path, self.name)
