@@ -47,9 +47,9 @@ class ErrorModel(BaseModel):
 class ListResponseModel(BaseModel):
     resource: List[
         Union[
-            TestResponseModel,
-            TestWithAmeResponseModel,
             TestWithAmeAndDocResponseModel,
+            TestWithAmeResponseModel,
+            TestResponseModel,
             ManufacturerResponseModel,
         ]
     ]
