@@ -117,7 +117,6 @@ class DocumentEntityRepository(IDocumentEntityRepository):
             try:
                 obj = connection.execute(insert_query).fetchone()
             except IntegrityError:
-                raise
                 raise DocumentAlreadyExistsError(
                     f"Error during inserting Document `{entity}`"
                 )
